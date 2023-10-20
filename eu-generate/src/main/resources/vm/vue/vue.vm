@@ -25,12 +25,14 @@
             del: ['${permissionPrefix}:del'],
             export: ['${permissionPrefix}:export'],
           }"
+          :sort.sync="queryParams.sort"
+          :ref-table="$refs.table"
           @add="onAdd"
           @batchDel="onBatchDel"
           @export="onExport"
           @refresh="onRefresh"
-          @searchToggle="isQueryShow = !isQueryShow"
-          @columnSetting="$openTableColumnSettingDialog($refs.table)"
+          :searchToggle.sync="isQueryShow"
+          @sort="onSortComplete"
         />
         <el-table
           ref="table"
@@ -61,7 +63,6 @@
     </div>
 
     <${classNameKebabCase}-edit-dialog ref="${className}EditDialog" @complete="onRefresh" />
-    <table-column-setting-dialog ref="tableColumnSettingDialog" />
 
   </div>
 </template>
@@ -90,7 +91,8 @@ export default {
 #end
 #end
         page: 1,
-        size: 10
+        size: 10,
+        sort: []
       },
 
       isQueryShow: true,
@@ -168,6 +170,10 @@ export default {
           }
         }
       });
+    },
+    onSortComplete() {
+      this.queryParams.page = this.$options.data().queryParams.page
+      this.onQuery()
     }
   },
 }

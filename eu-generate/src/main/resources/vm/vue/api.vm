@@ -5,10 +5,7 @@ export function page(params) {
   return request({
     url: '/api/${apiPath}/page',
     method: 'get',
-    params,
-    paramsSerializer: function(params) {
-      return qs.stringify(params, { indices: false })
-    }
+    params
   })
 }
 

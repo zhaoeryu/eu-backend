@@ -122,7 +122,7 @@ public class VelocityHelper {
         velocityContext.put("tableName", genTable.getTableName());
         velocityContext.put("pkColumnType", GenUtil.getPkColumnType(genTableColumns));
         velocityContext.put("autoPk", GenUtil.isAutoPk(genTableColumns));
-        velocityContext.put("delShowField", genTable.getDelShowField());
+        velocityContext.put("delShowField", StrUtil.blankToDefault(genTable.getDelShowField(), GenUtil.underlineToCamel(genColumns.get(0).getColumnName())));
         velocityContext.put("entityColumns", genColumns);
         velocityContext.put("columns", genTableColumns);
         // 字典key列表
