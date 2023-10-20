@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eu.system.mapper.SysUserMapper">
+
+    <insert id="insertBatchUserPost">
+        insert into sys_user_post(user_id, post_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.userId},#{item.postId})
+        </foreach>
+    </insert>
+    <insert id="insertBatchUserRole">
+        insert into sys_user_role(user_id, role_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.userId},#{item.roleId})
+        </foreach>
+    </insert>
+    <delete id="deleteUserPostByUserId">
+        delete from sys_user_post where user_id = #{userId}
+    </delete>
+    <delete id="deleteUserRoleByUserId">
+        delete from sys_user_role where user_id = #{userId}
+    </delete>
+    <delete id="cancelAuth">
+        delete from sys_user_role where role_id = #{roleId} and user_id in
+        <foreach item="item" index="index" collection="userIds" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <select id="selectRoleUserList" resultType="cn.eu.system.domain.SysUser">
+        select u.* from sys_user u
+        left join sys_user_role ur on ur.user_id = u.id
+        left join sys_dept d on d.id = u.dept_id
+        <where>
+            u.del_flag = 0
+            <choose>
+                <when test="hasRole == 1">
+                    and ur.role_id = #{roleId}
+                </when>
+              <otherwise>
+                  and (ur.role_id is null or ur.role_id != #{roleId})
+              </otherwise>
+            </choose>
+            <if test="nickname != null and nickname != ''">
+                and u.nickname like concat('%', #{nickname}, '%')
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and u.mobile = #{mobile}
+            </if>
+        </where>
+    </select>
+    <select id="selectUserList" resultType="cn.eu.system.domain.SysUser">
+        SELECT
+            u.*
+        FROM sys_user u
+        left join sys_dept d on u.dept_id = d.id
+        ${ew.customSqlSegment}
+    </select>
+    <select id="selectCountByRoleIds" resultType="java.lang.Integer">
+        select count(1) from sys_user_role where role_id in
+        <foreach item="item" index="index" collection="roleIds" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectCountByPostIds" resultType="java.lang.Integer">
+        select count(1) from sys_user_post where post_id in
+        <foreach item="item" index="index" collection="postIds" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>
+

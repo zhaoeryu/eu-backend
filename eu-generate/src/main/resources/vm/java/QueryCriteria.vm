@@ -1,0 +1,46 @@
+#set($arrQueryTypeList = ['IN','NOT_IN','BETWEEN'])
+package ${package}.model.query;
+
+import cn.eu.common.utils.Query;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+/**
+ * ${tableComment} 查询条件
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+public class ${ClassName}QueryCriteria {
+#foreach($column in $columns)
+#if($column.queryType)
+
+    #if($column.columnComment)
+    /**
+     * $column.columnComment
+     */
+    #end
+    #if($column.queryType)
+    @Query(type = Query.Type.${column.queryType})
+    #elseif ($column.javaType == 'String')
+    @Query(type = Query.Type.LIKE)
+    #else
+    @Query
+    #end
+    #if($column.javaType == 'LocalDate')
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    #elseif($column.javaType == 'LocalDateTime')
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #end
+    #if($arrQueryTypeList.contains($column.queryType))
+    private List<${column.javaType}> ${column.javaField};
+    #else
+    private ${column.javaType} ${column.javaField};
+    #end
+#end
+#end
+
+}

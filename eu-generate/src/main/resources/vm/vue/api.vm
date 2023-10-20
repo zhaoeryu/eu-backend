@@ -1,0 +1,44 @@
+import request from '@/utils/request'
+import qs from 'qs'
+
+export function page(params) {
+  return request({
+    url: '/api/${apiPath}/page',
+    method: 'get',
+    params,
+    paramsSerializer: function(params) {
+      return qs.stringify(params, { indices: false })
+    }
+  })
+}
+
+export function add(data) {
+  return request({
+    url: '/api/${apiPath}',
+    method: 'post',
+    data
+  })
+}
+
+export function update(data) {
+  return request({
+    url: '/api/${apiPath}',
+    method: 'put',
+    data
+  })
+}
+
+export function batchDel(ids) {
+  return request({
+    url: '/api/${apiPath}/batch',
+    method: 'delete',
+    data: ids
+  })
+}
+
+export function getById(id) {
+  return request({
+    url: '/api/${apiPath}/query/' + id,
+    method: 'get'
+  })
+}

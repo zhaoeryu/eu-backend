@@ -1,0 +1,75 @@
+#macro(elFormItem $column $isQuery $indent)
+#set($formObj = "#if($isQuery)queryParams#{else}form#end")
+$indent<el-form-item label="${column.columnComment}" prop="${column.javaField}">
+  #if ($column.formType == 'number')
+$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" placeholder="请输入${column.columnComment}" clearable />
+  #elseif ($column.formType == 'select')
+$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.columnComment}" clearable filterable>
+    #if($column.dictKey)
+$indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" :value="item.value" />
+    #else
+$indent    <el-option label="请手动进行设置" value="请手动进行设置" />
+    #end
+$indent  </el-select>
+  #elseif ($column.formType == 'radio')
+$indent  <el-radio-group v-model="${formObj}.${column.javaField}">
+    #if($column.dictKey)
+$indent    <el-radio v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+    #else
+$indent    <el-radio :label="0">请手动进行设置</el-radio>
+    #end
+$indent  </el-radio-group>
+  #elseif ($column.formType == 'checkbox')
+$indent  <el-checkbox-group v-model="${formObj}.${column.javaField}">
+    #if($column.dictKey)
+$indent    <el-checkbox v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
+    #else
+$indent    <el-checkbox :label="0">请手动进行设置</el-checkbox>
+    #end
+$indent  </el-checkbox-group>
+  #elseif ($column.formType == 'date')
+$indent  <el-date-picker
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    type="date"
+$indent    placeholder="请选择${column.columnComment}"
+$indent    align="left"
+$indent    value-format="yyyy-MM-dd"
+$indent    clearable>
+$indent  </el-date-picker>
+  #elseif ($column.formType == 'datetime')
+$indent  <el-date-picker
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    type="datetime"
+$indent    placeholder="请选择${column.columnComment}"
+$indent    align="left"
+$indent    value-format="yyyy-MM-dd HH:mm:ss"
+$indent    clearable>
+$indent  </el-date-picker>
+  #elseif ($column.formType == 'file')
+$indent  <upload-file
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    upload-api="/api/upload/uploadFile"
+$indent    :single-mode="true"
+$indent    tip="文件不超过10MB"
+$indent  />
+  #elseif($column.formType == 'image')
+$indent  <upload-file
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    upload-api="/api/upload/uploadFile"
+$indent    :show-file-list="false"
+$indent    :single-mode="true"
+$indent    accept="image/*"
+$indent    list-type="picture-avatar"
+$indent  >
+$indent    <template #trigger>
+$indent      <img v-if="${formObj}.${column.javaField}" :src="${formObj}.${column.javaField}" alt="" class="avatar">
+$indent      <i v-else class="el-icon-plus"></i>
+$indent    </template>
+$indent  </upload-file>
+  #elseif($column.formType == 'editor')
+$indent  <eu-editor v-model="${formObj}.${column.javaField}" />
+  #else
+$indent  <el-input v-model="${formObj}.${column.javaField}" placeholder="请输入${column.columnComment}" clearable />
+  #end
+$indent</el-form-item>
+#end

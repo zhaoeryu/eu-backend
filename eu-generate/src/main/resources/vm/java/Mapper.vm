@@ -1,0 +1,18 @@
+package ${package}.mapper;
+
+import cn.eu.common.base.mapper.EuBaseMapper;
+import ${package}.domain.${ClassName};
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * ${tableComment} Mapper
+ * @author ${author}
+ * @since ${date}
+ */
+@Mapper
+public interface ${ClassName}Mapper extends EuBaseMapper<${ClassName}> {
+
+}

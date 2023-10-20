@@ -1,0 +1,91 @@
+package ${package}.controller;
+
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.eu.common.annotation.Log;
+import cn.eu.common.base.controller.EuBaseController;
+import cn.eu.common.enums.BusinessType;
+import cn.eu.common.model.ResultBody;
+import cn.eu.common.utils.EasyExcelHelper;
+import ${package}.domain.${ClassName};
+import ${package}.model.query.${ClassName}QueryCriteria;
+import ${package}.service.I${ClassName}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * ${tableComment} 控制器
+ * @author ${author}
+ * @since ${date}
+ */
+@RequestMapping("/${apiPath}")
+@RestController
+public class ${ClassName}Controller extends EuBaseController {
+
+    @Autowired
+    I${ClassName}Service ${className}Service;
+
+    @Log(title = "查看${tableComment}列表", businessType = BusinessType.QUERY, isSaveResponseData = false)
+    @SaCheckPermission("${permissionPrefix}:list")
+    @GetMapping("/page")
+    public ResultBody page(${ClassName}QueryCriteria criteria, @PageableDefault(page = 1) Pageable pageable) {
+        return ResultBody.ok().data(${className}Service.page(criteria, pageable));
+    }
+    
+    @SaCheckPermission("${permissionPrefix}:query")
+    @GetMapping
+    public ResultBody getById(@RequestParam("id") ${pkColumnType} id) {
+        return ResultBody.ok().data(${className}Service.getById(id));
+    }
+    
+    @Log(title = "新增${tableComment}", businessType = BusinessType.INSERT)
+    @SaCheckPermission("${permissionPrefix}:add")
+    @PostMapping
+    public ResultBody save(@Validated @RequestBody ${ClassName} entity) {
+        ${className}Service.save(entity);
+        return ResultBody.ok();
+    }
+    
+    @Log(title = "修改${tableComment}", businessType = BusinessType.UPDATE)
+    @SaCheckPermission("${permissionPrefix}:edit")
+    @PutMapping
+    public ResultBody update(@Validated @RequestBody ${ClassName} entity) {
+        Assert.notNull(entity.getId(), "id不能为空");
+        ${className}Service.updateById(entity);
+        return ResultBody.ok();
+    }
+    
+    @Log(title = "删除${tableComment}", businessType = BusinessType.DELETE)
+    @SaCheckPermission("${permissionPrefix}:del")
+    @DeleteMapping
+    public ResultBody delete(@RequestParam("id") ${pkColumnType} id) {
+        ${className}Service.removeById(id);
+        return ResultBody.ok();
+    }
+    
+    @Log(title = "批量删除${tableComment}", businessType = BusinessType.DELETE)
+    @SaCheckPermission("${permissionPrefix}:del")
+    @DeleteMapping("/batch")
+    public ResultBody batchDelete(@RequestBody List<${pkColumnType}> ids) {
+        Assert.notEmpty(ids, "id不能为空");
+        ${className}Service.removeByIds(ids);
+        return ResultBody.ok();
+    }
+
+    @Log(title = "导出${tableComment}", businessType = BusinessType.EXPORT)
+    @SaCheckPermission("${permissionPrefix}:export")
+    @PostMapping("/export")
+    public void export(${ClassName}QueryCriteria criteria, HttpServletResponse response) throws IOException {
+        List<${ClassName}> list = ${className}Service.list(criteria);
+
+        EasyExcelHelper.export(response, list, ${ClassName}.class);
+    }
+
+}

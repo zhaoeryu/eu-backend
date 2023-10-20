@@ -1,0 +1,174 @@
+<template>
+  <div class="page-container">
+    <div class="page-body">
+      <query-expand-wrapper :show="isQueryShow">
+        <el-form :model="queryParams" :inline="true">
+#foreach($column in $columns)
+#if($column.queryType)
+    #elFormItem($column true "          ")
+#end
+#end
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" @click="onQuery">查询</el-button>
+            <el-button icon="el-icon-refresh" plain @click="onRefresh">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </query-expand-wrapper>
+      <div v-loading="loading">
+        <eu-table-toolbar
+          :multiple-disabled="multipleDisabled"
+          :opt-show="{
+            import: false
+          }"
+          :permission="{
+            add: ['${permissionPrefix}:add'],
+            del: ['${permissionPrefix}:del'],
+            export: ['${permissionPrefix}:export'],
+          }"
+          @add="onAdd"
+          @batchDel="onBatchDel"
+          @export="onExport"
+          @refresh="onRefresh"
+          @searchToggle="isQueryShow = !isQueryShow"
+          @columnSetting="$openTableColumnSettingDialog($refs.table)"
+        />
+        <el-table
+          ref="table"
+          :data="list"
+          @selection-change="onSelectionChange"
+          style="width: 100%"
+        >
+          <el-table-column type="selection"></el-table-column>
+#foreach($column in $columns)
+#if($column.tableShow)
+          <el-table-column prop="${column.javaField}" label="${column.columnComment}"></el-table-column>
+#end
+#end
+          <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" label="操作">
+            <template #default="{ row }">
+              <el-button v-permissions="['${permissionPrefix}:edit']" type="text" @click="onRowUpdate(row)">修改</el-button>
+              <el-button v-permissions="['${permissionPrefix}:del']" type="text" @click="onRowDelete(row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <pagination
+          :total="total"
+          :page.sync="queryParams.page"
+          :limit.sync="queryParams.size"
+          @pagination="onQuery"
+        />
+      </div>
+    </div>
+
+    <${classNameKebabCase}-edit-dialog ref="${className}EditDialog" @complete="onRefresh" />
+    <table-column-setting-dialog ref="tableColumnSettingDialog" />
+
+  </div>
+</template>
+
+<script>
+import { page, batchDel } from '@/api/${apiPath}'
+import ${ClassName}EditDialog from './${ClassName}EditDialog.vue'
+import QueryExpandWrapper from '@/components/Crud/QueryExpandWrapper/index.vue'
+import EuTableToolbar from '@/components/Crud/EuTableToolbar/index.vue'
+export default {
+  name: '${ClassName}',
+#if($dicts)
+  dicts: [#foreach($item in $dicts)'${item}'#if($foreach.hasNext), #end#end],
+#end
+  components: { EuTableToolbar, QueryExpandWrapper, ${ClassName}EditDialog },
+  data() {
+    return {
+      loading: false,
+      list: [],
+      total: 0,
+
+      queryParams: {
+#foreach($column in $columns)
+#if($column.queryType)
+        $column.javaField: null,
+#end
+#end
+        page: 1,
+        size: 10
+      },
+
+      isQueryShow: true,
+      multipleDisabled: true,
+    }
+  },
+  mounted() {
+    this.onRefresh()
+  },
+  methods: {
+    onQuery() {
+      this.loading = true
+      page(this.queryParams).then(res => {
+        this.list = res.data.records
+        this.total = res.data.total
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    onRefresh() {
+      this.queryParams = this.$options.data().queryParams
+      this.onQuery()
+    },
+    onAdd() {
+      this.$refs.${className}EditDialog.open()
+    },
+    onExport() {
+      this.download('/api/${apiPath}/export', this.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
+    },
+    onBatchDel() {
+      #[[const ids = this.$refs.table.selection.map(item => item.id)]]#
+      this.$confirm(`确认要删除选中的${ids.length}条记录吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            batchDel(ids).then(() => {
+              this.$message.success('删除成功')
+              done()
+              this.onRefresh()
+            }).finally(() => {
+              instance.confirmButtonLoading = false;
+            })
+          } else {
+            done()
+          }
+        }
+      });
+    },
+    onSelectionChange(selection) {
+      this.multipleDisabled = !selection.length
+    },
+    onRowUpdate(row) {
+      this.$refs.${className}EditDialog.open(row)
+    },
+    onRowDelete(row) {
+      this.$confirm(`确认要删除"${ row.$delShowField }"吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            batchDel([row.id]).then(() => {
+              this.$message.success('删除成功')
+              done()
+              this.onRefresh()
+            }).finally(() => {
+              instance.confirmButtonLoading = false;
+            })
+          } else {
+            done()
+          }
+        }
+      });
+    }
+  },
+}
+</script>

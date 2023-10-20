@@ -1,0 +1,22 @@
+package ${package}.service;
+
+import cn.eu.common.base.service.IEuService;
+import cn.eu.common.model.PageResult;
+import ${package}.domain.${ClassName};
+import ${package}.model.query.${ClassName}QueryCriteria;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+/**
+ * ${tableComment} 服务接口
+ * @author ${author}
+ * @since ${date}
+ */
+public interface I${ClassName}Service extends IEuService<${ClassName}> {
+
+    PageResult<${ClassName}> page(${ClassName}QueryCriteria criteria, Pageable pageable);
+
+    List<${ClassName}> list(${ClassName}QueryCriteria criteria);
+
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.eu.generate.mapper.GenTableMapper">
+
+    <sql id="selectDbTable">
+        select
+            table_name,
+            table_comment,
+            create_time,
+            update_time
+        from information_schema.tables
+        where TABLE_SCHEMA = (select DATABASE())
+    </sql>
+
+    <select id="selectDbTableList" resultType="cn.eu.generate.domain.GenTable">
+        <include refid="selectDbTable"></include>
+        <if test="tableName != null and tableName != ''">
+            AND lower(table_name) like lower(concat('%', #{tableName}, '%'))
+        </if>
+        <if test="tableComment != null and tableComment != ''">
+            AND lower(table_comment) like lower(concat('%', #{tableComment}, '%'))
+        </if>
+        order by create_time desc
+    </select>
+    <select id="selectDbTableColumnList" resultType="cn.eu.generate.domain.GenTableColumn">
+        SELECT
+            table_name,
+            column_name,
+            column_comment,
+            column_type,
+            column_key,
+            ( CASE WHEN extra = 'auto_increment' THEN 1 ELSE 0 END ) AS auto_pk,
+            ( CASE WHEN ( is_nullable = 'no' &amp;&amp; column_key != 'PRI' ) THEN 1 ELSE 0 END ) AS not_null,
+            ordinal_position AS column_sort
+        FROM
+            information_schema.COLUMNS
+        WHERE
+            table_schema = (SELECT DATABASE())
+          AND table_name = #{tableName}
+
+        ORDER BY ordinal_position
+    </select>
+    <select id="selectDbTableByTableName" resultType="cn.eu.generate.domain.GenTable">
+        <include refid="selectDbTable"></include>
+        AND table_name = #{tableName}
+        limit 1
+    </select>
+
+</mapper>
+
