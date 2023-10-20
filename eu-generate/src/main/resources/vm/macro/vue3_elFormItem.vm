@@ -1,4 +1,4 @@
-#macro(elFormItem $column $isQuery $indent)
+#macro(vue3ElFormItem $column $isQuery $indent)
 #set($formObj = "#if($isQuery)queryParams#{else}form#end")
 $indent<el-form-item label="${column.columnComment}" prop="${column.javaField}">
   #if ($column.formType == 'number')
@@ -8,7 +8,7 @@ $indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true
   #elseif ($column.formType == 'select')
 $indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.columnComment}" clearable filterable>
     #if($column.dictKey)
-$indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" :value="item.value" />
+$indent    <el-option v-for="item in dict['${column.dictKey}Dict'].values" :key="item.value" :label="item.label" :value="item.value" />
     #else
 $indent    <el-option label="请手动进行设置" value="请手动进行设置" />
     #end
@@ -16,7 +16,7 @@ $indent  </el-select>
   #elseif ($column.formType == 'radio')
 $indent  <el-radio-group v-model="${formObj}.${column.javaField}">
     #if($column.dictKey)
-$indent    <el-radio v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+$indent    <el-radio v-for="item in dict['${column.dictKey}Dict'].values" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
     #else
 $indent    <el-radio :label="0">请手动进行设置</el-radio>
     #end
@@ -24,7 +24,7 @@ $indent  </el-radio-group>
   #elseif ($column.formType == 'checkbox')
 $indent  <el-checkbox-group v-model="${formObj}.${column.javaField}">
     #if($column.dictKey)
-$indent    <el-checkbox v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
+$indent    <el-checkbox v-for="item in dict['${column.dictKey}Dict'].values" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
     #else
 $indent    <el-checkbox :label="0">请手动进行设置</el-checkbox>
     #end
@@ -61,11 +61,11 @@ $indent    upload-api="/api/upload/uploadFile"
 $indent    :show-file-list="false"
 $indent    :single-mode="true"
 $indent    accept="image/*"
-$indent    list-type="picture-avatar"
+$indent    list-type="picture-card"
 $indent  >
 $indent    <template #trigger>
 $indent      <img v-if="${formObj}.${column.javaField}" :src="${formObj}.${column.javaField}" alt="" class="avatar">
-$indent      <i v-else class="el-icon-plus"></i>
+$indent      <el-icon v-else><Plus /></el-icon>
 $indent    </template>
 $indent  </upload-file>
   #elseif($column.formType == 'editor')

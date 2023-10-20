@@ -121,6 +121,30 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         if (StrUtil.isBlank(item.getQueryType())) {
             item.setQueryType(null);
         }
+        if (StrUtil.isBlank(item.getFormType())) {
+            String formType = null;
+            switch (item.getJavaType()) {
+                case "Integer":
+                case "Long":
+                case "Float":
+                case "Double":
+                case "BigDecimal":
+                    formType = "number";
+                    break;
+                case "LocalDateTime":
+                    formType = "datetime";
+                    break;
+                case "LocalDate":
+                    formType = "date";
+                    break;
+                case "Boolean":
+                    formType = "switch";
+                    break;
+                default:
+                    // 其他类型默认为input
+            }
+            item.setFormType(formType);
+        }
         if (item.getId() == null) {
             // 如果是基础字段并且非手动配置，那么默认可以为空
             boolean isFieldBaseEntity = GenUtil.isFieldBaseEntity(item.getColumnName());
@@ -383,20 +407,47 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                         .add("sql")
                         .add(GenUtil.underlineToCamel(genTable.getTableName()) + ".sql");
                 break;
+
+            // vue2
             case "vm/vue/vue.vm":
                 filePathJoiner.add("generate")
+                        .add("vue2")
                         .add("views")
                         .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
                         .add("index.vue");
                 break;
             case "vm/vue/editDialog.vm":
                 filePathJoiner.add("generate")
+                        .add("vue2")
                         .add("views")
                         .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
                         .add(GenUtil.underlineToBigCamel(genTable.getTableName()) + "EditDialog.vue");
                 break;
             case "vm/vue/api.vm":
                 filePathJoiner.add("generate")
+                        .add("vue2")
+                        .add("api")
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()) + ".js");
+                break;
+
+            // vue3
+            case "vm/vue3/vue.vm":
+                filePathJoiner.add("generate")
+                        .add("vue3")
+                        .add("views")
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
+                        .add("index.vue");
+                break;
+            case "vm/vue3/editDialog.vm":
+                filePathJoiner.add("generate")
+                        .add("vue3")
+                        .add("views")
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
+                        .add(GenUtil.underlineToBigCamel(genTable.getTableName()) + "EditDialog.vue");
+                break;
+            case "vm/vue3/api.vm":
+                filePathJoiner.add("generate")
+                        .add("vue3")
                         .add("api")
                         .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()) + ".js");
                 break;

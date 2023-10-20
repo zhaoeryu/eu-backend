@@ -61,4 +61,12 @@ public class Constants {
      */
     public static final String DEL_FLAG_FIELD_NAME = "delFlag";
 
+    /**
+     * 前端请求头 - 前端标识
+     */
+    public static final String REQUEST_HEADER_FRONT_KEY = "X-Eu-Front";
+    /**
+     * 前端请求头 - 版本标识
+     */
+    public static final String REQUEST_HEADER_FRONT_VERSION_KEY = "X-Eu-Front-Version";
 }

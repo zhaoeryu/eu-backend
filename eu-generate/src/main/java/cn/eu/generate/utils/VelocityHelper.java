@@ -1,5 +1,8 @@
 package cn.eu.generate.utils;
 
+import cn.dev33.satoken.spring.SpringMVCUtil;
+import cn.eu.common.constants.Constants;
+import cn.eu.common.enums.EuFrontHeader;
 import cn.eu.generate.constants.GenConstant;
 import cn.eu.generate.domain.GenTable;
 import cn.eu.generate.domain.GenTableColumn;
@@ -38,6 +41,8 @@ public class VelocityHelper {
      * 获取vm模版列表
      */
     public static List<GenerateTemplateDto> getTemplates() {
+        String requestHeaderFront = SpringMVCUtil.getRequest().getHeader(Constants.REQUEST_HEADER_FRONT_KEY);
+
         List<GenerateTemplateDto> list = new ArrayList<>();
         // java
         list.add(new GenerateTemplateDto("vm/java/Controller.vm", "Controller.java", GenConstant.TPL_FILE_TYPE_JAVA));
@@ -50,11 +55,18 @@ public class VelocityHelper {
         list.add(new GenerateTemplateDto("vm/xml/Mapper.vm", "Mapper.xml", GenConstant.TPL_FILE_TYPE_XML));
         // sql
         list.add(new GenerateTemplateDto("vm/sql/sql.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
-        // vue
-        list.add(new GenerateTemplateDto("vm/vue/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
-        list.add(new GenerateTemplateDto("vm/vue/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
-        list.add(new GenerateTemplateDto("vm/vue/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
 
+        if (EuFrontHeader.VUE2.getDesc().equals(requestHeaderFront)) {
+            // vue
+            list.add(new GenerateTemplateDto("vm/vue/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            list.add(new GenerateTemplateDto("vm/vue/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            list.add(new GenerateTemplateDto("vm/vue/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
+        } else if (EuFrontHeader.VUE3.getDesc().equals(requestHeaderFront)) {
+            // vue3
+            list.add(new GenerateTemplateDto("vm/vue3/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            list.add(new GenerateTemplateDto("vm/vue3/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            list.add(new GenerateTemplateDto("vm/vue3/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
+        }
         return list;
     }
 
@@ -86,6 +98,7 @@ public class VelocityHelper {
     public static List<String> getMarcoTemplate() {
         List<String> list = new ArrayList<>();
         list.add("vm/macro/elFormItem.vm");
+        list.add("vm/macro/vue3_elFormItem.vm");
         return list;
     }
 

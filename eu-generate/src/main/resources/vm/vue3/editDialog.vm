@@ -1,0 +1,96 @@
+<script setup lang="ts">
+import { add, update } from '@/api/${apiPath}'
+import {ElMessage} from "element-plus";
+import {computed, nextTick, ref} from "vue";
+import { UploadFilled, Plus } from '@element-plus/icons-vue'
+
+#if($dicts)
+defineOptions({
+  dicts: [#foreach($item in $dicts)'${item}'#if($foreach.hasNext), #end#end],
+})
+#end
+
+const DEFAULT_FORM = {
+#foreach($column in $columns)
+#if($column.formShow)
+  $column.javaField: null,
+#end
+#end
+}
+
+const emit = defineEmits(['complete'])
+
+const show = ref(false)
+const formLoading = ref(false)
+const form = ref(DEFAULT_FORM)
+const rules = {
+#foreach($column in $columns)
+#if($column.formShow && $column.notNull)
+  $column.javaField: [
+    { required: true, message: '${column.columnComment}不能为空', trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
+  ],
+#end
+#end
+}
+const refForm = ref(null)
+const title = computed(() => {
+  return form.value.id ? '修改${tableComment}' : '新增${tableComment}'
+})
+
+function open(row) {
+  form.value = Object.assign({...DEFAULT_FORM}, row)
+  show.value = true
+}
+
+function onSubmit() {
+  refForm.value.validate(valid => {
+    if (!valid) {
+      return false
+    }
+
+    formLoading.value = true
+    const reqPromise = form.value.id ? update(form.value) : add(form.value)
+    reqPromise.then(() => {
+      ElMessage.success(form.value.id ? '修改成功' : '新增成功')
+      show.value = false
+      emit('complete')
+    }).finally(() => {
+      formLoading.value = false
+    })
+  })
+}
+
+async function onDialogOpen() {
+  await nextTick(() => {
+    if (refForm.value) {
+      refForm.value.clearValidate();
+    }
+  });
+}
+
+defineExpose({
+  open
+})
+</script>
+
+<template>
+  <el-dialog
+    :title="title"
+    v-model="show"
+    :close-on-click-modal="false"
+    width="500px"
+    @open="onDialogOpen"
+  >
+    <el-form ref="refForm" :model="form" :rules="rules" label-width="80px">
+#foreach($column in $columns)
+#if($column.formShow)
+    #vue3ElFormItem($column false "      ")
+#end
+#end
+    </el-form>
+    <template #footer>
+      <el-button @click="show = false">取 消</el-button>
+      <el-button :loading="formLoading" class="eu-submit-btn" type="primary" @click="onSubmit">确 定</el-button>
+    </template>
+  </el-dialog>
+</template>
