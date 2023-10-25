@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.eu.autoconfigure.EuAutoConfiguration,\
-    cn.eu.autoconfigure.RedisAutoConfiguration
+    cn.eu.autoconfigure.RedisAutoConfiguration,\
+    cn.eu.autoconfigure.DynamicDataSourceAopConfiguration
