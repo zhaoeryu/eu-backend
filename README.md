@@ -88,5 +88,8 @@
     </tr>
 </table>
 
+## 其他说明
+- 默认登录账号：admin，密码：admin123
+
 ## 技术交流群
 [![加入QQ群](https://img.shields.io/badge/QQ群-852154969-blue.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=m9IAd3bFEJRUaOfkpg0SznBD6_nLzuZa&jump_from=webapi&authKey=SiSgsYNnzi55qEZELcw0PtTKs5uw1d+AxpKyROwETbuleUhS6Rh+T/qJHKEyrzl9)
