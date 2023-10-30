@@ -7,6 +7,7 @@
 
 <strong>EuBackend</strong>是一套全部开源的前后端分离 Java EE 企业级快速开发平台，基于最新技术栈`SpringBoot`、`Sa-Token`、`MyBatisPlus`等作为后端框架，使用RBAC作为权限控制模型，并且毫无保留给个人及企业免费使用。
 
+- 演示地址：暂无
 - 文档地址：[https://zhaoeryu.github.io](https://zhaoeryu.github.io)
 
 ## 项目特性
