@@ -73,15 +73,7 @@ public class GlobalExceptionHandler {
         if (StrUtil.isBlank(errorMessage)) {
             return buildBody(ex, request.getRequestURI());
         }
-        String passwordRegex = "'([^']+)'";
-        Pattern pattern = Pattern.compile(passwordRegex);
-        Matcher matcher = pattern.matcher(errorMessage);
-        if (matcher.find()) {
-            String errField = matcher.group(1);
-            return buildBody(StrUtil.format("[{}]长度超过限制" , errField), IError.ERROR.getCode(), request.getRequestURI());
-        }
-
-        return buildBody(ex, request.getRequestURI());
+        return buildBody(errorMessage, IError.ERROR.getCode(), request.getRequestURI());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
