@@ -70,9 +70,4 @@ public class Constants {
      */
     public static final String REQUEST_HEADER_FRONT_VERSION_KEY = "X-Eu-Front-Version";
 
-    /**
-     * 动态数据源配置前缀
-     */
-    public static final String DS_BASE_PREFIX = "spring.datasource.dynamic";
-    public static final String DS_PREFIX = DS_BASE_PREFIX + ".datasource.";
 }

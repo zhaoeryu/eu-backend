@@ -1,9 +1,8 @@
 package cn.eu.test;
 
-import cn.eu.common.datasource.DSConstants;
-import cn.eu.common.datasource.DynamicDataSourceContextHolder;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.service.ISysUserService;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,11 +23,11 @@ public class DynamicDataSourceTest {
         SysUser master = sysUserService.getById(1);
 
         //切换数据源，在slave查询
-        DynamicDataSourceContextHolder.setContextKey(DSConstants.SLAVE);
+        DynamicDataSourceContextHolder.push("slave");
         SysUser slave = sysUserService.getById(1);
 
         // 切换回master
-        DynamicDataSourceContextHolder.removeContextKey();
+        DynamicDataSourceContextHolder.push("master");
         SysUser master2 = sysUserService.getById(1);
 
         System.out.println(master);

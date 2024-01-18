@@ -47,7 +47,6 @@ public class SysMenu extends BaseEntity {
     /** 是否显示 */
     private Boolean visible;
     /** 是否缓存 */
-    @TableField("`cache`")
     private Boolean cache;
     /** 是否内嵌 */
     private Boolean embed;
