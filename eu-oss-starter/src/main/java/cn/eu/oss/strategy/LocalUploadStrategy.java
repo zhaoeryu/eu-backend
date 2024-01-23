@@ -32,7 +32,7 @@ public class LocalUploadStrategy implements IUploadStrategy {
         log.info("本地上传根路径=>{}, 服务地址=>{}", ossProperties.getLocalPath(), ossProperties.getServiceHost());
         String ext = FileUtil.extName(multipartFile.getOriginalFilename());
         ext = StrUtil.isNotBlank(ext) ? "." + ext : "";
-        String suffixPath = File.separator + IdUtil.getSnowflakeNextIdStr() + ext;
+        String suffixPath = "/" + IdUtil.getSnowflakeNextIdStr() + ext;
         File uploadFile = new File(ossProperties.getLocalPath() + suffixPath);
         FileUtil.touch(uploadFile);
         multipartFile.transferTo(uploadFile);
