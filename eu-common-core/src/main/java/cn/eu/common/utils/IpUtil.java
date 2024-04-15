@@ -1,9 +1,12 @@
 package cn.eu.common.utils;
 
 import cn.dev33.satoken.spring.SpringMVCUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
@@ -94,8 +97,10 @@ public class IpUtil {
             if (isInnerIp(ip)) {
                 return "内网IP";
             }
-            String path = Objects.requireNonNull(IpUtil.class.getResource("/ip2region/ip2region.xdb")).getPath();
-            Searcher searcher = Searcher.newWithFileOnly(path);
+            // 从类路径中加载资源文件
+            Resource resource = new ClassPathResource("ip2region/ip2region.xdb");
+            byte[] cBuff = IoUtil.readBytes(resource.getInputStream());
+            Searcher searcher = Searcher.newWithBuffer(cBuff);
             return searcher.search(ip).replaceAll(REGX_REGION, "$1$2|");
         } catch (Exception e) {
             e.printStackTrace();
