@@ -28,17 +28,20 @@
     </delete>
     <select id="selectRoleUserList" resultType="cn.eu.system.domain.SysUser">
         select u.* from sys_user u
-        left join sys_user_role ur on ur.user_id = u.id
         left join sys_dept d on d.id = u.dept_id
         <where>
             u.del_flag = 0
             <choose>
                 <when test="hasRole == 1">
-                    and ur.role_id = #{roleId}
+                    and u.id in (
+                        select user_id from sys_user_role where role_id = #{roleId}
+                    )
                 </when>
-              <otherwise>
-                  and (ur.role_id is null or ur.role_id != #{roleId})
-              </otherwise>
+                <otherwise>
+                    and u.id not in (
+                        select user_id from sys_user_role where role_id = #{roleId}
+                    )
+                </otherwise>
             </choose>
             <if test="nickname != null and nickname != ''">
                 and u.nickname like concat('%', #{nickname}, '%')
