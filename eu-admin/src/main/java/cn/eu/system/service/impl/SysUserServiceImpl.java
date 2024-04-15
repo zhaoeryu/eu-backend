@@ -75,9 +75,10 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void createUser(SysUserDto dto) {
+    public String createUser(SysUserDto dto) {
+        String defaultPassword = Constants.DEFAULT_PASSWORD;
         // 密码加密
-        dto.setPassword(PasswordEncoder.encode(Constants.DEFAULT_PASSWORD));
+        dto.setPassword(PasswordEncoder.encode(defaultPassword));
 
         // 保存用户信息
         save(dto);
@@ -107,6 +108,8 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
                 sysUserMapper.insertBatchUserRole(roles);
             }
         });
+
+        return defaultPassword;
     }
 
     @Transactional(rollbackFor = Exception.class)

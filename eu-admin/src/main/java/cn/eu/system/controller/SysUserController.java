@@ -62,8 +62,8 @@ public class SysUserController extends EuBaseController {
     @SaCheckPermission("system:user:add")
     @PostMapping
     public ResultBody save(@Validated @RequestBody SysUserDto dto) {
-        sysUserService.createUser(dto);
-        return ResultBody.ok();
+        String password = sysUserService.createUser(dto);
+        return ResultBody.ok().data(password);
     }
 
     @Log(title = "编辑用户", businessType = BusinessType.UPDATE)

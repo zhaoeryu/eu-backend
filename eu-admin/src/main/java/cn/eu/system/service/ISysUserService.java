@@ -29,7 +29,7 @@ public interface ISysUserService extends IEuService<SysUser> {
      * 创建用户
      * @param dto
      */
-    void createUser(SysUserDto dto);
+    String createUser(SysUserDto dto);
 
     void updateUser(SysUserDto dto);
 
