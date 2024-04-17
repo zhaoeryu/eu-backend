@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/system/job")
+@RequestMapping("/api/system/job")
 public class QuartzJobController extends EuBaseController {
     
     @Autowired

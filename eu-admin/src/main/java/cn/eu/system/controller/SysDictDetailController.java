@@ -28,7 +28,7 @@ import java.util.List;
  * @author zhaoeryu
  * @since 2023/5/31
  */
-@RequestMapping("/system/dict-detail")
+@RequestMapping("/api/system/dict-detail")
 @RestController
 public class SysDictDetailController extends EuBaseController {
 

@@ -40,7 +40,7 @@ import java.util.*;
  * @since 2023/5/31
  */
 @Slf4j
-@RequestMapping("/system/user")
+@RequestMapping("/api/system/user")
 @RestController
 public class SysUserController extends EuBaseController {
 

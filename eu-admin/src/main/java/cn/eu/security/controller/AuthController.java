@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
  * @since 2023/6/3
  */
 @Slf4j
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RestController
 public class AuthController {
 

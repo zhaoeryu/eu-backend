@@ -31,7 +31,7 @@ import java.util.List;
  * @author zhaoeryu
  * @since 2023/5/31
  */
-@RequestMapping("/system/role")
+@RequestMapping("/api/system/role")
 @RestController
 public class SysRoleController extends EuBaseController {
 

@@ -22,7 +22,7 @@ import java.util.List;
  * @author zhaoeryu
  * @since 2023/5/31
  */
-@RequestMapping("/system/menu")
+@RequestMapping("/api/system/menu")
 @RestController
 public class SysMenuController extends EuBaseController {
 

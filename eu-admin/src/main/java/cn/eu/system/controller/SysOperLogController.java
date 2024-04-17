@@ -26,7 +26,7 @@ import java.util.List;
  * @author zhaoeryu
  * @since 2023/07/11
  */
-@RequestMapping("/system/sysOperLog")
+@RequestMapping("/api/system/sysOperLog")
 @RestController
 public class SysOperLogController extends EuBaseController {
 

@@ -18,7 +18,7 @@ import java.util.List;
  * @author zhaoeryu
  * @since 2023/7/1
  */
-@RequestMapping("/upload")
+@RequestMapping("/api/upload")
 @RestController
 public class UploadController {
 

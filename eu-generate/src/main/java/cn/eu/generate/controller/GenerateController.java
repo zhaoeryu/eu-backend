@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RestController
-@RequestMapping("/gen")
+@RequestMapping("/api/gen")
 public class GenerateController {
 
     @Autowired

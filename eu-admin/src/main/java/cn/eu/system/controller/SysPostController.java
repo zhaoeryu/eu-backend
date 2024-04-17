@@ -40,7 +40,7 @@ import java.util.List;
 @Slf4j
 @Tag(name = "系统：岗位管理")
 @ApiSupport(author = "cn.zhaoey@gmail.com")
-@RequestMapping("/system/post")
+@RequestMapping("/api/system/post")
 @RestController
 public class SysPostController extends EuBaseController {
 

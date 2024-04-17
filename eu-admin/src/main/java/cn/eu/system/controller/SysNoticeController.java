@@ -26,7 +26,7 @@ import java.util.List;
  * @author Eu.z
  * @since 2023/08/30
  */
-@RequestMapping("/system/sysNotice")
+@RequestMapping("/api/system/sysNotice")
 @RestController
 public class SysNoticeController extends EuBaseController {
 
