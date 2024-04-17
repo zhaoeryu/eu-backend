@@ -15,5 +15,6 @@ public class UploadResult {
 
     private String name;
     private String link;
+    private String uri;
 
 }

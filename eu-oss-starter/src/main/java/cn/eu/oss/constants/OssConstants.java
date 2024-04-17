@@ -26,10 +26,15 @@ public class OssConstants {
     /**
      * 默认上传路径：项目根目录下的uploads文件夹
      */
-    public static final String DEFAULT_UPLOAD_PATH = System.getProperty("user.dir") + File.separator + "uploads";
+    public static final String DEFAULT_UPLOAD_PATH = System.getProperty("user.dir") + File.separator + "uploads" + File.separator;
 
     /**
      * 默认：服务HOST
      */
     public static final String DEFAULT_SERVICE_HOST = "http://localhost:8000";
+
+    /**
+     * 默认：本地文件
+     */
+    public static final String DEFAULT_LOCAL_FILE_PREFIX = "/static";
 }

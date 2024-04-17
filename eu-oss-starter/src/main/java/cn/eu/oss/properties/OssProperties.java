@@ -19,7 +19,7 @@ public class OssProperties {
     private OssStrategy strategy = OssStrategy.LOCAL;
 
     /**
-     * 本地上传路径
+     * 本地上传路径, 需要以/结尾
      */
     private String localPath = OssConstants.DEFAULT_UPLOAD_PATH;
 
@@ -27,4 +27,9 @@ public class OssProperties {
      * 服务HOST
      */
     private String serviceHost = OssConstants.DEFAULT_SERVICE_HOST;
+
+    /**
+     * 本地文件访问路径前缀
+     */
+    private String localFilePrefix = OssConstants.DEFAULT_LOCAL_FILE_PREFIX;
 }
