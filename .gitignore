@@ -43,3 +43,4 @@ build/
 *.swp
 
 uploads/
+logs/
