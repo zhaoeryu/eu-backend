@@ -1,6 +1,5 @@
 package cn.eu.security.model;
 
-import cn.eu.system.domain.SysRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 

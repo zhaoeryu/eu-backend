@@ -67,6 +67,10 @@
             <groupId>cn.eu</groupId>
             <artifactId>eu-oss-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.eu</groupId>
+            <artifactId>eu-websocket-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

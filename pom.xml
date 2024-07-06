@@ -19,6 +19,7 @@
         <module>eu-generate</module>
         <module>eu-message-starter</module>
         <module>eu-oss-starter</module>
+        <module>eu-websocket-starter</module>
     </modules>
 
     <properties>
@@ -100,6 +101,11 @@
             <dependency>
                 <groupId>cn.eu</groupId>
                 <artifactId>eu-oss-starter</artifactId>
+                <version>${eu-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.eu</groupId>
+                <artifactId>eu-websocket-starter</artifactId>
                 <version>${eu-admin.version}</version>
             </dependency>
 

@@ -70,4 +70,17 @@ public class Constants {
      */
     public static final String REQUEST_HEADER_FRONT_VERSION_KEY = "X-Eu-Front-Version";
 
+    /**
+     * WebSocket Session Token Key
+     */
+    public static final String WS_SESSION_TOKEN_KEY = "token";
+    /**
+     * WebSocket Session User Id Key
+     */
+    public static final String WS_SESSION_USER_ID_KEY = "userId";
+    /**
+     * WebSocket Session User Id Key
+     */
+    public static final String WS_SESSION_CMD_KEY = "cmd";
+
 }
