@@ -5,7 +5,7 @@ import cn.eu.common.annotation.DataScope;
 import cn.eu.common.enums.DataScopeType;
 import cn.eu.common.utils.DataScopeContextHelper;
 import cn.eu.security.SecurityUtil;
-import cn.eu.security.model.AuthUser;
+import cn.eu.common.model.AuthUser;
 import cn.eu.system.domain.SysRole;
 import cn.eu.system.service.ISysRoleService;
 import cn.hutool.core.collection.CollUtil;

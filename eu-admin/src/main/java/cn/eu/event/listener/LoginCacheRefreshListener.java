@@ -6,7 +6,7 @@ import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.SysUserStatus;
 import cn.eu.event.LoginCacheRefreshEvent;
 import cn.eu.security.SecurityUtil;
-import cn.eu.security.model.AuthUser;
+import cn.eu.common.model.AuthUser;
 import cn.eu.system.domain.SysRole;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.service.ISysDeptService;

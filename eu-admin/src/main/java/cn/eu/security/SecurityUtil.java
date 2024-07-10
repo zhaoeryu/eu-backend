@@ -3,7 +3,7 @@ package cn.eu.security;
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.constants.Constants;
-import cn.eu.security.model.AuthUser;
+import cn.eu.common.model.AuthUser;
 import cn.eu.system.domain.SysRole;
 import cn.eu.system.domain.SysUser;
 import cn.hutool.core.collection.CollUtil;

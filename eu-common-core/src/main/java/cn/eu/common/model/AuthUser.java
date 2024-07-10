@@ -1,4 +1,4 @@
-package cn.eu.security.model;
+package cn.eu.common.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
