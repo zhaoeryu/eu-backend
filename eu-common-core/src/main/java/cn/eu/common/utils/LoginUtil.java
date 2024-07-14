@@ -4,6 +4,7 @@ import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.model.LoginUser;
+import cn.eu.common.model.dto.RoleDto;
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -70,19 +71,18 @@ public class LoginUtil {
     /**
      * 设置当前登录用户拥有的角色
      */
-    public static void setLoginUserRoles(List<?> roles) {
+    public static void setLoginUserRoles(List<RoleDto> roles) {
         if (CollUtil.isEmpty(roles)) {
             return;
         }
         StpUtil.getSession().set(Constants.ROLE_KEY, roles);
     }
 
-    public static <T> List<T> getLoginUserRoles(Class<T> clazz) {
+    public static List<RoleDto> getLoginUserRoles() {
         Object roles = StpUtil.getSession().get(Constants.ROLE_KEY);
-        List<T> roleList = new ArrayList<>();
+        List<RoleDto> roleList = new ArrayList<>();
         try {
-            roleList = Optional.ofNullable(JSONObject.parseArray(roles.toString(), clazz))
-                    .orElse(new ArrayList<>());
+            roleList = JSONObject.parseArray(roles.toString(), RoleDto.class);
         } catch (Exception e) {
             log.error("getLoginUserRoles error", e);
         }

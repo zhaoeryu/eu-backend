@@ -1,8 +1,15 @@
 package cn.eu.security;
 
 import cn.eu.common.model.LoginUser;
+import cn.eu.common.model.dto.RoleDto;
+import cn.eu.system.domain.SysRole;
 import cn.eu.system.domain.SysUser;
 import cn.hutool.core.util.StrUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Eu.z
@@ -42,6 +49,20 @@ public class SecurityConvert {
             loginUser.setDeptId(sysUser.getDeptId());
         }
         return loginUser;
+    }
+
+    public static List<RoleDto> convertSysUserListToRole(List<SysRole> sysRoles) {
+        return Optional.ofNullable(sysRoles).map(List::stream)
+                .map(list -> {
+                    return list.map(sysRole -> {
+                        RoleDto roleDto = new RoleDto();
+                        roleDto.setRoleId(sysRole.getId());
+                        roleDto.setRoleName(sysRole.getRoleName());
+                        roleDto.setRoleKey(sysRole.getRoleKey());
+                        roleDto.setDataScope(sysRole.getDataScope());
+                        return roleDto;
+                    }).collect(Collectors.toList());
+                }).orElse(new ArrayList<>());
     }
 
 }

@@ -11,6 +11,7 @@ import cn.eu.properties.EuProperties;
 import cn.eu.common.utils.PasswordEncoder;
 import cn.eu.common.utils.LoginUtil;
 import cn.eu.common.model.LoginUser;
+import cn.eu.security.SecurityConvert;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.service.ISysDeptService;
 import cn.eu.system.service.ISysRoleService;
@@ -77,7 +78,7 @@ public class LoginService {
         );
         LoginUtil.setLoginUser(authUser);
         // 记录登录用户的角色
-        LoginUtil.setLoginUserRoles(sysRoleService.getRolesByUserId(user.getId()));
+        LoginUtil.setLoginUserRoles(SecurityConvert.convertSysUserListToRole(sysRoleService.getRolesByUserId(user.getId())));
 
         // 记录登录信息
         recordLoginInfo(authUser);

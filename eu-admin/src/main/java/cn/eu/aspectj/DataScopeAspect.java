@@ -3,10 +3,10 @@ package cn.eu.aspectj;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.annotation.DataScope;
 import cn.eu.common.enums.DataScopeType;
+import cn.eu.common.model.dto.RoleDto;
 import cn.eu.common.utils.DataScopeContextHelper;
 import cn.eu.common.utils.LoginUtil;
 import cn.eu.common.model.LoginUser;
-import cn.eu.system.domain.SysRole;
 import cn.eu.system.service.ISysRoleService;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -47,13 +47,13 @@ public class DataScopeAspect {
             return;
         }
         LoginUser loginUser = LoginUtil.getLoginUser();
-        List<SysRole> sysRoles = LoginUtil.getLoginUserRoles(SysRole.class);
+        List<RoleDto> roles = LoginUtil.getLoginUserRoles();
 
         StringBuilder sqlBuilder = new StringBuilder();
         List<Integer> conditions = CollUtil.newArrayList();
 
-        for (SysRole sysRole : sysRoles) {
-            Integer scope = sysRole.getDataScope();
+        for (RoleDto role : roles) {
+            Integer scope = role.getDataScope();
             if (scope == null) {
                 // 如果该角色没有设置数据权限，跳过
                 continue;
@@ -79,13 +79,13 @@ public class DataScopeAspect {
                     if (dataScope.isSingleQuery()) {
                         sqlBuilder.append(StrUtil.format(
                                 " OR id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ",
-                                sysRole.getId()
+                                role.getRoleId()
                         ));
                     } else if (StrUtil.isNotBlank(dataScope.deptAlias())) {
                         sqlBuilder.append(StrUtil.format(
                                 " OR {}.id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ",
                                 dataScope.deptAlias(),
-                                sysRole.getId()
+                                role.getRoleId()
                         ));
                     } else {
                         log.warn("dataScope.deptAlias() 未设置 deptAlias");
