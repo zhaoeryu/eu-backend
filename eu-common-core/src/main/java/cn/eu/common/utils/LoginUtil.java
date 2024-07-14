@@ -21,6 +21,13 @@ import java.util.Optional;
 public class LoginUtil {
 
     /**
+     * 获取当前登录用户ID
+     */
+    public static String getLoginId() {
+        return StpUtil.getLoginIdAsString();
+    }
+
+    /**
      * 当前登录用户是否为管理员
      */
     public static boolean isAdminLogin() {
