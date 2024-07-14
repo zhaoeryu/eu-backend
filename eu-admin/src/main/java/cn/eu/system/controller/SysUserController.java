@@ -10,7 +10,7 @@ import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
 import cn.eu.common.utils.SpringContextHolder;
 import cn.eu.event.LoginCacheRefreshEvent;
-import cn.eu.security.PasswordEncoder;
+import cn.eu.common.utils.PasswordEncoder;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.model.dto.*;
 import cn.eu.system.model.pojo.UpdatePasswordBody;

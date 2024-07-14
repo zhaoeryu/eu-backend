@@ -1,9 +1,9 @@
 package cn.eu.websocket.utils;
 
-import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.constants.Constants;
-import cn.eu.common.model.AuthUser;
+import cn.eu.common.model.LoginUser;
+import cn.eu.common.utils.LoginUtil;
 import cn.eu.websocket.model.WsResponsePacket;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -59,14 +59,12 @@ public class WsSessionUtil {
         return (Integer) session.getAttributes().get(Constants.WS_SESSION_CMD_KEY);
     }
 
-    public static Optional<AuthUser> getLoginUserByWsSession(WebSocketSession session) {
+    public static Optional<LoginUser> getLoginUserByWsSession(WebSocketSession session) {
         return Optional.ofNullable(session.getAttributes().get(Constants.WS_SESSION_TOKEN_KEY))
                 .map(Object::toString)
                 .map(StpUtil::getLoginIdByToken)
                 .map(StpUtil::getSessionByLoginId)
-                .map(SaSession::getDataMap)
-                .map(dataMap -> ((JSONObject) dataMap.get(Constants.USER_KEY)))
-                .map(jsonObject -> jsonObject.toJavaObject(AuthUser.class));
+                .map(LoginUtil::getLoginUserBySaSession);
     }
 
     public static void sendMessage(String token, Integer cmd, Object data) {

@@ -6,7 +6,7 @@ import cn.eu.common.enums.MenuStatus;
 import cn.eu.common.enums.MenuType;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.MpQueryHelper;
-import cn.eu.security.SecurityUtil;
+import cn.eu.common.utils.LoginUtil;
 import cn.eu.system.domain.SysMenu;
 import cn.eu.system.mapper.SysMenuMapper;
 import cn.eu.system.model.query.SysMenuQueryCriteria;
@@ -33,7 +33,7 @@ public class SysMenuServiceImpl extends EuServiceImpl<SysMenuMapper, SysMenu> im
     @Override
     public List<SysMenu> list(SysMenuQueryCriteria criteria) {
         criteria.setStatus(MenuStatus.NORMAL.getValue());
-        if (SecurityUtil.isAdminLogin()) {
+        if (LoginUtil.isAdminLogin()) {
             return list(MpQueryHelper.buildQueryWrapper(criteria, SysMenu.class)
                     .lambda()
                     .orderByAsc(SysMenu::getParentId, SysMenu::getSortNum));
@@ -53,7 +53,7 @@ public class SysMenuServiceImpl extends EuServiceImpl<SysMenuMapper, SysMenu> im
 
     @Override
     public List<SysMenu> getMenusByUserId(String userId) {
-        if (SecurityUtil.isAdminLogin()) {
+        if (LoginUtil.isAdminLogin()) {
             // 管理员登录，返回所有菜单
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<SysMenu>()
                     .eq(SysMenu::getStatus, MenuStatus.NORMAL.getValue())

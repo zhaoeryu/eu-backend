@@ -7,8 +7,8 @@ import cn.eu.common.enums.BusinessStatus;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.utils.IpUtil;
 import cn.eu.common.utils.PropertyPreExcludeFilter;
-import cn.eu.security.SecurityUtil;
-import cn.eu.common.model.AuthUser;
+import cn.eu.common.utils.LoginUtil;
+import cn.eu.common.model.LoginUser;
 import cn.eu.security.model.LoginBody;
 import cn.eu.system.domain.SysOperLog;
 import cn.eu.system.service.ISysOperLogService;
@@ -106,12 +106,12 @@ public class LogAspect {
     protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult) {
         try {
             // 获取当前的用户
-            AuthUser authUser = null;
+            LoginUser authUser = null;
             if (StpUtil.isLogin()) {
-                authUser = SecurityUtil.getLoginUser();
+                authUser = LoginUtil.getLoginUser();
             } else {
                 // 未登录
-                authUser = new AuthUser();
+                authUser = new LoginUser();
                 if (controllerLog.businessType() == BusinessType.LOGIN) {
                     // 登录接口
                     if (CollUtil.isNotEmpty(Arrays.asList(joinPoint.getArgs()))) {

@@ -1,4 +1,4 @@
-package cn.eu.security;
+package cn.eu.common.utils;
 
 import cn.dev33.satoken.secure.BCrypt;
 

@@ -6,8 +6,6 @@ package cn.eu.common.constants;
  */
 public class Constants {
 
-    /** 当前登录账号是否管理的字段KEY */
-    public static final String IS_ADMIN_KEY = "isAdmin";
     /** 当前登录账号信息的字段KEY */
     public static final String USER_KEY = "user";
     /** 当前登录账号的角色列表字段KEY */

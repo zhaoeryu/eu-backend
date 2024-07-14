@@ -6,7 +6,7 @@ import cn.eu.common.base.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
-import cn.eu.security.SecurityUtil;
+import cn.eu.common.utils.LoginUtil;
 import cn.eu.system.domain.SysNotice;
 import cn.eu.system.model.query.SysNoticeQueryCriteria;
 import cn.eu.system.service.ISysNoticeService;
@@ -49,7 +49,7 @@ public class SysNoticeController extends EuBaseController {
     @SaCheckPermission("system:sysNotice:add")
     @PostMapping
     public ResultBody save(@Validated @RequestBody SysNotice entity) {
-        entity.setPublisher(SecurityUtil.getLoginUser().getNickname());
+        entity.setPublisher(LoginUtil.getLoginUser().getNickname());
         sysNoticeService.save(entity);
         return ResultBody.ok();
     }

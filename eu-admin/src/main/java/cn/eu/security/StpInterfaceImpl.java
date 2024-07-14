@@ -2,6 +2,7 @@ package cn.eu.security;
 
 import cn.dev33.satoken.stp.StpInterface;
 import cn.eu.common.constants.Constants;
+import cn.eu.common.utils.LoginUtil;
 import cn.eu.system.service.ISysMenuService;
 import cn.eu.system.service.ISysRoleService;
 import cn.hutool.core.collection.CollUtil;
@@ -28,7 +29,7 @@ public class StpInterfaceImpl implements StpInterface {
     public List<String> getPermissionList(Object loginId, String loginType) {
         log.debug("getPermissionList {} {}", loginId, loginType);
         // 判断是否为系统管理员
-        if (SecurityUtil.isAdminLogin()) {
+        if (LoginUtil.isAdminLogin()) {
             // 系统管理员拥有所有权限
             return CollUtil.newArrayList(Constants.ADMIN_PERMISSION);
         }
@@ -38,7 +39,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         log.debug("getRoleList {} {}", loginId, loginType);
-        if (SecurityUtil.isAdminLogin()) {
+        if (LoginUtil.isAdminLogin()) {
             return CollUtil.newArrayList(Constants.ADMIN_ROLE);
         }
         return sysRoleService.getRolePermissionByUserId(loginId.toString());

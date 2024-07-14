@@ -8,9 +8,9 @@ import cn.eu.common.enums.LoginType;
 import cn.eu.common.enums.SysUserStatus;
 import cn.eu.common.utils.*;
 import cn.eu.properties.EuProperties;
-import cn.eu.security.PasswordEncoder;
-import cn.eu.security.SecurityUtil;
-import cn.eu.common.model.AuthUser;
+import cn.eu.common.utils.PasswordEncoder;
+import cn.eu.common.utils.LoginUtil;
+import cn.eu.common.model.LoginUser;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.service.ISysDeptService;
 import cn.eu.system.service.ISysRoleService;
@@ -67,7 +67,7 @@ public class LoginService {
         checkAccountStatus(user.getStatus());
 
         // 组装认证后的用户实体 - 用于保存到缓存中
-        AuthUser authUser = assembleAuthUser(user);
+        LoginUser authUser = assembleAuthUser(user);
 
         // 进行登录
         StpUtil.login(user.getId(), SaLoginConfig
@@ -75,10 +75,9 @@ public class LoginService {
 //                .setExtra(Constants.USER_KEY, authUser)
 //                .setExtra(Constants.IS_ADMIN_KEY, user.getAdmin())
         );
-        SecurityUtil.setLoginUser(authUser);
-        SecurityUtil.setLoginUserIsAdmin(user.getAdmin());
+        LoginUtil.setLoginUser(authUser);
         // 记录登录用户的角色
-        SecurityUtil.setLoginUserRoles(sysRoleService.getRolesByUserId(user.getId()));
+        LoginUtil.setLoginUserRoles(sysRoleService.getRolesByUserId(user.getId()));
 
         // 记录登录信息
         recordLoginInfo(authUser);
@@ -158,7 +157,7 @@ public class LoginService {
         }
     }
 
-    private AuthUser assembleAuthUser(SysUser user) {
+    private LoginUser assembleAuthUser(SysUser user) {
         String clientIp = IpUtil.getClientIp();
         String ipRegion = IpUtil.getIpRegion(clientIp);
         String prevIpRegion = StrUtil.isBlank(user.getLoginIp()) ? null : IpUtil.getIpRegion(user.getLoginIp());
@@ -177,7 +176,7 @@ public class LoginService {
         String os = userAgent.getOperatingSystem().getName();
         String browser = userAgent.getBrowser().getName();
 
-        AuthUser authUser = new AuthUser();
+        LoginUser authUser = new LoginUser();
         authUser.setUserId(user.getId());
         authUser.setUsername(user.getUsername());
         authUser.setNickname(user.getNickname());
@@ -201,7 +200,7 @@ public class LoginService {
         return authUser;
     }
 
-    private void recordLoginInfo(AuthUser authUser) {
+    private void recordLoginInfo(LoginUser authUser) {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<SysUser>()
                 .eq(SysUser::getId, authUser.getUserId())
                 .set(SysUser::getLoginIp, authUser.getLoginIp())

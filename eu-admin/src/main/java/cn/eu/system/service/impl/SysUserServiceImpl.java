@@ -12,7 +12,7 @@ import cn.eu.common.utils.easyexcel.EasyExcelCellItem;
 import cn.eu.common.utils.easyexcel.EasyExcelUtil;
 import cn.eu.common.utils.easyexcel.EasyExcelWriteSheet;
 import cn.eu.event.LoginCacheRefreshEvent;
-import cn.eu.security.PasswordEncoder;
+import cn.eu.common.utils.PasswordEncoder;
 import cn.eu.system.domain.SysDept;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.domain.SysUserPost;

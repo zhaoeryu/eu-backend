@@ -9,9 +9,9 @@ import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.model.ResultBody;
+import cn.eu.common.utils.LoginUtil;
 import cn.eu.common.utils.RedisUtil;
-import cn.eu.security.SecurityUtil;
-import cn.eu.common.model.AuthUser;
+import cn.eu.common.model.LoginUser;
 import cn.eu.security.model.LoginBody;
 import cn.eu.security.model.OnlineUserVo;
 import cn.eu.security.service.LoginService;
@@ -62,7 +62,7 @@ public class AuthController {
 
     @GetMapping("/info")
     public ResultBody info() {
-        AuthUser user = SecurityUtil.getLoginUser();
+        LoginUser user = LoginUtil.getLoginUser();
         List<String> permissions = StpUtil.getPermissionList();
         List<String> roles = StpUtil.getRoleList();
 
@@ -128,7 +128,7 @@ public class AuthController {
             // 根据会话id，查询对应的 SaSession 对象，此处一个 SaSession 对象即代表一个登录的账号
             SaSession session = StpUtil.getSessionBySessionId(sessionId);
 
-            AuthUser authUser = SecurityUtil.getLoginUserBySaSession(session);
+            LoginUser authUser = LoginUtil.getLoginUserBySaSession(session);
             OnlineUserVo onlineUserVo = new OnlineUserVo();
             onlineUserVo.setId(authUser.getUserId());
             onlineUserVo.setUsername(authUser.getUsername());

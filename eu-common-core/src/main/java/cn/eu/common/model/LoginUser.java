@@ -11,7 +11,7 @@ import java.util.List;
  * @since 2023/6/4
  */
 @Data
-public class AuthUser {
+public class LoginUser {
 
     private String userId;
     private String username;

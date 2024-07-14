@@ -4,8 +4,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.annotation.DataScope;
 import cn.eu.common.enums.DataScopeType;
 import cn.eu.common.utils.DataScopeContextHelper;
-import cn.eu.security.SecurityUtil;
-import cn.eu.common.model.AuthUser;
+import cn.eu.common.utils.LoginUtil;
+import cn.eu.common.model.LoginUser;
 import cn.eu.system.domain.SysRole;
 import cn.eu.system.service.ISysRoleService;
 import cn.hutool.core.collection.CollUtil;
@@ -41,13 +41,13 @@ public class DataScopeAspect {
             log.debug("not login, no need to set dataScope");
             return;
         }
-        if (SecurityUtil.isAdminLogin()) {
+        if (LoginUtil.isAdminLogin()) {
             // 如果是超级管理员，拥有所有权限，不需要拼接SQL
             log.debug("admin login, no need to set dataScope");
             return;
         }
-        AuthUser loginUser = SecurityUtil.getLoginUser();
-        List<SysRole> sysRoles = SecurityUtil.getLoginUserRoles();
+        LoginUser loginUser = LoginUtil.getLoginUser();
+        List<SysRole> sysRoles = LoginUtil.getLoginUserRoles(SysRole.class);
 
         StringBuilder sqlBuilder = new StringBuilder();
         List<Integer> conditions = CollUtil.newArrayList();

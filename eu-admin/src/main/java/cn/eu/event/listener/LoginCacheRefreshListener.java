@@ -5,8 +5,9 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.SysUserStatus;
 import cn.eu.event.LoginCacheRefreshEvent;
-import cn.eu.security.SecurityUtil;
-import cn.eu.common.model.AuthUser;
+import cn.eu.common.utils.LoginUtil;
+import cn.eu.common.model.LoginUser;
+import cn.eu.security.SecurityConvert;
 import cn.eu.system.domain.SysRole;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.service.ISysDeptService;
@@ -63,7 +64,7 @@ public class LoginCacheRefreshListener implements ApplicationListener<LoginCache
             return;
         }
         Object userStr = session.get(Constants.USER_KEY);
-        AuthUser authUser = JSONObject.parseObject(userStr.toString(), AuthUser.class);
+        LoginUser authUser = JSONObject.parseObject(userStr.toString(), LoginUser.class);
 
 
         SysUser sysUser = userService.getById(userId);
@@ -84,7 +85,7 @@ public class LoginCacheRefreshListener implements ApplicationListener<LoginCache
         session.set(Constants.ROLE_KEY, roles);
 
         // 查询用户信息，重新设置登录缓存 or 直接从event.source中获取用户信息进行更新
-        authUser = SecurityUtil.fillAuthUserBySysUser(authUser, sysUser);
+        authUser = SecurityConvert.fillLoginUserBySysUser(authUser, sysUser);
 
         // 部门
         String deptName = null;
