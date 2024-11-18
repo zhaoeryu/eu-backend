@@ -11,9 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.validation.MessageInterpolatorFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.servlet.DispatcherType;
 import java.util.HashMap;
@@ -76,5 +79,18 @@ public class EuAutoConfiguration {
             // 版本
             .version(info.getVersion())
         );
+    }
+
+    /**
+     * 参数校验国际化
+     */
+    @Bean
+    public LocalValidatorFactoryBean localValidatorFactoryBean(ResourceBundleMessageSource resourceBundleMessageSource) {
+        log.info("注入参数校验国际化 LocalValidatorFactoryBean");
+        LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean();
+        MessageInterpolatorFactory interpolatorFactory = new MessageInterpolatorFactory();
+        factoryBean.setMessageInterpolator(interpolatorFactory.getObject());
+        factoryBean.setValidationMessageSource(resourceBundleMessageSource);
+        return factoryBean;
     }
 }

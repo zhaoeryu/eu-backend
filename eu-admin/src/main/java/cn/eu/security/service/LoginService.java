@@ -55,14 +55,13 @@ public class LoginService {
 
         // 校验账号是否被锁定
         final String lockLoginRedisKey = Constants.LOCK_LOGIN_REDIS_KEY + username;
-        final String lockErrorMessageTpl = "账号已被锁定，请于%s后再试";
-        checkLock(lockLoginRedisKey, lockErrorMessageTpl);
+        checkLock(lockLoginRedisKey);
 
         // 获取账号信息
         SysUser user = getAccount(username);
 
         // 校验密码是否正确以及错误次数是否超限
-        checkPassword(username, password, user.getPassword(), lockLoginRedisKey, lockErrorMessageTpl);
+        checkPassword(username, password, user.getPassword(), lockLoginRedisKey);
 
         // 校验账号状态
         checkAccountStatus(user.getStatus());
@@ -89,16 +88,16 @@ public class LoginService {
 
     private void checkCaptcha(String uuid, String code) {
         final String captchaRedisKey = Constants.CAPTCHA_REDIS_KEY + uuid;
-        Assert.isTrue(redisUtil.hasKey(captchaRedisKey), "验证码已过期");
+        Assert.isTrue(redisUtil.hasKey(captchaRedisKey), MessageUtils.message("login.captcha.expire"));
         String captcha = redisUtil.get(captchaRedisKey);
         // 验证码使用后删除
         redisUtil.delete(captchaRedisKey);
-        Assert.isTrue(code.equals(captcha), "验证码错误");
+        Assert.isTrue(code.equals(captcha), MessageUtils.message("login.captcha.error"));
     }
     
-    private void checkLock(String lockLoginRedisKey, String lockErrorMessageTpl) {
+    private void checkLock(String lockLoginRedisKey) {
         Long lockExpireSeconds = redisUtil.getExpire(lockLoginRedisKey, TimeUnit.SECONDS);
-        Assert.isFalse(redisUtil.hasKey(lockLoginRedisKey), String.format(lockErrorMessageTpl, DateUtil.secondsToTime(lockExpireSeconds.intValue())));
+        Assert.isFalse(redisUtil.hasKey(lockLoginRedisKey), MessageUtils.message("login.lockTpl", DateUtil.secondsToTime(lockExpireSeconds.intValue())));
     }
     
     private SysUser getAccount(String username) {
@@ -106,7 +105,7 @@ public class LoginService {
                 .eq(SysUser::getUsername, username)
                 .last("limit 1")
         );
-        Assert.notNull(user, "用户名或密码错误");
+        Assert.notNull(user, MessageUtils.message("login.usernameOrPasswordError"));
         return user;
     }
 
@@ -116,9 +115,8 @@ public class LoginService {
      * @param password 用户填写的密码
      * @param correctPassword 数据库中的密码
      * @param lockLoginRedisKey 账号锁定的redis key
-     * @param lockErrorMessageTpl 账号锁定的错误提示模板
      */
-    private void checkPassword(String username, String password, String correctPassword, String lockLoginRedisKey, String lockErrorMessageTpl) {
+    private void checkPassword(String username, String password, String correctPassword, String lockLoginRedisKey) {
         // 解密密码
         password = RsaUtil.decryptByPrivateKey(euProperties.getRsa().getPrivateKey(), password);
         
@@ -134,11 +132,11 @@ public class LoginService {
             int count = Integer.parseInt(countStr);
             if (count >= Constants.MAX_TRY_LOGIN_LIMIT) {
                 redisUtil.setEx(lockLoginRedisKey, "1", Constants.LOCK_TIME, TimeUnit.SECONDS);
-                throw new RuntimeException(String.format(lockErrorMessageTpl, DateUtil.secondsToTime(Constants.LOCK_TIME)));
+                throw new RuntimeException(MessageUtils.message("login.lockTpl", DateUtil.secondsToTime(Constants.LOCK_TIME)));
             }
             count++;
             redisUtil.setEx(tryLoginRedisKey, String.valueOf(count), Constants.TRY_LOGIN_CACHE_TIME, TimeUnit.SECONDS);
-            throw new RuntimeException("用户名或密码错误");
+            throw new RuntimeException(MessageUtils.message("login.usernameOrPasswordError"));
         }
         // 登录成功，删除尝试登录次数缓存
         redisUtil.delete(tryLoginRedisKey);
@@ -149,9 +147,9 @@ public class LoginService {
         if (sysUserStatus != null && SysUserStatus.NORMAL != sysUserStatus) {
             switch (sysUserStatus) {
                 case DISABLE:
-                    throw new RuntimeException("账号已被禁用");
+                    throw new RuntimeException(MessageUtils.message("login.account.disabled"));
                 case DELETED:
-                    throw new RuntimeException("账号已被删除");
+                    throw new RuntimeException(MessageUtils.message("login.account.deleted"));
                 default:
                     // nothing    
             }

@@ -1,10 +1,14 @@
 package cn.eu.common.exception;
 
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import cn.eu.common.model.IError;
 import cn.eu.common.model.ResultBody;
+import cn.eu.common.utils.MessageUtils;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.FieldError;
@@ -52,7 +56,7 @@ public class GlobalExceptionHandler {
             String duplicateField = matcher.group(2);
             String duplicateFieldValue = matcher.group(1);
             if (StrUtil.isNotBlank(duplicateField)) {
-                return buildBody(StrUtil.format("[{}]({})数据重复", duplicateField, duplicateFieldValue), IError.ERROR.getCode(), request.getRequestURI());
+                return buildBody(StrUtil.format("[{}]({}){}", duplicateField, duplicateFieldValue, MessageUtils.message("error.duplicate_key")), IError.ERROR.getCode(), request.getRequestURI());
             }
         }
         return buildBody(ex, request.getRequestURI());
@@ -63,7 +67,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResultBody missingServletRequestParameterException(MissingServletRequestParameterException ex, HttpServletRequest request, HttpServletResponse response) {
-        String errorMessage = StrUtil.format("缺失请求参数[{}]" , ex.getParameterName());
+        String errorMessage = StrUtil.format("{}[{}]", MessageUtils.message("error.missing_request_param") , ex.getParameterName());
         return buildBody(errorMessage, IError.ERROR.getCode(), request.getRequestURI());
     }
 
@@ -78,8 +82,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
-        log.error(e.getMessage(), e);
-        String message = Optional.ofNullable(e.getBindingResult().getFieldError()).map(FieldError::getDefaultMessage).orElse(e.getMessage());
+        String message = Optional.ofNullable(e.getBindingResult().getFieldError()).map(FieldError::getDefaultMessage)
+                .map(msg -> {
+                    // 如果msg以{}包裹，则从国际化文件中获取
+                    if (msg.startsWith("{") && msg.endsWith("}")) {
+                        return MessageUtils.message(msg.substring(1, msg.length() - 1));
+                    }
+                    return msg;
+                })
+                .orElse(e.getMessage());
         return buildBody(message, null, request.getRequestURI());
     }
 
@@ -88,24 +99,33 @@ public class GlobalExceptionHandler {
         String message = null;
         switch (ex.getType()) {
             case NotLoginException.NOT_TOKEN:
-                message = NotLoginException.NOT_TOKEN_MESSAGE;
+                message = MessageUtils.message("error.token.NOT_TOKEN");
                 break;
             case NotLoginException.INVALID_TOKEN:
-                message = NotLoginException.INVALID_TOKEN_MESSAGE;
+                message = MessageUtils.message("error.token.INVALID_TOKEN");
                 break;
             case NotLoginException.TOKEN_TIMEOUT:
-                message = NotLoginException.TOKEN_TIMEOUT_MESSAGE;
+                message = MessageUtils.message("error.token.TOKEN_TIMEOUT");
                 break;
             case NotLoginException.BE_REPLACED:
-                message = NotLoginException.BE_REPLACED_MESSAGE;
+                message = MessageUtils.message("error.token.BE_REPLACED");
                 break;
             case NotLoginException.KICK_OUT:
-                message = NotLoginException.KICK_OUT_MESSAGE;
+                message = MessageUtils.message("error.token.KICK_OUT");
                 break;
             default:
-                message = NotLoginException.DEFAULT_MESSAGE;
+                message = MessageUtils.message("error.token.NOT_LOGIN");
         }
         return buildBody(message, IError.NOT_LOGIN.getCode(), request.getRequestURI());
+    }
+
+    @ExceptionHandler(NotPermissionException.class)
+    public ResultBody notPermissionException(NotPermissionException ex, HttpServletRequest request, HttpServletResponse response) {
+        return buildBody(ex.getMessage(), IError.NOT_PERMISSION.getCode(), request.getRequestURI());
+    }
+    @ExceptionHandler(NotRoleException.class)
+    public ResultBody notRoleException(NotRoleException ex, HttpServletRequest request, HttpServletResponse response) {
+        return buildBody(ex.getMessage(), IError.NOT_PERMISSION.getCode(), request.getRequestURI());
     }
 
     private static ResultBody buildBody(Exception exception, String uri) {

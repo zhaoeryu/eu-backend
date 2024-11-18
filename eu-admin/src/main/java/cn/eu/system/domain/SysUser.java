@@ -34,14 +34,14 @@ public class SysUser extends BaseEntity {
     @TableId
     private String id;
     /** 登录名 */
-    @Xss(message = "登录名不能包含脚本字符")
+    @Xss(message = "{valid.SysUser.username.xss}")
     @ExcelProperty("登录名")
-    @NotBlank(message = "登录名不能为空")
+    @NotBlank(message = "{valid.SysUser.username.notBlank}")
     private String username;
     /** 用户昵称 */
-    @Xss(message = "用户昵称不能包含脚本字符")
+    @Xss(message = "{valid.SysUser.nickname.xss}")
     @ExcelProperty("用户昵称")
-    @NotBlank(message = "用户昵称不能为空")
+    @NotBlank(message = "{valid.SysUser.nickname.notBlank}")
     private String nickname;
     /** 用户头像 */
     @ExcelProperty(value = "头像", converter = StringUrlImageConverter.class)

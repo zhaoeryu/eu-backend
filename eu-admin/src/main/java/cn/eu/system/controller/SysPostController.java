@@ -7,6 +7,7 @@ import cn.eu.common.base.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.system.domain.SysPost;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.model.query.SysPostQueryCriteria;
@@ -74,7 +75,7 @@ public class SysPostController extends EuBaseController {
     @SaCheckPermission("system:post:edit")
     @PutMapping
     public ResultBody update(@Validated @RequestBody SysPost entity) {
-        Assert.notNull(entity.getId(), "id不能为空");
+        Assert.notNull(entity.getId(), MessageUtils.message("assert.notNull", "id"));
         sysPostService.updateById(entity);
         return ResultBody.ok();
     }
@@ -83,8 +84,8 @@ public class SysPostController extends EuBaseController {
     @SaCheckPermission("system:post:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<Integer> ids) {
-        Assert.notEmpty(ids, "id不能为空");
-        Assert.isTrue(sysUserService.countByPostIds(ids) == 0, "岗位中存在用户关联，请先取消关联");
+        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.isTrue(sysUserService.countByPostIds(ids) == 0, MessageUtils.message("assert.SysPost.existsConnection"));
         sysPostService.removeByIds(ids);
         return ResultBody.ok();
     }

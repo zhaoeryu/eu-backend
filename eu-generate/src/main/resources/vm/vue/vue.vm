@@ -9,8 +9,8 @@
 #end
 #end
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="onQuery">查询</el-button>
-            <el-button icon="el-icon-refresh" plain @click="onRefresh">重置</el-button>
+            <el-button type="primary" icon="el-icon-search" @click="onQuery">{{ $t('general.query.search') }}</el-button>
+            <el-button icon="el-icon-refresh" plain @click="onRefresh">{{ $t('general.query.reset') }}</el-button>
           </el-form-item>
         </el-form>
       </query-expand-wrapper>
@@ -43,13 +43,13 @@
           <el-table-column type="selection"></el-table-column>
 #foreach($column in $columns)
 #if($column.tableShow)
-          <el-table-column prop="${column.javaField}" label="${column.columnComment}"></el-table-column>
+          <el-table-column prop="${column.javaField}" :label="$t('${tableName}.column.${column.javaField}')"></el-table-column>
 #end
 #end
-          <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" label="操作">
+          <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" :label="$t('general.column.operation')">
             <template #default="{ row }">
-              <el-button v-permissions="['${permissionPrefix}:edit']" type="text" @click="onRowUpdate(row)">修改</el-button>
-              <el-button v-permissions="['${permissionPrefix}:del']" type="text" @click="onRowDelete(row)">删除</el-button>
+              <el-button v-permissions="['${permissionPrefix}:edit']" type="text" @click="onRowUpdate(row)">{{ $t('general.edit') }}</el-button>
+              <el-button v-permissions="['${permissionPrefix}:del']" type="text" @click="onRowDelete(row)">{{ $t('general.del') }}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -124,15 +124,15 @@ export default {
     },
     onBatchDel() {
       #[[const ids = this.$refs.table.selection.map(item => item.id)]]#
-      this.$confirm(`确认要删除选中的${ids.length}条记录吗？`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('general.confirm.delete.batch.message', { length: ids.length }), this.$t('general.confirm.title'), {
+        confirmButtonText: this.$t('general.confirm.confirm'),
+        cancelButtonText: this.$t('general.confirm.cancel'),
         type: 'warning',
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
             instance.confirmButtonLoading = true;
             batchDel(ids).then(() => {
-              this.$message.success('删除成功')
+              #[[this.$message.success(this.$t('general.confirm.delete.success'))]]#
               done()
               this.onRefresh()
             }).finally(() => {
@@ -151,15 +151,15 @@ export default {
       this.$refs.${className}EditDialog.open(row)
     },
     onRowDelete(row) {
-      this.$confirm(`确认要删除"${ row.$delShowField }"吗？`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t('general.confirm.delete.message', { key: row.$delShowField }), this.$t('general.confirm.title'), {
+        confirmButtonText: this.$t('general.confirm.confirm'),
+        cancelButtonText: this.$t('general.confirm.cancel'),
         type: 'warning',
         beforeClose: (action, instance, done) => {
           if (action === 'confirm') {
             instance.confirmButtonLoading = true;
             batchDel([row.id]).then(() => {
-              this.$message.success('删除成功')
+              #[[this.$message.success(this.$t('general.confirm.delete.success'))]]#
               done()
               this.onRefresh()
             }).finally(() => {

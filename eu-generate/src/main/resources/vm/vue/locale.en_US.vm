@@ -1,0 +1,30 @@
+export default {
+  // list
+#foreach($column in $columns)
+  #if($column.queryType)
+  '${tableName}.query.${column.javaField}': '${column.javaField}',
+  '${tableName}.query.${column.javaField}.placeholder': 'Enter ${column.javaField}',
+  #end
+#end
+#foreach($column in $columns)
+  #if($column.tableShow)
+  '${tableName}.column.${column.javaField}': '${column.javaField}',
+  #end
+#end
+  // edit
+  '${tableName}.edit.title': 'Edit ${ClassName}',
+  '${tableName}.add.title': 'Add ${ClassName}',
+  '${tableName}.edit.success': 'Edit Successful',
+  '${tableName}.add.success': 'Add Successful',
+#foreach($column in $columns)
+  #if($column.formShow && $column.notNull)
+  '${tableName}.form.${column.javaField}.required': '${column.javaField} cannot be null',
+  #end
+#end
+#foreach($column in $columns)
+  #if($column.formShow)
+  '${tableName}.form.${column.javaField}': '${column.javaField}',
+  '${tableName}.form.${column.javaField}.placeholder': 'Enter ${column.javaField}',
+  #end
+#end
+}

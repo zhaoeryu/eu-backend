@@ -7,6 +7,7 @@ import cn.eu.common.base.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.system.domain.SysPost;
 import cn.eu.system.domain.SysRole;
 import cn.eu.system.model.dto.SysRoleDto;
@@ -59,7 +60,7 @@ public class SysRoleController extends EuBaseController {
     @SaCheckPermission("system:role:edit")
     @PutMapping
     public ResultBody update(@Validated @RequestBody SysRoleDto entity) {
-        Assert.notNull(entity.getId(), "id不能为空");
+        Assert.notNull(entity.getId(), MessageUtils.message("assert.notNull", "id"));
         sysRoleService.updateRole(entity);
         return ResultBody.ok();
     }
@@ -68,8 +69,8 @@ public class SysRoleController extends EuBaseController {
     @SaCheckPermission("system:role:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<Integer> ids) {
-        Assert.notEmpty(ids, "id不能为空");
-        Assert.isTrue(sysUserService.countByRoleIds(ids) == 0, "角色中存在用户关联，请先取消关联");
+        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.isTrue(sysUserService.countByRoleIds(ids) == 0, MessageUtils.message("assert.SysRole.existsConnection"));
         sysRoleService.removeByIds(ids);
         return ResultBody.ok();
     }

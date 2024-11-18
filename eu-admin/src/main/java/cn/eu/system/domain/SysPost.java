@@ -34,14 +34,14 @@ public class SysPost extends BaseEntity {
      */
     @ExcelProperty(value = "岗位名称")
     @Schema(description = "岗位名称")
-    @NotBlank(message = "岗位名称不能为空")
+    @NotBlank(message = "{valid.SysPost.postName.notBlank}")
     private String postName;
     /**
      * 岗位编码
      */
     @ExcelProperty(value = "岗位编码")
     @Schema(description = "岗位编码")
-    @NotBlank(message = "岗位编码不能为空")
+    @NotBlank(message = "{valid.SysPost.code.notBlank}")
     private String code;
     /**
      * 状态

@@ -407,6 +407,30 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                         .add("sql")
                         .add(GenUtil.underlineToCamel(genTable.getTableName()) + ".sql");
                 break;
+            case "vm/i18n/messages.vm":
+                filePathJoiner.add(genTable.getModuleName())
+                        .add("src")
+                        .add("main")
+                        .add("resources")
+                        .add("i18n")
+                        .add("messages.properties");
+                break;
+            case "vm/i18n/messages_zh_CN.vm":
+                filePathJoiner.add(genTable.getModuleName())
+                        .add("src")
+                        .add("main")
+                        .add("resources")
+                        .add("i18n")
+                        .add("messages_zh_CN.properties");
+                break;
+            case "vm/i18n/messages_en_US.vm":
+                filePathJoiner.add(genTable.getModuleName())
+                        .add("src")
+                        .add("main")
+                        .add("resources")
+                        .add("i18n")
+                        .add("messages_en_US.properties");
+                break;
 
             // vue2
             case "vm/vue/vue.vm":
@@ -428,6 +452,22 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                         .add("vue2")
                         .add("api")
                         .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()) + ".js");
+                break;
+            case "vm/vue/locale.zh_CN.vm":
+                filePathJoiner.add("generate")
+                        .add("vue2")
+                        .add("views")
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
+                        .add("locale")
+                        .add("zh_CN.js");
+                break;
+            case "vm/vue/locale.en_US.vm":
+                filePathJoiner.add("generate")
+                        .add("vue2")
+                        .add("views")
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
+                        .add("locale")
+                        .add("en_US.js");
                 break;
 
             // vue3

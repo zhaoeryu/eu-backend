@@ -55,12 +55,18 @@ public class VelocityHelper {
         list.add(new GenerateTemplateDto("vm/xml/Mapper.vm", "Mapper.xml", GenConstant.TPL_FILE_TYPE_XML));
         // sql
         list.add(new GenerateTemplateDto("vm/sql/sql.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
+        // properties
+        list.add(new GenerateTemplateDto("vm/i18n/messages.vm", "messages.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES));
+        list.add(new GenerateTemplateDto("vm/i18n/messages_zh_CN.vm", "messages_zh_CN.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES));
+        list.add(new GenerateTemplateDto("vm/i18n/messages_en_US.vm", "messages_en_US.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES));
 
         if (EuFrontHeader.VUE2.getDesc().equals(requestHeaderFront)) {
             // vue
             list.add(new GenerateTemplateDto("vm/vue/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
             list.add(new GenerateTemplateDto("vm/vue/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
             list.add(new GenerateTemplateDto("vm/vue/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
+            list.add(new GenerateTemplateDto("vm/vue/locale.zh_CN.vm", "locale.zh_CN.js", GenConstant.TPL_FILE_TYPE_JS));
+            list.add(new GenerateTemplateDto("vm/vue/locale.en_US.vm", "local.en_US.js", GenConstant.TPL_FILE_TYPE_JS));
         } else if (EuFrontHeader.VUE3.getDesc().equals(requestHeaderFront)) {
             // vue3
             list.add(new GenerateTemplateDto("vm/vue3/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));

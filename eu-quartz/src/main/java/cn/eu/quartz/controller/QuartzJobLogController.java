@@ -6,6 +6,7 @@ import cn.eu.common.base.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.quartz.domain.QuartzJobLog;
 import cn.eu.quartz.service.IQuartzJobLogService;
 import cn.eu.quartz.service.IQuartzJobLogService;
@@ -45,7 +46,7 @@ public class QuartzJobLogController extends EuBaseController {
     @SaCheckPermission("system:job-log:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<String> ids) {
-        Assert.notEmpty(ids, "id不能为空");
+        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
         quartzJobLogService.removeByIds(ids);
         return ResultBody.ok();
     }

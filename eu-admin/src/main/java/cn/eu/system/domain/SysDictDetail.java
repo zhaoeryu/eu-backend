@@ -28,20 +28,20 @@ public class SysDictDetail extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Integer id;
     /** 字典ID */
-    @NotNull(message = "字典ID不能为空")
+    @NotNull(message = "{valid.SysDictDetail.pid.notNull}")
     @ExcelProperty("字典ID")
     private Integer pid;
     /** 字典Key */
     @ExcelProperty("字典Key")
-    @NotBlank(message = "字典Key不能为空")
+    @NotBlank(message = "{valid.SysDictDetail.dictKey.notBlank}")
     private String dictKey;
     /** 字典标签 */
     @ExcelProperty("字典详情标签")
-    @NotBlank(message = "字典详情标签不能为空")
+    @NotBlank(message = "{valid.SysDictDetail.dictLabel.notBlank}")
     private String dictLabel;
     /** 字典值 */
     @ExcelProperty("字典详情值")
-    @NotBlank(message = "字典详情值不能为空")
+    @NotBlank(message = "{valid.SysDictDetail.dictValue.notBlank}")
     private String dictValue;
     /**
      * 状态

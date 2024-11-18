@@ -1,6 +1,7 @@
 package cn.eu.system.utils;
 
 import cn.eu.common.enums.ImportMode;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.system.model.dto.ImportResult;
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +87,7 @@ public abstract class ImportModeHandleTemplate<T, K> {
             return;
         }
 
-        throw new IllegalArgumentException("导入模式错误");
+        throw new IllegalArgumentException(MessageUtils.message("excel.error.importMode"));
     }
 
     /**

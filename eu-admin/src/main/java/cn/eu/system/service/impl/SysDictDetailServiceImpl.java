@@ -5,6 +5,7 @@ import cn.eu.common.enums.SysDictDetailStatus;
 import cn.eu.common.enums.SysDictStatus;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.EasyExcelHelper;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.common.utils.MpQueryHelper;
 import cn.eu.common.utils.ValidateUtil;
 import cn.eu.common.utils.easyexcel.EasyExcelCellItem;
@@ -89,7 +90,7 @@ public class SysDictDetailServiceImpl extends EuServiceImpl<SysDictDetailMapper,
     @Override
     public ImportResult importData(MultipartFile file, Integer importMode, Integer dictId) throws IOException {
         SysDict dict = sysDictService.getById(dictId);
-        Assert.notNull(dict, "字典不存在");
+        Assert.notNull(dict, MessageUtils.message("assert.dictNotExists"));
 
         ImportModeHandleTemplate<SysDictDetail, String> importModeHandleTemplate = new ImportModeHandleTemplate<SysDictDetail, String>(importMode, item -> item.getDictKey() + "_" + item.getDictLabel()) {
 

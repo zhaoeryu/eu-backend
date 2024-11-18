@@ -1,5 +1,6 @@
 <script>
 import { add, update } from '@/api/${apiPath}'
+import i18n from '@/plugins/i18n'
 
 export default {
   name: '${ClassName}EditDialog',
@@ -22,7 +23,7 @@ export default {
 #foreach($column in $columns)
 #if($column.formShow && $column.notNull)
         $column.javaField: [
-          { required: true, message: '${column.columnComment}不能为空', trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
+          { required: true, message: i18n.t('${tableName}.form.${column.javaField}.required'), trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
         ],
 #end
 #end
@@ -31,7 +32,7 @@ export default {
   },
   computed: {
     title() {
-      return this.form.id ? '修改${tableComment}' : '新增${tableComment}'
+      return this.form.id ? 'this.$t('${tableName}.edit.title') : this.$t('${tableName}.add.title')
     }
   },
   methods: {
@@ -49,7 +50,7 @@ export default {
         this.formLoading = true
         const reqPromise = this.form.id ? update(this.form) : add(this.form)
         reqPromise.then(() => {
-          this.$message.success(this.form.id ? '修改成功' : '新增成功')
+          this.$message.success(this.form.id ? this.$t(`${tableName}.edit.success`) : this.$t(`${tableName}.add.success`))
           this.show = false
           this.$emit('complete')
         }).finally(() => {
@@ -84,8 +85,8 @@ export default {
 #end
     </el-form>
     <div slot="footer">
-      <el-button @click="show = false">取 消</el-button>
-      <el-button :loading="formLoading" class="eu-submit-btn" type="primary" @click="onSubmit">确 定</el-button>
+      <el-button @click="show = false">{{ $t('general.form.cancel') }}</el-button>
+      <el-button :loading="formLoading" class="eu-submit-btn" type="primary" @click="onSubmit">{{ $t('general.form.submit') }}</el-button>
     </div>
   </el-dialog>
 </template>

@@ -1,12 +1,13 @@
 #macro(elFormItem $column $isQuery $indent)
 #set($formObj = "#if($isQuery)queryParams#{else}form#end")
-$indent<el-form-item label="${column.columnComment}" prop="${column.javaField}">
+#set($columnType = "#if($isQuery)query#{else}form#end")
+$indent<el-form-item  :label="$t('${tableName}.${columnType}.${column.javaField}')" prop="${column.javaField}">
   #if ($column.formType == 'number')
-$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" placeholder="请输入${column.columnComment}" clearable />
+$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable />
   #elseif ($column.formType == 'switch')
 $indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true" :inactive-value="false" />
   #elseif ($column.formType == 'select')
-$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.columnComment}" clearable filterable>
+$indent  <el-select v-model="${formObj}.${column.javaField}" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable filterable>
     #if($column.dictKey)
 $indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" :value="item.value" />
     #else
@@ -33,7 +34,7 @@ $indent  </el-checkbox-group>
 $indent  <el-date-picker
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="date"
-$indent    placeholder="请选择${column.columnComment}"
+$indent    :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd"
 $indent    clearable>
@@ -42,7 +43,7 @@ $indent  </el-date-picker>
 $indent  <el-date-picker
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="datetime"
-$indent    placeholder="请选择${column.columnComment}"
+$indent    :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd HH:mm:ss"
 $indent    clearable>
@@ -52,7 +53,7 @@ $indent  <upload-file
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    upload-api="/api/upload/uploadFile"
 $indent    :single-mode="true"
-$indent    tip="文件不超过10MB"
+$indent    #[[:tip="`${$t('crud.ImportDialog.upload.tip', { sizeLimit: 10 })}`"]]#
 $indent  />
   #elseif($column.formType == 'image')
 $indent  <upload-file
@@ -71,7 +72,7 @@ $indent  </upload-file>
   #elseif($column.formType == 'editor')
 $indent  <eu-editor v-model="${formObj}.${column.javaField}" />
   #else
-$indent  <el-input v-model="${formObj}.${column.javaField}" placeholder="请输入${column.columnComment}" clearable />
+$indent  <el-input v-model="${formObj}.${column.javaField}" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable />
   #end
 $indent</el-form-item>
 #end

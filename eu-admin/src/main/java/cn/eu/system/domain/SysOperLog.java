@@ -37,28 +37,28 @@ public class SysOperLog extends BaseEntity {
     /**
      * 操作模块
      */
-    @NotBlank(message = "操作模块不能为空")
+    @NotBlank(message = "{valid.SysOperLog.title.notBlank}")
     @ExcelProperty("操作模块")
     private String title;
 
     /**
      * 业务类型
      */
-    @NotNull(message = "业务类型不能为空")
+    @NotNull(message = "{valid.SysOperLog.businessType.notNull}")
     @ExcelProperty(value = "业务类型", converter = BusinessTypeConverter.class)
     private Integer businessType;
 
     /**
      * 执行方法
      */
-    @NotBlank(message = "执行方法不能为空")
+    @NotBlank(message = "{valid.SysOperLog.method.notBlank}")
     @ExcelProperty("执行方法")
     private String method;
 
     /**
      * Http请求方式
      */
-    @NotBlank(message = "Http请求方式不能为空")
+    @NotBlank(message = "{valid.SysOperLog.reqMethod.notBlank}")
     @ExcelProperty("Http请求方式")
     private String reqMethod;
 
@@ -77,14 +77,14 @@ public class SysOperLog extends BaseEntity {
     /**
      * 请求URL
      */
-    @NotBlank(message = "请求URL不能为空")
+    @NotBlank(message = "{valid.SysOperLog.reqUrl.notBlank}")
     @ExcelProperty("请求URL")
     private String reqUrl;
 
     /**
      * 请求IP
      */
-    @NotBlank(message = "请求IP不能为空")
+    @NotBlank(message = "{valid.SysOperLog.reqIp.notBlank}")
     @ExcelProperty("请求IP")
     private String reqIp;
 
@@ -121,7 +121,7 @@ public class SysOperLog extends BaseEntity {
     /**
      * 操作状态
      */
-    @NotNull(message = "操作状态不能为空")
+    @NotNull(message = "{valid.SysOperLog.status.notNull}")
     @ExcelProperty(value = "操作状态", converter = BusinessStatusConverter.class)
     private Integer status;
 
@@ -140,7 +140,7 @@ public class SysOperLog extends BaseEntity {
     /**
      * 执行时长
      */
-    @NotNull(message = "执行时长不能为空")
+    @NotNull(message = "{valid.SysOperLog.execTime.notNull}")
     @ExcelProperty("执行时长(ms)")
     private Long execTime;
 

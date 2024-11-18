@@ -28,7 +28,7 @@ public class SysDict extends BaseEntity {
     private Integer id;
     /** 字典Key */
     @ExcelProperty("字典Key")
-    @NotBlank(message = "字典Key不能为空")
+    @NotBlank(message = "{valid.SysDict.dictKey.notBlank}")
     private String dictKey;
     /**
      * 状态

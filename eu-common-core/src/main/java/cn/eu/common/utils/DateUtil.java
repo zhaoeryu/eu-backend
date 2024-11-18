@@ -22,26 +22,18 @@ public class DateUtil {
         int s = seconds % 60;
         StringBuilder sb = new StringBuilder();
         if (d > 0) {
-            sb.append(d).append("天");
+            sb.append(d).append(MessageUtils.message("date.pretty.day"));
         }
         if (h > 0) {
-            sb.append(h).append("小时");
+            sb.append(h).append(MessageUtils.message("date.pretty.hour"));
         }
         if (m > 0) {
-            sb.append(m).append("分");
+            sb.append(m).append(MessageUtils.message("date.pretty.minute"));
         }
         if (s > 0) {
-            sb.append(s).append("秒");
+            sb.append(s).append(MessageUtils.message("date.pretty.second"));
         }
         return sb.toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(DateUtil.secondsToTime(5));
-        System.out.println(DateUtil.secondsToTime(60));
-        System.out.println(DateUtil.secondsToTime(60 * 60));
-        System.out.println(DateUtil.secondsToTime(60 * 60 * 24));
-        System.out.println(DateUtil.secondsToTime(60 * 60 * 24 + 60 * 60 + 60 + 1));
-        System.out.println(DateUtil.secondsToTime(3500));
-    }
 }

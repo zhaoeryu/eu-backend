@@ -4,6 +4,7 @@ import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.SysUserStatus;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.event.LoginCacheRefreshEvent;
 import cn.eu.common.utils.LoginUtil;
 import cn.eu.common.model.LoginUser;
@@ -45,7 +46,7 @@ public class LoginCacheRefreshListener implements ApplicationListener<LoginCache
     public void onApplicationEvent(LoginCacheRefreshEvent event) {
         String userId = (String) event.getSource();
         log.debug("刷新登录缓存 {}", userId);
-        Assert.hasLength(userId, "userId为空");
+        Assert.hasLength(userId, MessageUtils.message("assert.notEmpty", "userId"));
 
         // 修改个人信息：/user/profile
         // 修改密码：/user/update-pwd

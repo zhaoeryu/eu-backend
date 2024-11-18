@@ -34,35 +34,35 @@ public class SysNotice extends BaseEntity {
     /**
      * 标题
      */
-    @NotBlank(message = "标题不能为空")
+    @NotBlank(message = "{valid.SysNotice.title.notBlank}")
     @ExcelProperty("标题")
     private String title;
 
     /**
      * 公告类型
      */
-    @NotNull(message = "公告类型不能为空")
+    @NotNull(message = "{valid.SysNotice.type.notNull}")
     @ExcelProperty("公告类型")
     private Integer type;
 
     /**
      * 公告描述
      */
-    @NotBlank(message = "公告描述不能为空")
+    @NotBlank(message = "{valid.SysNotice.description.notBlank}")
     @ExcelProperty("公告描述")
     private String description;
 
     /**
      * 公告内容
      */
-    @NotBlank(message = "公告内容不能为空")
+    @NotBlank(message = "{valid.SysNotice.content.notBlank}")
     @ExcelProperty("公告内容")
     private String content;
 
     /**
      * 公告状态
      */
-    @NotNull(message = "公告状态不能为空")
+    @NotNull(message = "{valid.SysNotice.status.notNull}")
     @ExcelProperty("公告状态")
     private Integer status;
 

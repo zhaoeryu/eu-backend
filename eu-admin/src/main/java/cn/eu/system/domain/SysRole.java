@@ -29,11 +29,11 @@ public class SysRole extends BaseEntity {
     private Integer id;
     /** 角色KEY */
     @ExcelProperty("角色key")
-    @NotBlank(message = "角色key不能为空")
+    @NotBlank(message = "{valid.SysRole.roleKey.notBlank}")
     private String roleKey;
     /** 角色名称 */
     @ExcelProperty("角色名称")
-    @NotBlank(message = "角色名称不能为空")
+    @NotBlank(message = "{valid.sysRole.roleName.notBlank}")
     private String roleName;
     /** 角色描述 */
     @ExcelProperty("角色描述")

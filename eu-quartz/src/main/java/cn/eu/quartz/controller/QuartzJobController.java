@@ -5,6 +5,7 @@ import cn.eu.common.annotation.Log;
 import cn.eu.common.base.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.quartz.domain.QuartzJob;
 import cn.eu.quartz.service.IQuartzJobService;
 import cn.eu.quartz.service.dto.QuartzJobQueryCriteria;
@@ -49,7 +50,7 @@ public class QuartzJobController extends EuBaseController {
     @SaCheckPermission("system:job:edit")
     @PutMapping
     public ResultBody update(@Validated @RequestBody QuartzJob entity) {
-        Assert.notNull(entity.getId(), "id不能为空");
+        Assert.notNull(entity.getId(), MessageUtils.message("assert.notNull", "id"));
         quartzJobService.updateJob(entity);
         return ResultBody.ok();
     }
@@ -58,7 +59,7 @@ public class QuartzJobController extends EuBaseController {
     @SaCheckPermission("system:job:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<String> ids) {
-        Assert.notEmpty(ids, "id不能为空");
+        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
         quartzJobService.deleteJobs(ids);
         return ResultBody.ok();
     }
@@ -67,8 +68,8 @@ public class QuartzJobController extends EuBaseController {
     @SaCheckPermission("system:job:edit")
     @PostMapping("/pause-or-resume")
     public ResultBody pauseOrResume(@RequestBody QuartzJob entity) {
-        Assert.hasText(entity.getId(), "id不能为空");
-        Assert.notNull(entity.getStatus(), "状态不能为空");
+        Assert.hasText(entity.getId(), MessageUtils.message("assert.notBlank", "id"));
+        Assert.notNull(entity.getStatus(), MessageUtils.message("assert.notNull", "status"));
         quartzJobService.pauseOrResume(entity);
         return ResultBody.ok();
     }
@@ -77,7 +78,7 @@ public class QuartzJobController extends EuBaseController {
     @SaCheckPermission("system:job:exec")
     @PostMapping("/exec")
     public ResultBody exec(@RequestParam("id") String jobId) {
-        Assert.hasText(jobId, "id不能为空");
+        Assert.hasText(jobId, MessageUtils.message("assert.notBlank", "id"));
         quartzJobService.exec(jobId);
         return ResultBody.ok();
     }

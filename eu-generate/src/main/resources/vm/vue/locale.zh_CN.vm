@@ -1,0 +1,30 @@
+export default {
+  // list
+#foreach($column in $columns)
+  #if($column.queryType)
+  '${tableName}.query.${column.javaField}': '#if($column.columnComment)$column.columnComment#else$column.javaField#end',
+  '${tableName}.query.${column.javaField}.placeholder': '请输入#if($column.columnComment)$column.columnComment#else$column.javaField#end',
+  #end
+#end
+#foreach($column in $columns)
+  #if($column.tableShow)
+  '${tableName}.column.${column.javaField}': '#if($column.columnComment)$column.columnComment#else$column.javaField#end',
+  #end
+#end
+  // edit
+  '${tableName}.edit.title': '编辑${tableComment}',
+  '${tableName}.add.title': '新增${tableComment}',
+  '${tableName}.edit.success': '编辑成功',
+  '${tableName}.add.success': '新增成功',
+#foreach($column in $columns)
+  #if($column.formShow && $column.notNull)
+  '${tableName}.form.${column.javaField}.required': '#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空',
+  #end
+#end
+#foreach($column in $columns)
+  #if($column.formShow)
+  '${tableName}.form.${column.javaField}': '#if($column.columnComment)$column.columnComment#else$column.javaField#end',
+  '${tableName}.form.${column.javaField}.placeholder': '请输入#if($column.columnComment)$column.columnComment#else$column.javaField#end',
+  #end
+#end
+}

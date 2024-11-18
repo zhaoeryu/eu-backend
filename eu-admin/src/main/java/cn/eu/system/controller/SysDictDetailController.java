@@ -6,6 +6,7 @@ import cn.eu.common.base.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.system.domain.SysDict;
 import cn.eu.system.domain.SysDictDetail;
 import cn.eu.system.model.query.SysDictDetailQueryCriteria;
@@ -54,7 +55,7 @@ public class SysDictDetailController extends EuBaseController {
     @SaCheckPermission("system:dict-detail:edit")
     @PutMapping
     public ResultBody update(@Validated @RequestBody SysDictDetail entity) {
-        Assert.notNull(entity.getId(), "id不能为空");
+        Assert.notNull(entity.getId(), MessageUtils.message("assert.notNull", "id"));
         sysDictDetailService.updateById(entity);
         return ResultBody.ok();
     }
@@ -63,7 +64,7 @@ public class SysDictDetailController extends EuBaseController {
     @SaCheckPermission("system:dict-detail:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<Integer> ids) {
-        Assert.notEmpty(ids, "id不能为空");
+        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
         sysDictDetailService.removeByIds(ids);
         return ResultBody.ok();
     }

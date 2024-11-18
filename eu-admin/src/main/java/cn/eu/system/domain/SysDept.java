@@ -28,7 +28,7 @@ public class SysDept extends BaseEntity {
      * 部门名称
      */
     @ExcelProperty("部门名称")
-    @NotBlank(message = "部门名称不能为空")
+    @NotBlank(message = "{valid.SysDept.deptName.notBlank}")
     private String deptName;
     /**
      * 状态

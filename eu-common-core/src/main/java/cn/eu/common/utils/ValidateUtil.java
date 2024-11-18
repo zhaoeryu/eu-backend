@@ -16,7 +16,15 @@ public class ValidateUtil {
         Validator validatorFactory = Validation.buildDefaultValidatorFactory().getValidator();
         Set<ConstraintViolation<T>> errors = validatorFactory.validate(t);
         if (!errors.isEmpty()){
-            List<String> errorMessage = errors.stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+            List<String> errorMessage = errors.stream().map(ConstraintViolation::getMessage)
+                    .map(msg -> {
+                        // 如果msg以{}包裹，则从国际化文件中获取
+                        if (msg.startsWith("{") && msg.endsWith("}")) {
+                            return MessageUtils.message(msg.substring(1, msg.length() - 1));
+                        }
+                        return msg;
+                    })
+                    .collect(Collectors.toList());
             throw new RuntimeException(String.join(",", errorMessage));
         }
     }

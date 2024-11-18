@@ -5,6 +5,7 @@ import cn.eu.common.base.service.impl.EuServiceImpl;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.DeptStatus;
 import cn.eu.common.model.PageResult;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.common.utils.MpQueryHelper;
 import cn.eu.system.domain.SysDept;
 import cn.eu.system.domain.SysUser;
@@ -79,10 +80,10 @@ public class SysDeptServiceImpl extends EuServiceImpl<SysDeptMapper, SysDept> im
     @Override
     public void checkCanDelete(List<Integer> deptIds) {
         // 检查是否关联用户
-        Assert.isTrue(sysUserService.countByDeptIds(deptIds) == 0, "部门下存在用户关联，请先取消关联");
+        Assert.isTrue(sysUserService.countByDeptIds(deptIds) == 0, MessageUtils.message("assert.SysDept.existsConnection"));
 
         // 检查是否关联数据权限
-        Assert.isTrue(sysDeptMapper.selectRoleDeptCountByDeptIds(deptIds) == 0, "部门与角色存在数据权限关联，请先取消关联");
+        Assert.isTrue(sysDeptMapper.selectRoleDeptCountByDeptIds(deptIds) == 0, MessageUtils.message("assert.SysDept.withRoleExistsConnection"));
     }
 
     @DataScope(isSingleQuery = true)

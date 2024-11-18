@@ -1,0 +1,11 @@
+#foreach ($column in $entityColumns)
+    #if ($column.columnKey != 'PRI')
+        #if ($column.notNull)
+            #if ($column.javaType == 'String')
+valid.${ClassName}.${column.javaField}.notBlank=#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空
+            #else
+valid.${ClassName}.${column.javaField}.notNull=#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空
+            #end
+        #end
+    #end
+#end

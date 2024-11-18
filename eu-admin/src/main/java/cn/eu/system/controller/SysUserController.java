@@ -8,6 +8,7 @@ import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
+import cn.eu.common.utils.MessageUtils;
 import cn.eu.common.utils.SpringContextHolder;
 import cn.eu.event.LoginCacheRefreshEvent;
 import cn.eu.common.utils.PasswordEncoder;
@@ -70,7 +71,7 @@ public class SysUserController extends EuBaseController {
     @SaCheckPermission("system:user:edit")
     @PutMapping
     public ResultBody update(@Validated @RequestBody SysUserDto dto) {
-        Assert.notNull(dto.getId(), "id不能为空");
+        Assert.notNull(dto.getId(), MessageUtils.message("assert.notNull", "id"));
         sysUserService.updateUser(dto);
         return ResultBody.ok();
     }
@@ -79,7 +80,7 @@ public class SysUserController extends EuBaseController {
     @SaCheckPermission("system:user:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<String> ids) {
-        Assert.notEmpty(ids, "id不能为空");
+        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
         sysUserService.removeByIds(ids);
         ids.forEach(id -> {
             // 更新缓存
@@ -129,8 +130,8 @@ public class SysUserController extends EuBaseController {
     @SaCheckPermission("system:user:edit")
     @PostMapping("/assignRole")
     public ResultBody assignRole(@RequestBody SysUserDto dto) {
-        Assert.hasText(dto.getId(), "id不能为空");
-        Assert.notEmpty(dto.getRoleIds(), "角色不能为空");
+        Assert.hasText(dto.getId(), MessageUtils.message("assert.notBlank", "id"));
+        Assert.notEmpty(dto.getRoleIds(), MessageUtils.message("assert.roleNotEmpty"));
         sysUserService.assignRole(dto.getId(), dto.getRoleIds());
         return ResultBody.ok();
     }
@@ -138,7 +139,7 @@ public class SysUserController extends EuBaseController {
     @Log(title = "更新个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/profile")
     public ResultBody updateProfile(@Validated @RequestBody SysUser entity) {
-        Assert.notNull(entity.getId(), "id不能为空");
+        Assert.notNull(entity.getId(), MessageUtils.message("assert.notNull", "id"));
         sysUserService.update(new LambdaUpdateWrapper<SysUser>()
             .eq(SysUser::getId, entity.getId())
             .set(SysUser::getNickname, entity.getNickname())
@@ -192,7 +193,7 @@ public class SysUserController extends EuBaseController {
     @PostMapping("/upload-avatar")
     public ResultBody updateAvatar(@RequestParam("avatar") String avatar) {
         String userId = StpUtil.getLoginIdAsString();
-        Assert.hasText(avatar, "头像不能为空");
+        Assert.hasText(avatar, MessageUtils.message("assert.avatarNotEmpty"));
         sysUserService.update(new LambdaUpdateWrapper<SysUser>()
             .eq(SysUser::getId, userId)
             .set(SysUser::getAvatar, avatar)
@@ -205,7 +206,7 @@ public class SysUserController extends EuBaseController {
 
     @GetMapping("/info")
     public ResultBody getInfo(@RequestParam("id") String id) {
-        Assert.hasText(id, "id不能为空");
+        Assert.hasText(id, MessageUtils.message("assert.notBlank", "id"));
 
         SysUser sysUser = sysUserService.getById(id);
         sysUser.setPassword(null);
