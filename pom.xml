@@ -13,13 +13,14 @@
     <packaging>pom</packaging>
     <modules>
         <module>eu-admin</module>
-        <module>eu-common-core</module>
-        <module>eu-common-starter</module>
+        <module>eu-common</module>
+        <module>eu-framework</module>
         <module>eu-quartz</module>
         <module>eu-generate</module>
-        <module>eu-message-starter</module>
-        <module>eu-oss-starter</module>
-        <module>eu-websocket-starter</module>
+        <module>eu-message</module>
+        <module>eu-oss</module>
+        <module>eu-websocket</module>
+        <module>eu-system</module>
     </modules>
 
     <properties>
@@ -75,17 +76,17 @@
 
             <dependency>
                 <groupId>cn.eu</groupId>
-                <artifactId>eu-common-core</artifactId>
+                <artifactId>eu-common</artifactId>
                 <version>${eu-admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.eu</groupId>
-                <artifactId>eu-common-starter</artifactId>
+                <artifactId>eu-framework</artifactId>
                 <version>${eu-admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.eu</groupId>
-                <artifactId>eu-message-starter</artifactId>
+                <artifactId>eu-message</artifactId>
                 <version>${eu-admin.version}</version>
             </dependency>
             <dependency>
@@ -100,12 +101,17 @@
             </dependency>
             <dependency>
                 <groupId>cn.eu</groupId>
-                <artifactId>eu-oss-starter</artifactId>
+                <artifactId>eu-oss</artifactId>
                 <version>${eu-admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.eu</groupId>
-                <artifactId>eu-websocket-starter</artifactId>
+                <artifactId>eu-websocket</artifactId>
+                <version>${eu-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.eu</groupId>
+                <artifactId>eu-system</artifactId>
                 <version>${eu-admin.version}</version>
             </dependency>
 

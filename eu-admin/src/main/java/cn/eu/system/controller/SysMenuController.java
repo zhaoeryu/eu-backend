@@ -11,8 +11,6 @@ import cn.eu.system.domain.SysMenu;
 import cn.eu.system.model.query.SysMenuQueryCriteria;
 import cn.eu.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

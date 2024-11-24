@@ -32,12 +32,12 @@
 
         <dependency>
             <groupId>cn.eu</groupId>
-            <artifactId>eu-common-core</artifactId>
+            <artifactId>eu-common</artifactId>
         </dependency>
 
         <dependency>
             <groupId>cn.eu</groupId>
-            <artifactId>eu-message-starter</artifactId>
+            <artifactId>eu-message</artifactId>
         </dependency>
     </dependencies>
 

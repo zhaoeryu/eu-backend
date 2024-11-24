@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.eu.oss.autoconfigure.OssAutoConfiguration

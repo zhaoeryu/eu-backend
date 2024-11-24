@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.eu</groupId>
-            <artifactId>eu-common-core</artifactId>
+            <artifactId>eu-common</artifactId>
         </dependency>
 
         <!-- velocity代码生成使用模板 -->
