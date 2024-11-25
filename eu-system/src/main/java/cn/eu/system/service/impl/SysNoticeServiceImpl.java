@@ -1,6 +1,6 @@
 package cn.eu.system.service.impl;
 
-import cn.eu.common.base.service.impl.EuServiceImpl;
+import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.MpQueryHelper;
 import cn.eu.system.domain.SysNotice;

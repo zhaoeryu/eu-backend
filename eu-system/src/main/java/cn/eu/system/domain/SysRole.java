@@ -1,6 +1,6 @@
 package cn.eu.system.domain;
 
-import cn.eu.common.base.domain.BaseEntity;
+import cn.eu.common.core.domain.BaseEntity;
 import cn.eu.common.enums.SysRoleStatus;
 import cn.eu.system.easyexcel.converter.SysRoleStatusConverter;
 import com.alibaba.excel.annotation.ExcelIgnore;

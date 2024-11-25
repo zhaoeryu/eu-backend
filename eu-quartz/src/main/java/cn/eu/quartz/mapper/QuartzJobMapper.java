@@ -1,6 +1,6 @@
 package cn.eu.quartz.mapper;
 
-import cn.eu.common.base.mapper.EuBaseMapper;
+import cn.eu.common.core.mapper.EuBaseMapper;
 import cn.eu.quartz.domain.QuartzJob;
 import org.apache.ibatis.annotations.Mapper;
 

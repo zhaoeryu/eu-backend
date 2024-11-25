@@ -1,6 +1,6 @@
 package cn.eu.generate.mapper;
 
-import cn.eu.common.base.mapper.EuBaseMapper;
+import cn.eu.common.core.mapper.EuBaseMapper;
 import cn.eu.generate.domain.GenTable;
 import cn.eu.generate.domain.GenTableColumn;
 import cn.eu.generate.model.query.GenTableQueryCriteria;

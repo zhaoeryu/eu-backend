@@ -2,13 +2,12 @@ package cn.eu.quartz.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.eu.common.annotation.Log;
-import cn.eu.common.base.controller.EuBaseController;
+import cn.eu.common.core.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
 import cn.eu.common.utils.MessageUtils;
 import cn.eu.quartz.domain.QuartzJobLog;
-import cn.eu.quartz.service.IQuartzJobLogService;
 import cn.eu.quartz.service.IQuartzJobLogService;
 import cn.eu.quartz.service.dto.QuartzJobLogQueryCriteria;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.util.Assert;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;

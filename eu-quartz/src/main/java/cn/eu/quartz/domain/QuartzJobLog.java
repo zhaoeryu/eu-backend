@@ -1,6 +1,6 @@
 package cn.eu.quartz.domain;
 
-import cn.eu.common.base.domain.BaseEntity;
+import cn.eu.common.core.domain.BaseEntity;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,6 +1,6 @@
 package ${package}.service;
 
-import cn.eu.common.base.service.IEuService;
+import cn.eu.common.core.service.IEuService;
 import cn.eu.common.model.PageResult;
 import ${package}.domain.${ClassName};
 import ${package}.model.query.${ClassName}QueryCriteria;

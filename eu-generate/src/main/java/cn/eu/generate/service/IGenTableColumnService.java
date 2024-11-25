@@ -1,6 +1,6 @@
 package cn.eu.generate.service;
 
-import cn.eu.common.base.service.IEuService;
+import cn.eu.common.core.service.IEuService;
 import cn.eu.generate.domain.GenTableColumn;
 
 import java.util.List;

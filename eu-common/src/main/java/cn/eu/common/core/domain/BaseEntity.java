@@ -1,4 +1,4 @@
-package cn.eu.common.base.domain;
+package cn.eu.common.core.domain;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;

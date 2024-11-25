@@ -1,4 +1,4 @@
-package cn.eu.common.base.controller;
+package cn.eu.common.core.controller;
 
 /**
  * @author zhaoeryu

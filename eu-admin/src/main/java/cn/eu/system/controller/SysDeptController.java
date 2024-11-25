@@ -3,7 +3,8 @@ package cn.eu.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.annotation.SaMode;
 import cn.eu.common.annotation.Log;
-import cn.eu.common.base.controller.EuBaseController;
+import cn.eu.common.annotation.RepeatSubmit;
+import cn.eu.common.core.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.MessageUtils;
@@ -37,6 +38,7 @@ public class SysDeptController extends EuBaseController {
 
     @Log(title = "新增部门", businessType = BusinessType.INSERT)
     @SaCheckPermission("system:dept:add")
+    @RepeatSubmit
     @PostMapping
     public ResultBody save(@Validated @RequestBody SysDept entity) {
         sysDeptService.save(entity);

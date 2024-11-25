@@ -1,4 +1,4 @@
-package cn.eu.common.base.service;
+package cn.eu.common.core.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 

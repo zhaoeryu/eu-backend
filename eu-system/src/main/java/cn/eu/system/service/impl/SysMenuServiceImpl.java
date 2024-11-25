@@ -1,7 +1,7 @@
 package cn.eu.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.eu.common.base.service.impl.EuServiceImpl;
+import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.common.enums.MenuStatus;
 import cn.eu.common.enums.MenuType;
 import cn.eu.common.utils.MpQueryHelper;

@@ -1,6 +1,6 @@
-package cn.eu.common.base.service.impl;
+package cn.eu.common.core.service.impl;
 
-import cn.eu.common.base.service.IEuService;
+import cn.eu.common.core.service.IEuService;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;

@@ -3,7 +3,7 @@ package cn.eu.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.annotation.Log;
-import cn.eu.common.base.controller.EuBaseController;
+import cn.eu.common.core.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.model.ResultBody;

@@ -1,7 +1,7 @@
 package cn.eu.system.mapper;
 
 import cn.eu.common.annotation.DataScope;
-import cn.eu.common.base.mapper.EuBaseMapper;
+import cn.eu.common.core.mapper.EuBaseMapper;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.domain.SysUserPost;
 import cn.eu.system.domain.SysUserRole;

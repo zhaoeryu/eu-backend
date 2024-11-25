@@ -2,15 +2,13 @@ package cn.eu.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.eu.common.annotation.Log;
-import cn.eu.common.base.controller.EuBaseController;
+import cn.eu.common.core.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.EasyExcelHelper;
 import cn.eu.common.utils.MessageUtils;
 import cn.eu.system.domain.SysDict;
-import cn.eu.system.domain.SysRole;
 import cn.eu.system.model.query.SysDictQueryCriteria;
-import cn.eu.system.model.query.SysRoleQueryCriteria;
 import cn.eu.system.service.ISysDictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

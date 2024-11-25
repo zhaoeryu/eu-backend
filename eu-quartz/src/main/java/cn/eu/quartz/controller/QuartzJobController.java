@@ -2,7 +2,7 @@ package cn.eu.quartz.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.eu.common.annotation.Log;
-import cn.eu.common.base.controller.EuBaseController;
+import cn.eu.common.core.controller.EuBaseController;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.ResultBody;
 import cn.eu.common.utils.MessageUtils;

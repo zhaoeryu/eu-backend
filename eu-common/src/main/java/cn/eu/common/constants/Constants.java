@@ -81,4 +81,8 @@ public class Constants {
      */
     public static final String WS_SESSION_CMD_KEY = "cmd";
 
+    /**
+     * 防止重复提交RedisKey
+     */
+    public static final String REPEAT_SUBMIT_REDIS_KEY = "repeat_submit:";
 }

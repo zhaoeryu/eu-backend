@@ -1,6 +1,6 @@
 package cn.eu.system.service;
 
-import cn.eu.common.base.service.IEuService;
+import cn.eu.common.core.service.IEuService;
 import cn.eu.common.model.PageResult;
 import cn.eu.system.domain.SysRole;
 import cn.eu.system.model.dto.ImportResult;

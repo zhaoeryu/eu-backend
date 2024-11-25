@@ -1,6 +1,6 @@
 package ${package}.mapper;
 
-import cn.eu.common.base.mapper.EuBaseMapper;
+import cn.eu.common.core.mapper.EuBaseMapper;
 import ${package}.domain.${ClassName};
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

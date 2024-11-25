@@ -1,14 +1,11 @@
 package cn.eu.quartz.service.impl;
 
-import cn.eu.common.base.service.impl.EuServiceImpl;
+import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.MpQueryHelper;
-import cn.eu.quartz.domain.QuartzJob;
 import cn.eu.quartz.domain.QuartzJobLog;
 import cn.eu.quartz.mapper.QuartzJobLogMapper;
-import cn.eu.quartz.mapper.QuartzJobMapper;
 import cn.eu.quartz.service.IQuartzJobLogService;
-import cn.eu.quartz.service.IQuartzJobService;
 import cn.eu.quartz.service.dto.QuartzJobLogQueryCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;

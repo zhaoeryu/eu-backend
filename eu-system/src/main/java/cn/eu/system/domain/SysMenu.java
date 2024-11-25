@@ -1,10 +1,9 @@
 package cn.eu.system.domain;
 
-import cn.eu.common.base.domain.BaseEntity;
+import cn.eu.common.core.domain.BaseEntity;
 import cn.eu.common.enums.MenuStatus;
 import cn.eu.common.enums.MenuType;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

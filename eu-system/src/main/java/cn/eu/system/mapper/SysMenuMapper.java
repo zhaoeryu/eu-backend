@@ -1,6 +1,6 @@
 package cn.eu.system.mapper;
 
-import cn.eu.common.base.mapper.EuBaseMapper;
+import cn.eu.common.core.mapper.EuBaseMapper;
 import cn.eu.system.domain.SysMenu;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;

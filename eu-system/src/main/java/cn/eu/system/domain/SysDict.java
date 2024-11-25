@@ -1,6 +1,6 @@
 package cn.eu.system.domain;
 
-import cn.eu.common.base.domain.BaseEntity;
+import cn.eu.common.core.domain.BaseEntity;
 import cn.eu.common.enums.SysDictStatus;
 import cn.eu.system.easyexcel.converter.SysDictStatusConverter;
 import com.alibaba.excel.annotation.ExcelProperty;

@@ -1,12 +1,10 @@
 package cn.eu.quartz.domain;
 
-import cn.eu.common.base.domain.BaseEntity;
+import cn.eu.common.core.domain.BaseEntity;
 import cn.eu.quartz.enums.QuartzJobMisfirePolicy;
 import cn.eu.quartz.enums.QuartzJobStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
 
 /**
  * @author zhaoeryu

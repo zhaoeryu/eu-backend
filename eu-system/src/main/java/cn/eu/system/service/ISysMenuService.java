@@ -1,6 +1,6 @@
 package cn.eu.system.service;
 
-import cn.eu.common.base.service.IEuService;
+import cn.eu.common.core.service.IEuService;
 import cn.eu.system.domain.SysMenu;
 import cn.eu.system.model.query.SysMenuQueryCriteria;
 

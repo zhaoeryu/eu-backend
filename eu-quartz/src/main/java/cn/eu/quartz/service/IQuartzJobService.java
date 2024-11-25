@@ -1,6 +1,6 @@
 package cn.eu.quartz.service;
 
-import cn.eu.common.base.service.IEuService;
+import cn.eu.common.core.service.IEuService;
 import cn.eu.common.model.PageResult;
 import cn.eu.quartz.domain.QuartzJob;
 import cn.eu.quartz.service.dto.QuartzJobQueryCriteria;

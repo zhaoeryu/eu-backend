@@ -1,6 +1,6 @@
 package cn.eu.generate.service.impl;
 
-import cn.eu.common.base.service.impl.EuServiceImpl;
+import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.generate.domain.GenTableColumn;
 import cn.eu.generate.mapper.GenTableColumnMapper;
 import cn.eu.generate.mapper.GenTableMapper;

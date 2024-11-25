@@ -1,6 +1,8 @@
 package cn.eu.system.domain;
 
-import cn.eu.common.base.domain.BaseEntity;
+import cn.eu.common.annotation.Sensitive;
+import cn.eu.common.core.domain.BaseEntity;
+import cn.eu.common.enums.SensitiveStrategy;
 import cn.eu.system.easyexcel.converter.*;
 import cn.eu.common.xss.Xss;
 import com.alibaba.excel.annotation.ExcelIgnore;
@@ -48,6 +50,7 @@ public class SysUser extends BaseEntity {
     private String avatar;
     /** 手机号 */
     @ExcelProperty("手机号")
+    @Sensitive(strategy = SensitiveStrategy.PHONE)
     private String mobile;
     /** 邮箱 */
     @ExcelProperty("邮箱")

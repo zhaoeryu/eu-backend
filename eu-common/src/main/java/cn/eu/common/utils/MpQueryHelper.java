@@ -1,11 +1,8 @@
 package cn.eu.common.utils;
 
-import cn.eu.common.base.domain.BaseEntity;
 import cn.eu.common.constants.Constants;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 

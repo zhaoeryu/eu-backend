@@ -1,6 +1,6 @@
 package cn.eu.system.mapper;
 
-import cn.eu.common.base.mapper.EuBaseMapper;
+import cn.eu.common.core.mapper.EuBaseMapper;
 import cn.eu.system.domain.SysOperLog;
 import org.apache.ibatis.annotations.Mapper;
 

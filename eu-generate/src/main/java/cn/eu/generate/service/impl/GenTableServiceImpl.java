@@ -1,6 +1,6 @@
 package cn.eu.generate.service.impl;
 
-import cn.eu.common.base.service.impl.EuServiceImpl;
+import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.common.model.PageResult;
 import cn.eu.generate.constants.GenConstant;
 import cn.eu.generate.domain.GenTable;

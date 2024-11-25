@@ -1,7 +1,7 @@
 package cn.eu.system.service.impl;
 
 import cn.eu.common.annotation.DataScope;
-import cn.eu.common.base.service.impl.EuServiceImpl;
+import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.common.enums.DeptStatus;
 import cn.eu.common.utils.MessageUtils;
 import cn.eu.common.utils.MpQueryHelper;
