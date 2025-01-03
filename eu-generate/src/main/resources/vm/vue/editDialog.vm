@@ -50,7 +50,7 @@ export default {
         this.formLoading = true
         const reqPromise = this.form.id ? update(this.form) : add(this.form)
         reqPromise.then(() => {
-          this.$message.success(this.form.id ? this.$t(`${tableName}.edit.success`) : this.$t(`${tableName}.add.success`))
+          this.$message.success(this.form.id ? this.$t(']]#${tableName}#[[.edit.success') : this.$t(']]#${tableName}#[[.add.success'))
           this.show = false
           this.$emit('complete')
         }).finally(() => {
