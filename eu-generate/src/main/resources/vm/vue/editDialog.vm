@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     title() {
-      return this.form.id ? 'this.$t('${tableName}.edit.title') : this.$t('${tableName}.add.title')
+      return this.form.id ? this.$t('${tableName}.edit.title') : this.$t('${tableName}.add.title')
     }
   },
   methods: {
