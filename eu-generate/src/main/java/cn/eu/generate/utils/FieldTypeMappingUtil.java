@@ -37,6 +37,10 @@ public class FieldTypeMappingUtil {
         // 获取括号里面的内容
         String lenStr = dbType.replaceAll(".*\\((.*)\\)", "$1");
         lenStr = BooleanUtil.toString(lenStr.equals(dbType), null, lenStr);
+        // 获取长度，忽略精度
+        if (StrUtil.contains(lenStr, ",")) {
+            lenStr = StrUtil.subBefore(lenStr, ",", false);
+        }
         return StrUtil.isBlank(lenStr) ? null : Integer.valueOf(lenStr);
     }
 
