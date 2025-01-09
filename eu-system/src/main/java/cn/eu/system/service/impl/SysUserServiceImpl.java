@@ -66,9 +66,9 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
         QueryWrapper<SysUser> queryWrapper = MpQueryHelper.buildQueryWrapperWithDelFlag(criteria, SysUser.class, "u");
         // 根据部门查询
         if (criteria.getDeptId() != null) {
-            queryWrapper.eq("u.dept_id", criteria.getDeptId())
+            queryWrapper.and(i -> i.eq("u.dept_id", criteria.getDeptId())
                     .or()
-                    .apply("u.dept_id in (select id from sys_dept where find_in_set({0}, parent_ids))", criteria.getDeptId());
+                    .apply("u.dept_id in (select id from sys_dept where find_in_set({0}, parent_ids))", criteria.getDeptId()));
         }
         return sysUserMapper.selectUserList(queryWrapper);
     }
