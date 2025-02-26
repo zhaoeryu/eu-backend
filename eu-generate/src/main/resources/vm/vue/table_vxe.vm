@@ -1,0 +1,221 @@
+<template>
+  <div class="page-container">
+    <div class="page-body">
+      <query-expand-wrapper :show="isQueryShow">
+        <el-form :model="queryParams" :inline="true">
+#foreach($column in $columns)
+#if($column.areaQuery)
+    #elFormItem($column true "          ")
+#end
+#end
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" @click="onQuery">{{ $t('general.query.search') }}</el-button>
+            <el-button icon="el-icon-refresh" plain @click="onRefresh">{{ $t('general.query.reset') }}</el-button>
+          </el-form-item>
+        </el-form>
+      </query-expand-wrapper>
+      <div>
+        <eu-table-toolbar
+          :multiple-disabled="multipleDisabled"
+          :opt-show="{
+            import: false
+          }"
+          :permission="{
+            add: ['${permissionPrefix}:add'],
+            del: ['${permissionPrefix}:del'],
+            export: ['${permissionPrefix}:export'],
+          }"
+          :sort.sync="queryParams.sort"
+          :ref-table="$refs.table"
+          @add="onAdd"
+          @batchDel="onBatchDel"
+          @export="onExport"
+          @refresh="onRefresh"
+          :searchToggle.sync="isQueryShow"
+          @sort="onSortComplete"
+        />
+        <vxe-table
+          id="xTable"
+          border
+          resizable
+          show-overflow
+          ref="xTable"
+          :loading="loading"
+          :data="list"
+          :row-config="{isHover: true}"
+          @checkbox-all="onSelectionChange"
+          @checkbox-change="onSelectionChange"
+          :custom-config="customConfig"
+        >
+          <vxe-column type="checkbox" width="40" fixed="left"></vxe-column>
+#foreach($column in $columns)
+#if($column.tableShow)
+#if($column.tableHeaderQuery)
+          <vxe-colgroup
+            :title="$t('${tableName}.column.${column.javaField}')"
+            field="${column.javaField}"
+          >
+            <vxe-column
+              field="${column.javaField}"
+              :title="$t('${tableName}.column.${column.javaField}')"
+              :visible="${column.defaultVisible}"
+              min-width="100"
+            >
+              <template #header>
+                <el-input
+                  v-model="queryParams.${column.javaField}"
+                  clearable
+                  :placeholder="$t('general.placeholder.enter.search')"
+                  @change="onQuery"
+                  style="width: 100%;"
+                />
+#if($column.queryType)
+  #elTableQueryItem($column "          ")
+#end
+              </template>
+            </vxe-column>
+          </vxe-colgroup>
+#else
+#end
+          <vxe-column
+            field="${column.javaField}"
+            :title="$t('${tableName}.column.${column.javaField}')"
+            :visible="${column.defaultVisible}"
+            min-width="100"
+          ></vxe-column>
+#end
+#end
+          <vxe-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" :field="$tableColumnField.operation" :title="$t('general.column.operation')" min-width="130" :show-overflow="false" fixed="right">
+            <template #default="{ row }">
+              <el-button v-permissions="['${permissionPrefix}:edit']" type="text" @click="onRowUpdate(row)">{{ $t('general.edit') }}</el-button>
+              <el-button v-permissions="['${permissionPrefix}:del']" type="text" @click="onRowDelete(row)">{{ $t('general.del') }}</el-button>
+            </template>
+          </vxe-column>
+        </vxe-table>
+        <pagination
+          :total="total"
+          :page.sync="queryParams.page"
+          :limit.sync="queryParams.size"
+          @pagination="onQuery"
+        />
+      </div>
+    </div>
+
+    <${classNameKebabCase}-edit-dialog ref="${className}EditDialog" @complete="onRefresh" />
+
+  </div>
+</template>
+
+<script>
+import { page, batchDel } from '@/api/${apiPath}'
+import ${ClassName}EditDialog from './${ClassName}EditDialog.vue'
+import QueryExpandWrapper from '@/components/Crud/QueryExpandWrapper/index.vue'
+import EuTableToolbar from '@/components/Crud/EuTableToolbar/index.vue'
+import TableColumnSettingMixin from '@/mixins/TableColumnSettingMixin'
+export default {
+  name: '${ClassName}',
+  mixins: [TableColumnSettingMixin(['xTable'])],
+#if($dicts)
+  dicts: [#foreach($item in $dicts)'${item}'#if($foreach.hasNext), #end#end],
+#end
+  components: { EuTableToolbar, QueryExpandWrapper, ${ClassName}EditDialog },
+  data() {
+    return {
+      loading: false,
+      list: [],
+      total: 0,
+
+      queryParams: {
+#foreach($column in $columns)
+#if($column.queryType)
+        $column.javaField: null,
+#end
+#end
+        page: 1,
+        size: 10,
+        sort: []
+      },
+
+      isQueryShow: true,
+      multipleDisabled: true,
+    }
+  },
+  mounted() {
+    this.onRefresh()
+  },
+  methods: {
+    onQuery() {
+      this.loading = true
+      page(this.queryParams).then(res => {
+        this.list = res.data.records
+        this.total = res.data.total
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    onRefresh() {
+      this.queryParams = this.$options.data().queryParams
+      this.onQuery()
+    },
+    onAdd() {
+      this.$refs.${className}EditDialog.open()
+    },
+    onExport() {
+      this.download('/api/${apiPath}/export', this.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
+    },
+    onBatchDel() {
+      #[[const ids = this.$refs.table.selection.map(item => item.id)]]#
+      this.$confirm(this.$t('general.confirm.delete.batch.message', { length: ids.length }), this.$t('general.confirm.title'), {
+        confirmButtonText: this.$t('general.confirm.confirm'),
+        cancelButtonText: this.$t('general.confirm.cancel'),
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            batchDel(ids).then(() => {
+              #[[this.$message.success(this.$t('general.confirm.delete.success'))]]#
+              done()
+              this.onRefresh()
+            }).finally(() => {
+              instance.confirmButtonLoading = false;
+            })
+          } else {
+            done()
+          }
+        }
+      });
+    },
+    onSelectionChange({ records }) {
+      this.multipleDisabled = !records.length
+    },
+    onRowUpdate(row) {
+      this.$refs.${className}EditDialog.open(row)
+    },
+    onRowDelete(row) {
+      this.$confirm(this.$t('general.confirm.delete.message', { key: row.$delShowField }), this.$t('general.confirm.title'), {
+        confirmButtonText: this.$t('general.confirm.confirm'),
+        cancelButtonText: this.$t('general.confirm.cancel'),
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            batchDel([row.id]).then(() => {
+              #[[this.$message.success(this.$t('general.confirm.delete.success'))]]#
+              done()
+              this.onRefresh()
+            }).finally(() => {
+              instance.confirmButtonLoading = false;
+            })
+          } else {
+            done()
+          }
+        }
+      });
+    },
+    onSortComplete() {
+      this.queryParams.page = this.$options.data().queryParams.page
+      this.onQuery()
+    }
+  },
+}
+</script>

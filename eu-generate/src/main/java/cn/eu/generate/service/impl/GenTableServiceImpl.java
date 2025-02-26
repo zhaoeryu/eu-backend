@@ -121,6 +121,18 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         if (StrUtil.isBlank(item.getQueryType())) {
             item.setQueryType(null);
         }
+        if (item.getDefaultVisible() == null) {
+            item.setDefaultVisible(
+                    GenUtil.isFieldTableShow(item.getColumnName()) &&
+                    GenUtil.isFieldInTableVisible(item.getColumnName())
+            );
+        }
+        if (item.getAreaQuery() == null) {
+            item.setAreaQuery(false);
+        }
+        if (item.getTableHeaderQuery() == null) {
+            item.setTableHeaderQuery(false);
+        }
         if (StrUtil.isBlank(item.getFormType())) {
             String formType = null;
             switch (item.getJavaType()) {
@@ -433,7 +445,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                 break;
 
             // vue2
-            case "vm/vue/vue.vm":
+            case "vm/vue/table_vxe.vm":
                 filePathJoiner.add("generate")
                         .add("vue2")
                         .add("views")

@@ -1,0 +1,63 @@
+#macro(elTableQueryItem $column $indent)
+#set($formObj = "queryParams")
+#set($columnType = "query")
+  #if ($column.formType == 'number')
+$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" :placeholder="$t('general.placeholder.enter.search')" clearable style="width: 100%;" @change="onQuery" />
+  #elseif ($column.formType == 'switch')
+$indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true" :inactive-value="false" @change="onQuery" />
+  #elseif ($column.formType == 'select')
+$indent  <el-select v-model="${formObj}.${column.javaField}" clearable filterable style="width: 100%;" @change="onQuery">
+    #if($column.dictKey)
+$indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" :value="item.value" />
+    #else
+$indent    <el-option label="请手动进行设置" value="请手动进行设置" />
+    #end
+$indent  </el-select>
+  #elseif ($column.formType == 'date')
+      #if ($column.queryType == 'BETWEEN')
+$indent  <el-date-picker
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    type="daterange"
+$indent    range-separator="-"
+$indent    format="MM-dd"
+$indent    value-format="yyyy-MM-dd"
+$indent    style="width: 100%;"
+$indent    @change="onQuery"
+$indent    clearable>
+$indent  </el-date-picker>
+      #else
+$indent  <el-date-picker
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    type="date"
+$indent    format="MM-dd"
+$indent    value-format="yyyy-MM-dd"
+$indent    style="width: 100%;"
+$indent    @change="onQuery"
+$indent    clearable>
+$indent  </el-date-picker>
+      #end
+  #elseif ($column.formType == 'datetime')
+      #if ($column.queryType == 'BETWEEN')
+$indent  <el-date-picker
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    type="datetimerange"
+$indent    range-separator="-"
+$indent    value-format="yyyy-MM-dd HH:mm:ss"
+$indent    style="width: 100%;"
+$indent    @change="onQuery"
+$indent    clearable>
+$indent  </el-date-picker>
+      #else
+$indent  <el-date-picker
+$indent    v-model="${formObj}.${column.javaField}"
+$indent    type="datetime"
+$indent    value-format="yyyy-MM-dd HH:mm:ss"
+$indent    style="width: 100%;"
+$indent    @change="onQuery"
+$indent    clearable>
+$indent  </el-date-picker>
+      #end
+  #else
+$indent  <el-input v-model="${formObj}.${column.javaField}" :placeholder="$t('general.placeholder.enter.search')" clearable style="width: 100%;" @change="onQuery" />
+  #end
+#end

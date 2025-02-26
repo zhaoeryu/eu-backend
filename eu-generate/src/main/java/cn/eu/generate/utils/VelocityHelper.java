@@ -62,7 +62,7 @@ public class VelocityHelper {
 
         if (EuFrontHeader.VUE2.getDesc().equals(requestHeaderFront)) {
             // vue
-            list.add(new GenerateTemplateDto("vm/vue/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            list.add(new GenerateTemplateDto("vm/vue/table_vxe.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
             list.add(new GenerateTemplateDto("vm/vue/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
             list.add(new GenerateTemplateDto("vm/vue/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
             list.add(new GenerateTemplateDto("vm/vue/locale.zh_CN.vm", "locale.zh_CN.js", GenConstant.TPL_FILE_TYPE_JS));
@@ -104,6 +104,7 @@ public class VelocityHelper {
     public static List<String> getMarcoTemplate() {
         List<String> list = new ArrayList<>();
         list.add("vm/macro/elFormItem.vm");
+        list.add("vm/macro/elTableQueryItem.vm");
         list.add("vm/macro/vue3_elFormItem.vm");
         return list;
     }

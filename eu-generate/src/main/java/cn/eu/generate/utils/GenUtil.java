@@ -68,6 +68,15 @@ public class GenUtil {
     }
 
     /**
+     * 检查字段是否在表格中默认可见
+     * @param fieldName 字段名
+     * @return 是否在表格中默认可见
+     */
+    public static boolean isFieldInTableVisible(String fieldName) {
+        return !CollUtil.contains(Arrays.asList(GenConstant.HIDDEN_FIELD_TABLE), fieldName);
+    }
+
+    /**
      * 检查字段是否可以导出
      * @param fieldName 字段名
      * @return 是否可以导出

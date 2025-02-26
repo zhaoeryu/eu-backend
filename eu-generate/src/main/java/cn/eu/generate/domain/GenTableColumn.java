@@ -92,6 +92,20 @@ public class GenTableColumn implements Serializable {
      */
     private String dictKey;
 
+    /**
+     * 查询区域查询
+     */
+    private Boolean areaQuery;
+    /**
+     * 是否表头里查询
+     */
+    private Boolean tableHeaderQuery;
+
+    /**
+     * 默认是否可见
+     */
+    private Boolean defaultVisible;
+
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT)
     private String createBy;
