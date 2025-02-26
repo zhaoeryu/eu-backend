@@ -4,14 +4,10 @@ import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.*;
 import cn.eu.common.model.PageResult;
-import cn.eu.common.utils.EasyExcelHelper;
-import cn.eu.common.utils.MpQueryHelper;
-import cn.eu.common.utils.SpringContextHolder;
-import cn.eu.common.utils.ValidateUtil;
+import cn.eu.common.utils.*;
 import cn.eu.common.utils.easyexcel.EasyExcelCellItem;
 import cn.eu.common.utils.easyexcel.EasyExcelUtil;
 import cn.eu.common.utils.easyexcel.EasyExcelWriteSheet;
-import cn.eu.common.utils.PasswordEncoder;
 import cn.eu.system.domain.SysDept;
 import cn.eu.system.domain.SysUser;
 import cn.eu.system.domain.SysUserPost;
@@ -76,7 +72,11 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
     @Transactional(rollbackFor = Exception.class)
     @Override
     public String createUser(SysUserDto dto) {
-        String defaultPassword = Constants.DEFAULT_PASSWORD;
+        String defaultPassword = PasswordGenerator.builder()
+                .length(10)
+                .useSpecial(false)
+                .build()
+                .generate();
         // 密码加密
         dto.setPassword(PasswordEncoder.encode(defaultPassword));
 
@@ -231,7 +231,7 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
                     // 校验
                     ValidateUtil.valid(item);
                     // 填充默认数据
-                    item.setPassword(PasswordEncoder.encode(Constants.DEFAULT_PASSWORD));
+                    item.setPassword(PasswordEncoder.encode(PasswordGenerator.buildInitialPassword(item.getUsername(), item.getMobile())));
                     item.setAdmin(SysUserAdmin.NORMAL.getValue());
                     item.setStatus(SysUserStatus.NORMAL.getValue());
                 });
@@ -271,6 +271,11 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
 
         EasyExcelHelper.importData(file, SysUser.class, importModeHandleTemplate::handle);
 
+        // Tips: 这里根据实际情况做一些特殊的处理，解决导入后怎么让用户知道系统生成的密码。
+        // 现在的处理是根据特定的规则生成密码，然后管理员根据规则把登录账号和密码告诉用户。
+        // 1、通过短信发送初始密码给用户
+        // 2、通过邮件发送初始密码给用户
+        // 3、生成一个初始密码的链接给用户，用户点击链接后重置密码
         return importModeHandleTemplate.getResult();
     }
 

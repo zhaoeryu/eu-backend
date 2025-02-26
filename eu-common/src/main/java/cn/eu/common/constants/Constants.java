@@ -38,10 +38,6 @@ public class Constants {
      */
     public static final int LOCK_TIME = 60 * 60 * 3;
 
-
-    /** 用户默认密码 */
-    public static final String DEFAULT_PASSWORD = "123123";
-
     /**
      * 逻辑删除标记 - 正常
      */
