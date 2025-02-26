@@ -1,5 +1,5 @@
 -- 创建菜单
-INSERT INTO `sys_menu` (`menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `dot`, `badge`, `menu_type`, `parent_id`) VALUES ('${tableComment}', '${className}', 999, '${permissionPrefix}:list', '/${apiPath}', '${ClassName}', '${className}', 0, b'0', b'1', b'1', NULL, NULL, 2, NULL);
+INSERT INTO `sys_menu` (`menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `dot`, `badge`, `menu_type`, `parent_id`) VALUES ('${tableComment}', 'business', 999, '${permissionPrefix}:list', '/${apiPath}', '${ClassName}', '${className}', 0, b'0', b'1', b'1', NULL, NULL, 2, NULL);
 
 -- 菜单ID
 SELECT @parentId := LAST_INSERT_ID();

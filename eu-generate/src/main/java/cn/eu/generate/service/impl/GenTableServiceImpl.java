@@ -298,7 +298,12 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                 System.out.println(genFilePath);
 
                 // 写入到文件
-                FileUtil.writeUtf8String(generateTemplateDto.getCode(), genFilePath);
+                if (generateTemplateDto.isI18n()) {
+                    FileUtil.appendUtf8Lines(CollUtil.newArrayList("", "# " + tableName, ""), genFilePath);
+                    FileUtil.appendUtf8String(generateTemplateDto.getCode(), genFilePath);
+                } else {
+                    FileUtil.writeUtf8String(generateTemplateDto.getCode(), genFilePath);
+                }
             }
 
             // 响应成功

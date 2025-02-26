@@ -56,9 +56,9 @@ public class VelocityHelper {
         // sql
         list.add(new GenerateTemplateDto("vm/sql/sql.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
         // properties
-        list.add(new GenerateTemplateDto("vm/i18n/messages.vm", "messages.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES));
-        list.add(new GenerateTemplateDto("vm/i18n/messages_zh_CN.vm", "messages_zh_CN.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES));
-        list.add(new GenerateTemplateDto("vm/i18n/messages_en_US.vm", "messages_en_US.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES));
+        list.add(new GenerateTemplateDto("vm/i18n/messages.vm", "messages.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
+        list.add(new GenerateTemplateDto("vm/i18n/messages_zh_CN.vm", "messages_zh_CN.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
+        list.add(new GenerateTemplateDto("vm/i18n/messages_en_US.vm", "messages_en_US.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
 
         if (EuFrontHeader.VUE2.getDesc().equals(requestHeaderFront)) {
             // vue
