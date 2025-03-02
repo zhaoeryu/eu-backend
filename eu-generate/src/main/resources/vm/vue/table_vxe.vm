@@ -5,7 +5,9 @@
         <el-form :model="queryParams" :inline="true">
 #foreach($column in $columns)
 #if($column.areaQuery)
-    #elFormItem($column true "          ")
+          <el-form-item :label="$t('${tableName}.query.${column.javaField}')" prop="${column.javaField}">
+    #elTableQueryItem($column "          ")
+          </el-form-item>
 #end
 #end
           <el-form-item>
