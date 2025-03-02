@@ -34,7 +34,10 @@ export function batchDel(ids) {
 
 export function getById(id) {
   return request({
-    url: '/api/${apiPath}/query/' + id,
-    method: 'get'
+    url: '/api/${apiPath}',
+    method: 'get',
+    params: {
+      id
+    }
   })
 }

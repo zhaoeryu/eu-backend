@@ -5,6 +5,7 @@ import cn.eu.common.model.PageResult;
 import cn.eu.generate.constants.GenConstant;
 import cn.eu.generate.domain.GenTable;
 import cn.eu.generate.domain.GenTableColumn;
+import cn.eu.generate.enums.CrudEditMode;
 import cn.eu.generate.enums.GenMode;
 import cn.eu.generate.mapper.GenTableMapper;
 import cn.eu.generate.model.dto.GenerateTemplateDto;
@@ -70,7 +71,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         VelocityContext velocityContext = VelocityHelper.fillContext(genTable, genTableColumns);
 
         // 渲染模版
-        return VelocityHelper.render(velocityContext);
+        return VelocityHelper.render(velocityContext, genTable);
     }
 
     @Override
@@ -85,6 +86,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         genTable.setPackageName(StrUtil.blankToDefault(genTable.getPackageName(), GenConstant.DEFAULT_PACKAGE_NAME));
         genTable.setAuthor(StrUtil.blankToDefault(genTable.getAuthor(), System.getProperty("user.name")));
         genTable.setGenMode(genTable.getGenMode() == null ? GenMode.GENERATE.ordinal() : genTable.getGenMode());
+        genTable.setCrudEditMode(StrUtil.blankToDefault(genTable.getCrudEditMode(), CrudEditMode.DIALOG.getValue()));
 
         return genTable;
     }
@@ -420,6 +422,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                         .add(GenUtil.underlineToBigCamel(genTable.getTableName()) + "Mapper.xml");
                 break;
             case "vm/sql/sql.vm":
+            case "vm/sql/sql_page.vm":
                 filePathJoiner.add("generate")
                         .add("sql")
                         .add(GenUtil.underlineToCamel(genTable.getTableName()) + ".sql");
@@ -451,6 +454,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
 
             // vue2
             case "vm/vue/table_vxe.vm":
+            case "vm/vue/table_vxe_page.vm":
                 filePathJoiner.add("generate")
                         .add("vue2")
                         .add("views")
@@ -463,6 +467,13 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                         .add("views")
                         .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
                         .add(GenUtil.underlineToBigCamel(genTable.getTableName()) + "EditDialog.vue");
+                break;
+            case "vm/vue/edit.vm":
+                filePathJoiner.add("generate")
+                        .add("vue2")
+                        .add("views")
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()))
+                        .add("edit.vue");
                 break;
             case "vm/vue/api.vm":
                 filePathJoiner.add("generate")

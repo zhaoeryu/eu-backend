@@ -1,0 +1,163 @@
+<script>
+import { add, update, getById } from '@/api/${apiPath}'
+import i18n from '@/plugins/i18n'
+import ContentBlock from '@/components/ContentLayout/ContentBlock.vue'
+import ContentFooter from '@/components/ContentLayout/ContentFooter.vue'
+import ContentLayout from '@/components/ContentLayout/ContentLayout.vue'
+import ContentBlockHeader from '@/components/ContentLayout/ContentBlockHeader.vue'
+import PageModeMixin from '@/mixins/PageModeMixin'
+
+export default {
+  name: '${ClassName}Edit',
+#if($dicts)
+  dicts: [#foreach($item in $dicts)'${item}'#if($foreach.hasNext), #end#end],
+#end
+  mixins: [
+    PageModeMixin({
+      permissions: [
+        '${permissionPrefix}:edit'
+      ],
+      listPath: '/${apiPath}'
+    })
+  ],
+  components: { ContentBlockHeader, ContentLayout, ContentFooter, ContentBlock },
+  data() {
+    return {
+      loading: false,
+      isError: false,
+      errorText: null,
+      submitLoading: false,
+      form: {
+#foreach($column in $columns)
+#if($column.formShow)
+        $column.javaField: null,
+#end
+#end
+      },
+      rules: {
+#foreach($column in $columns)
+#if($column.formShow && $column.notNull)
+        $column.javaField: [
+          { required: true, message: i18n.t('${tableName}.form.${column.javaField}.required'), trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
+        ],
+#end
+#end
+      },
+    }
+  },
+  computed: {
+    businessAllowEdit() {
+      // 业务逻辑判断是否允许编辑
+      return true
+    }
+  },
+  mounted() {
+    if (!this.isAddMode) {
+      const { params } = this.$route
+      this.form.id = params.id
+      this.doLoadData()
+    }
+  },
+  methods: {
+    doLoadData() {
+      if (!this.form.id) {
+        this.isError = true
+        // 获取不到id，提示错误
+        this.errorText = i18n.t('general.error.linkMissParams')
+        return
+      }
+      // 获取数据
+      this.loading = true
+      getById(this.form.id).then(res => {
+        this.form = res.data || {}
+      }).catch(err => {
+        console.log(err);
+        this.isError = true
+        this.errorText = i18n.t('general.error.dataLoad')
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    onSubmit() {
+      #[[this.$refs['form'].validate(valid => {
+        if (!valid) {
+          return false
+        }
+
+        this.submitLoading = true
+        const reqPromise = this.form.id ? update(this.form) : add(this.form)
+        reqPromise.then(() => {
+          this.onSubmitSuccess()
+        }).finally(() => {
+          this.submitLoading = false
+        })
+      })]]#
+    }
+  }
+}
+</script>
+
+<template>
+  <content-layout
+    :is-error="isError"
+    :error-text="errorText"
+  >
+    <template #error>
+      <template v-if="isAddMode">
+        <el-button type="primary" @click="onCancel">{{ $t('general.back.prev') }}</el-button>
+      </template>
+      <template v-else>
+        <el-button @click="onCancel">{{ $t('general.back.prev') }}</el-button>
+        <el-button v-if="!isAddMode" type="primary" @click="doLoadData">{{ $t('general.reload') }}</el-button>
+      </template>
+    </template>
+
+    <content-block v-if="loading">
+      <eu-loading style="height: 300px;" />
+    </content-block>
+    <content-block v-else>
+#if($detailHeaderEnable)
+      <content-block-header
+        v-if="!isAddMode"
+        label="$detailHeaderFieldLabel"
+        :value="form.$detailHeaderFieldKey"
+      >
+        <template #right>
+          <!-- 这里可以做一些状态显示的tag -->
+        </template>
+      </content-block-header>
+#end
+      <m-block-header :title="$t('general.info.basic')" :background="false" style="margin-top: unset;" />
+      <div class="content-body">
+        <el-form ref="form" :model="form" :rules="rules" label-position="right" label-width="120px" :disabled="!allowEdit">
+          <el-row>
+#foreach($column in $columns)
+#if($column.formShow)
+            <el-col :span="8">
+    #elFormItem($column false "              ")
+            </el-col>
+#end
+#end
+          </el-row>
+        </el-form>
+      </div>
+    </content-block>
+
+    <!-- 底部 -->
+    <template #footer>
+      <content-footer>
+        <el-button @click="onCancel">{{ $t('general.form.cancel') }}</el-button>
+        <el-button
+          v-if="allowEdit"
+          :loading="submitLoading"
+          type="primary"
+          @click="onSubmit"
+        >{{ $t('general.form.submit') }}</el-button>
+      </content-footer>
+    </template>
+  </content-layout>
+</template>
+
+<style scoped lang="scss">
+
+</style>

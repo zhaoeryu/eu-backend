@@ -83,7 +83,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
         String message = Optional.ofNullable(e.getBindingResult().getFieldError()).map(FieldError::getDefaultMessage)
-                .map(MessageUtils::parseMessage)
                 .orElse(e.getMessage());
         return buildBody(message, null, request.getRequestURI());
     }

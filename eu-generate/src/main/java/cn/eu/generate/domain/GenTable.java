@@ -64,6 +64,15 @@ public class GenTable implements Serializable {
      * @see GenMode#ordinal()
      */
     private Integer genMode;
+    /**
+     * 详情页顶部显示字段
+     */
+    private String detailHeaderFieldKey;
+    /**
+     * crud编辑模式
+     * @see cn.eu.generate.enums.CrudEditMode
+     */
+    private String crudEditMode;
 
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT)

@@ -1,7 +1,7 @@
 #macro(elFormItem $column $isQuery $indent)
 #set($formObj = "#if($isQuery)queryParams#{else}form#end")
 #set($columnType = "#if($isQuery)query#{else}form#end")
-$indent<el-form-item  :label="$t('${tableName}.${columnType}.${column.javaField}')" prop="${column.javaField}">
+$indent<el-form-item :label="$t('${tableName}.${columnType}.${column.javaField}')" prop="${column.javaField}">
   #if ($column.formType == 'number')
 $indent  <el-input v-model="${formObj}.${column.javaField}" type="number" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable />
   #elseif ($column.formType == 'switch')

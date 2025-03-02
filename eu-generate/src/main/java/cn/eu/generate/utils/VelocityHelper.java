@@ -6,6 +6,7 @@ import cn.eu.common.enums.EuFrontHeader;
 import cn.eu.generate.constants.GenConstant;
 import cn.eu.generate.domain.GenTable;
 import cn.eu.generate.domain.GenTableColumn;
+import cn.eu.generate.enums.CrudEditMode;
 import cn.eu.generate.model.dto.GenerateTemplateDto;
 import cn.hutool.core.util.StrUtil;
 import org.apache.velocity.Template;
@@ -40,7 +41,7 @@ public class VelocityHelper {
     /**
      * 获取vm模版列表
      */
-    public static List<GenerateTemplateDto> getTemplates() {
+    public static List<GenerateTemplateDto> getTemplates(GenTable genTable) {
         String requestHeaderFront = SpringMVCUtil.getRequest().getHeader(Constants.REQUEST_HEADER_FRONT_KEY);
 
         List<GenerateTemplateDto> list = new ArrayList<>();
@@ -54,7 +55,12 @@ public class VelocityHelper {
         // xml
         list.add(new GenerateTemplateDto("vm/xml/Mapper.vm", "Mapper.xml", GenConstant.TPL_FILE_TYPE_XML));
         // sql
-        list.add(new GenerateTemplateDto("vm/sql/sql.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
+        if (CrudEditMode.DIALOG.getValue().equals(genTable.getCrudEditMode())) {
+            list.add(new GenerateTemplateDto("vm/sql/sql.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
+        } else {
+            list.add(new GenerateTemplateDto("vm/sql/sql_page.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
+        }
+
         // properties
         list.add(new GenerateTemplateDto("vm/i18n/messages.vm", "messages.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
         list.add(new GenerateTemplateDto("vm/i18n/messages_zh_CN.vm", "messages_zh_CN.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
@@ -62,8 +68,15 @@ public class VelocityHelper {
 
         if (EuFrontHeader.VUE2.getDesc().equals(requestHeaderFront)) {
             // vue
-            list.add(new GenerateTemplateDto("vm/vue/table_vxe.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
-            list.add(new GenerateTemplateDto("vm/vue/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            if (CrudEditMode.DIALOG.getValue().equals(genTable.getCrudEditMode())) {
+                // 弹框模式
+                list.add(new GenerateTemplateDto("vm/vue/table_vxe.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
+                list.add(new GenerateTemplateDto("vm/vue/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            } else {
+                // 页面模式
+                list.add(new GenerateTemplateDto("vm/vue/table_vxe_page.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
+                list.add(new GenerateTemplateDto("vm/vue/edit.vm", "edit.vue", GenConstant.TPL_FILE_TYPE_VUE));
+            }
             list.add(new GenerateTemplateDto("vm/vue/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
             list.add(new GenerateTemplateDto("vm/vue/locale.zh_CN.vm", "locale.zh_CN.js", GenConstant.TPL_FILE_TYPE_JS));
             list.add(new GenerateTemplateDto("vm/vue/locale.en_US.vm", "local.en_US.js", GenConstant.TPL_FILE_TYPE_JS));
@@ -79,8 +92,8 @@ public class VelocityHelper {
     /**
      * 渲染vm模版
      */
-    public static List<GenerateTemplateDto> render(VelocityContext velocityContext) {
-        return render(getTemplates(), velocityContext);
+    public static List<GenerateTemplateDto> render(VelocityContext velocityContext, GenTable genTable) {
+        return render(getTemplates(genTable), velocityContext);
     }
     public static List<GenerateTemplateDto> render(List<GenerateTemplateDto> templates, VelocityContext velocityContext) {
         // 加载宏
@@ -145,12 +158,27 @@ public class VelocityHelper {
         velocityContext.put("delShowField", StrUtil.blankToDefault(genTable.getDelShowField(), GenUtil.underlineToCamel(genColumns.get(0).getColumnName())));
         velocityContext.put("entityColumns", genColumns);
         velocityContext.put("columns", genTableColumns);
+        velocityContext.put("crudEditMode", genTable.getCrudEditMode());
         // 字典key列表
         velocityContext.put("dicts", genTableColumns.stream()
                         .map(GenTableColumn::getDictKey)
                         .filter(StrUtil::isNotBlank)
                         .distinct()
                         .collect(Collectors.toList()));
+
+        // 详情页顶部显示字段逻辑处理
+        boolean detailHeaderEnable = StrUtil.isNotBlank(genTable.getDetailHeaderFieldKey());
+        velocityContext.put("detailHeaderEnable", detailHeaderEnable);
+        if (detailHeaderEnable) {
+            velocityContext.put("detailHeaderFieldKey", genTable.getDetailHeaderFieldKey());
+            String defaultLabel = "No";
+            String detailHeaderFieldLabel = genTableColumns.stream()
+                    .filter(item -> StrUtil.equals(genTable.getDetailHeaderFieldKey(), item.getJavaField()))
+                    .map(GenTableColumn::getColumnComment)
+                    .findFirst()
+                    .orElse(null);
+            velocityContext.put("detailHeaderFieldLabel", StrUtil.blankToDefault(detailHeaderFieldLabel, defaultLabel));
+        }
 
         return velocityContext;
     }

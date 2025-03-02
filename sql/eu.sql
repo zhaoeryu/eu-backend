@@ -19,6 +19,8 @@ CREATE TABLE `gen_table` (
   `author` varchar(32) DEFAULT NULL COMMENT '作者',
   `del_show_field` varchar(32) DEFAULT NULL COMMENT '删除时，提示使用的字段',
   `gen_mode` tinyint(1) NOT NULL DEFAULT '0' COMMENT '生成模式',
+  `detail_header_field_key` varchar(32) DEFAULT NULL COMMENT '详情页头部字段',
+  `crud_edit_mode` varchar(10) NOT NULL COMMENT 'crud编辑模式',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
