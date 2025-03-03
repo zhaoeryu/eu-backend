@@ -161,7 +161,7 @@ export default {
       this.download('/api/${apiPath}/export', this.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
     },
     onBatchDel() {
-      #[[const ids = this.$refs.table.selection.map(item => item.id)]]#
+      #[[const ids = this.$refs.table.getCheckboxRecords().map(item => item.id)]]#
       this.$confirm(this.$t('general.confirm.delete.batch.message', { length: ids.length }), this.$t('general.confirm.title'), {
         confirmButtonText: this.$t('general.confirm.confirm'),
         cancelButtonText: this.$t('general.confirm.cancel'),
