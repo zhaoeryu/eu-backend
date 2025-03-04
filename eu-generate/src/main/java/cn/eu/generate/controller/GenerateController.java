@@ -1,5 +1,6 @@
 package cn.eu.generate.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.eu.common.annotation.Log;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.OptionItem;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api/gen")
+@SaCheckPermission("tools:gen")
 public class GenerateController {
 
     @Autowired
