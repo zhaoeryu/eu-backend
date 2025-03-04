@@ -7,25 +7,31 @@ $indent  <el-input v-model="${formObj}.${column.javaField}" type="number" :place
   #elseif ($column.formType == 'switch')
 $indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true" :inactive-value="false" />
   #elseif ($column.formType == 'select')
-$indent  <el-select v-model="${formObj}.${column.javaField}" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable filterable>
+$indent  <el-select v-model="${formObj}.${column.javaField}" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable filterable style="width: 100%;">
     #if($column.dictKey)
-$indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" :value="item.value" />
+$indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):value="Number(item.value)"#{else}:value="item.value"#end />
+    #elseif($column.enumKey)
+$indent    <el-option v-for="item in $enumsConvertToList($enums.${column.enumKey})" :key="item.value" :label="item.label" :value="item.value" />
     #else
 $indent    <el-option label="请手动进行设置" value="请手动进行设置" />
     #end
 $indent  </el-select>
   #elseif ($column.formType == 'radio')
-$indent  <el-radio-group v-model="${formObj}.${column.javaField}">
+$indent  <el-radio-group v-model="${formObj}.${column.javaField}" style="width: 100%;">
     #if($column.dictKey)
-$indent    <el-radio v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+$indent    <el-radio v-for="item in dict.dict['${column.dictKey}']" :key="item.value" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):label="Number(item.value)"#{else}:label="item.value"#end>{{ item.label }}</el-radio>
+    #elseif($column.enumKey)
+$indent    <el-radio v-for="item in $enumsConvertToList($enums.${column.enumKey})" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
     #else
 $indent    <el-radio :label="0">请手动进行设置</el-radio>
     #end
 $indent  </el-radio-group>
   #elseif ($column.formType == 'checkbox')
-$indent  <el-checkbox-group v-model="${formObj}.${column.javaField}">
+$indent  <el-checkbox-group v-model="${formObj}.${column.javaField}" style="width: 100%;">
     #if($column.dictKey)
-$indent    <el-checkbox v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
+$indent    <el-checkbox v-for="item in dict.dict['${column.dictKey}']" :key="item.value" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):label="Number(item.value)"#{else}:label="item.value"#end>{{ item.label }}</el-checkbox>
+    #elseif($column.enumKey)
+$indent    <el-checkbox v-for="item in $enumsConvertToList($enums.${column.enumKey})" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
     #else
 $indent    <el-checkbox :label="0">请手动进行设置</el-checkbox>
     #end
@@ -37,6 +43,7 @@ $indent    type="date"
 $indent    :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd"
+$indent    style="width: 100%;"
 $indent    clearable>
 $indent  </el-date-picker>
   #elseif ($column.formType == 'datetime')
@@ -46,6 +53,7 @@ $indent    type="datetime"
 $indent    :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd HH:mm:ss"
+$indent    style="width: 100%;"
 $indent    clearable>
 $indent  </el-date-picker>
   #elseif ($column.formType == 'file')

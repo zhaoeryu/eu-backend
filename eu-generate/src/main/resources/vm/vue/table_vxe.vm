@@ -1,106 +1,3 @@
-<template>
-  <div class="page-container">
-    <div class="page-body">
-      <query-expand-wrapper :show="isQueryShow">
-        <el-form :model="queryParams" :inline="true">
-#foreach($column in $columns)
-#if($column.areaQuery)
-          <el-form-item :label="$t('${tableName}.query.${column.javaField}')" prop="${column.javaField}">
-    #elTableQueryItem($column "          ")
-          </el-form-item>
-#end
-#end
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="onQuery">{{ $t('general.query.search') }}</el-button>
-            <el-button icon="el-icon-refresh" plain @click="onRefresh">{{ $t('general.query.reset') }}</el-button>
-          </el-form-item>
-        </el-form>
-      </query-expand-wrapper>
-      <div>
-        <eu-table-toolbar
-          :multiple-disabled="multipleDisabled"
-          :opt-show="{
-            import: false
-          }"
-          :permission="{
-            add: ['${permissionPrefix}:add'],
-            del: ['${permissionPrefix}:del'],
-            export: ['${permissionPrefix}:export'],
-          }"
-          :sort.sync="queryParams.sort"
-          :ref-table="$refs.table"
-          @add="onAdd"
-          @batchDel="onBatchDel"
-          @export="onExport"
-          @refresh="onRefresh"
-          :searchToggle.sync="isQueryShow"
-          @sort="onSortComplete"
-        />
-        <vxe-table
-          id="table"
-          border
-          resizable
-          show-overflow
-          ref="table"
-          :loading="loading"
-          :data="list"
-          :row-config="{isHover: true}"
-          @checkbox-all="onSelectionChange"
-          @checkbox-change="onSelectionChange"
-          :custom-config="customConfig"
-        >
-          <vxe-column type="checkbox" width="40" fixed="left"></vxe-column>
-#foreach($column in $columns)
-#if($column.tableShow)
-#if($column.tableHeaderQuery)
-          <vxe-colgroup
-            :title="$t('${tableName}.column.${column.javaField}')"
-            field="group_${column.javaField}"
-          >
-            <vxe-column
-              field="${column.javaField}"
-              :title="$t('${tableName}.column.${column.javaField}')"
-              :visible="${column.defaultVisible}"
-              min-width="100"
-            >
-              <template #header>
-#if($column.queryType)
-  #elTableQueryItem($column "              ")
-#end
-              </template>
-            </vxe-column>
-          </vxe-colgroup>
-#else
-          <vxe-column
-            field="${column.javaField}"
-            :title="$t('${tableName}.column.${column.javaField}')"
-            :visible="${column.defaultVisible}"
-            min-width="100"
-          ></vxe-column>
-#end
-#end
-#end
-          <vxe-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" :field="$tableColumnField.operation" :title="$t('general.column.operation')" min-width="130" :show-overflow="false" fixed="right">
-            <template #default="{ row }">
-              <el-button v-permissions="['${permissionPrefix}:edit']" type="text" @click="onRowUpdate(row)">{{ $t('general.edit') }}</el-button>
-              <el-button v-permissions="['${permissionPrefix}:del']" type="text" @click="onRowDelete(row)">{{ $t('general.del') }}</el-button>
-            </template>
-          </vxe-column>
-        </vxe-table>
-        <pagination
-          :total="total"
-          :page.sync="queryParams.page"
-          :limit.sync="queryParams.size"
-          @pagination="onQuery"
-        />
-      </div>
-    </div>
-
-    <${classNameKebabCase}-edit-dialog ref="${className}EditDialog" @complete="onRefresh" />
-
-  </div>
-</template>
-
 <script>
 import { page, batchDel } from '@/api/${apiPath}'
 import ${ClassName}EditDialog from './${ClassName}EditDialog.vue'
@@ -214,3 +111,125 @@ export default {
   },
 }
 </script>
+
+<template>
+  <div class="page-container">
+    <div class="page-body">
+      <query-expand-wrapper :show="isQueryShow">
+        <el-form :model="queryParams" :inline="true">
+#foreach($column in $columns)
+#if($column.areaQuery)
+          <el-form-item :label="$t('${tableName}.query.${column.javaField}')" prop="${column.javaField}">
+    #elTableQueryItem($column "          ")
+          </el-form-item>
+#end
+#end
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" @click="onQuery">{{ $t('general.query.search') }}</el-button>
+            <el-button icon="el-icon-refresh" plain @click="onRefresh">{{ $t('general.query.reset') }}</el-button>
+          </el-form-item>
+        </el-form>
+      </query-expand-wrapper>
+      <div>
+        <eu-table-toolbar
+          :multiple-disabled="multipleDisabled"
+          :opt-show="{
+            import: false
+          }"
+          :permission="{
+            add: ['${permissionPrefix}:add'],
+            del: ['${permissionPrefix}:del'],
+            export: ['${permissionPrefix}:export'],
+          }"
+          :sort.sync="queryParams.sort"
+          :ref-table="$refs.table"
+          @add="onAdd"
+          @batchDel="onBatchDel"
+          @export="onExport"
+          @refresh="onRefresh"
+          :searchToggle.sync="isQueryShow"
+          @sort="onSortComplete"
+        />
+        <vxe-table
+          id="table"
+          border
+          resizable
+          show-overflow
+          ref="table"
+          :loading="loading"
+          :data="list"
+          :row-config="{isHover: true}"
+          @checkbox-all="onSelectionChange"
+          @checkbox-change="onSelectionChange"
+          :custom-config="customConfig"
+        >
+          <vxe-column type="checkbox" width="40" fixed="left"></vxe-column>
+#foreach($column in $columns)
+#if($column.tableShow)
+#if($column.tableHeaderQuery)
+          <vxe-colgroup
+            :title="$t('${tableName}.column.${column.javaField}')"
+            field="group_${column.javaField}"
+          >
+            <vxe-column
+              field="${column.javaField}"
+              :title="$t('${tableName}.column.${column.javaField}')"
+              :visible="${column.defaultVisible}"
+              min-width="100"
+            >
+              <template #header>
+#if($column.queryType)
+  #elTableQueryItem($column "              ")
+#end
+#if($column.dictKey)
+              <template #default="{ row }">
+                {{ dict.label['${column.dictKey}'][row.${column.javaField}] || '' }}
+              </template>
+#elseif($column.enumKey)
+              <template #default="{ row }">
+                {{ $enumsParseLabel($enums.${column.enumKey}, row.${column.javaField}) }}
+              </template>
+#end
+              </template>
+            </vxe-column>
+          </vxe-colgroup>
+#else
+          <vxe-column
+            field="${column.javaField}"
+            :title="$t('${tableName}.column.${column.javaField}')"
+            :visible="${column.defaultVisible}"
+            min-width="100"
+          >
+#if($column.dictKey)
+            <template #default="{ row }">
+              {{ dict.label['${column.dictKey}'][row.${column.javaField}] || '' }}
+            </template>
+#elseif($column.enumKey)
+            <template #default="{ row }">
+              {{ $enumsParseLabel($enums.${column.enumKey}, row.${column.javaField}) }}
+            </template>
+#end
+          </vxe-column>
+#end
+#end
+#end
+          <vxe-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" :field="$tableColumnField.operation" :title="$t('general.column.operation')" min-width="130" :show-overflow="false" fixed="right">
+            <template #default="{ row }">
+              <el-button v-permissions="['${permissionPrefix}:edit']" type="text" @click="onRowUpdate(row)">{{ $t('general.edit') }}</el-button>
+              <el-button v-permissions="['${permissionPrefix}:del']" type="text" @click="onRowDelete(row)">{{ $t('general.del') }}</el-button>
+            </template>
+          </vxe-column>
+        </vxe-table>
+        <pagination
+          :total="total"
+          :page.sync="queryParams.page"
+          :limit.sync="queryParams.size"
+          @pagination="onQuery"
+        />
+      </div>
+    </div>
+
+    <${classNameKebabCase}-edit-dialog ref="${className}EditDialog" @complete="onRefresh" />
+
+  </div>
+</template>

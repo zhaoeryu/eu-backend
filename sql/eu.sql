@@ -58,6 +58,7 @@ CREATE TABLE `gen_table_column` (
   `form_type` varchar(32) DEFAULT NULL COMMENT '表单类型',
   `query_type` varchar(32) DEFAULT NULL COMMENT '查询方式',
   `dict_key` varchar(32) DEFAULT NULL COMMENT '关联字典',
+  `enum_key` varchar(32) DEFAULT NULL COMMENT '关联枚举',
   `area_query` bit(1) DEFAULT b'0' COMMENT '查询区域查询',
   `table_header_query` bit(1) DEFAULT b'0' COMMENT '是否表头里查询',
   `default_visible` bit(1) NOT NULL DEFAULT b'0' COMMENT '默认是否可见',

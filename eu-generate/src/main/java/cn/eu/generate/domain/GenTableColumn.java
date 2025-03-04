@@ -106,6 +106,11 @@ public class GenTableColumn implements Serializable {
      */
     private Boolean defaultVisible;
 
+    /**
+     * 关联枚举
+     */
+    private String enumKey;
+
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT)
     private String createBy;
