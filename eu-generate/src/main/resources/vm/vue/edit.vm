@@ -16,8 +16,7 @@ export default {
     PageModeMixin({
       permissions: [
         '${permissionPrefix}:edit'
-      ],
-      listPath: '/${apiPath}'
+      ]
     })
   ],
   components: { ContentBlockHeader, ContentLayout, ContentFooter, ContentBlock },

@@ -80,9 +80,7 @@ export default {
       this.multipleDisabled = !records.length
     },
     onRowUpdate(row) {
-      this.$openNewWindow(this.$router, {
-        path: #[[this.$route.path + `/edit/${row.id}`]]#
-      })
+      #[[this.$router.push(this.$route.path + `/edit/${row.id}`)]]#
     },
     onRowDelete(row) {
       this.$confirm(this.$t('general.confirm.delete.message', { key: row.$delShowField }), this.$t('general.confirm.title'), {
@@ -185,7 +183,7 @@ export default {
               </template>
 #if($detailHeaderEnable && $column.javaField == $detailHeaderFieldKey)
               <template #default="{ row }">
-                <el-link :href="`${$route.path}/edit/${row.id}`" target="_blank" type="primary">{{ row.$detailHeaderFieldKey }}</el-link>
+                <el-link type="primary" @click="onRowUpdate(row)">{{ row.$detailHeaderFieldKey }}</el-link>
               </template>
 #elseif($column.dictKey)
               <template #default="{ row }">
