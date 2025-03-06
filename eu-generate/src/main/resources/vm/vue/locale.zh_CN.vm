@@ -1,7 +1,7 @@
 export default {
   // list
 #foreach($column in $columns)
-  #if($column.queryType)
+  #if($column.areaQuery || $column.tableHeaderQuery)
   '${tableName}.query.${column.javaField}': '#if($column.columnComment)$column.columnComment#else$column.javaField#end',
   '${tableName}.query.${column.javaField}.placeholder': '请输入#if($column.columnComment)$column.columnComment#else$column.javaField#end',
   #end

@@ -59,6 +59,8 @@ $indent    @change="onQuery"
 $indent    clearable>
 $indent  </el-date-picker>
       #end
+  #elseif(!$column.builtInFormType)
+$indent  <$column.formType v-model="${formObj}.${column.javaField}" />
   #else
 $indent  <el-input v-model="${formObj}.${column.javaField}" :placeholder="$t('general.placeholder.enter.search')" clearable style="width: 100%;" @change="onQuery" />
   #end

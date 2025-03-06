@@ -111,6 +111,12 @@ public class GenTableColumn implements Serializable {
      */
     private String enumKey;
 
+    /**
+     * 是否内置表单类型
+     */
+    @TableField(exist = false)
+    private Boolean builtInFormType;
+
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT)
     private String createBy;

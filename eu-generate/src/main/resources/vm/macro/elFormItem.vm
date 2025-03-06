@@ -79,6 +79,8 @@ $indent    </template>
 $indent  </upload-file>
   #elseif($column.formType == 'editor')
 $indent  <eu-editor v-model="${formObj}.${column.javaField}" />
+  #elseif(!$column.builtInFormType)
+$indent  <$column.formType v-model="${formObj}.${column.javaField}" />
   #else
 $indent  <el-input v-model="${formObj}.${column.javaField}" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable />
   #end

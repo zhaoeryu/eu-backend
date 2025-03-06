@@ -23,7 +23,7 @@ export default {
 #foreach($column in $columns)
 #if($column.formShow && $column.notNull)
         $column.javaField: [
-          { required: true, message: i18n.t('${tableName}.form.${column.javaField}.required'), trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
+          { required: true, message: i18n.t('${tableName}.form.${column.javaField}.required'), trigger: #if($column.formType == "select" || $column.formType == "radio" || !$column.builtInFormType)'change'#else'blur'#end }
         ],
 #end
 #end

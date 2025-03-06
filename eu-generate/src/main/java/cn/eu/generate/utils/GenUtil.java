@@ -3,6 +3,7 @@ package cn.eu.generate.utils;
 import cn.eu.common.model.ResultBody;
 import cn.eu.generate.constants.GenConstant;
 import cn.eu.generate.domain.GenTableColumn;
+import cn.eu.generate.enums.FormType;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author zhaoeryu
@@ -136,6 +139,18 @@ public class GenUtil {
         response.addHeader("Content-Length", "" + bytes.length);
         response.setContentType("application/json; charset=UTF-8");
         IOUtils.write(bytes, response.getOutputStream());
+    }
+    /**
+     * 判断column的formType是否内置的表单类型
+     */
+    public static boolean isBuiltInFormType(String formType) {
+        if (StrUtil.isBlank(formType)) {
+            return true;
+        }
+        // 内置的表单类型
+        Set<String> builtInFormTypeList = Arrays.stream(FormType.values()).map(FormType::getValue)
+                .collect(Collectors.toSet());
+        return builtInFormTypeList.contains(formType);
     }
 
 }

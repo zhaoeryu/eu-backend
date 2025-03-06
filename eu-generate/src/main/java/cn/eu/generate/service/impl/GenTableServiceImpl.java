@@ -159,6 +159,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
             }
             item.setFormType(formType);
         }
+        item.setBuiltInFormType(GenUtil.isBuiltInFormType(item.getFormType()));
         if (item.getId() == null) {
             // 如果是基础字段并且非手动配置，那么默认可以为空
             boolean isFieldBaseEntity = GenUtil.isFieldBaseEntity(item.getColumnName());

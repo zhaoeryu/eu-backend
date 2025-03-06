@@ -1,7 +1,7 @@
 export default {
   // list
 #foreach($column in $columns)
-  #if($column.queryType)
+  #if($column.areaQuery || $column.tableHeaderQuery)
   '${tableName}.query.${column.javaField}': '${column.javaField}',
   '${tableName}.query.${column.javaField}.placeholder': 'Enter ${column.javaField}',
   #end
