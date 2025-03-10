@@ -18,6 +18,7 @@ public enum FormType {
     SELECT("select", "下拉框"),
     RADIO("radio", "单选框"),
     CHECKBOX("checkbox", "复选框"),
+    SWITCH("switch", "开关"),
     DATE("date", "日期"),
     DATETIME("datetime", "日期时间"),
     IMAGE("image", "图片"),
