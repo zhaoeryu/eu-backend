@@ -169,10 +169,10 @@ export default {
 #if($column.tableHeaderQuery)
           <vxe-colgroup
             :title="$t('${tableName}.column.${column.javaField}')"
-            field="group_${column.javaField}"
+            field="group_${column.tableShowField}"
           >
             <vxe-column
-              field="${column.javaField}"
+              field="${column.tableShowField}"
               :title="$t('${tableName}.column.${column.javaField}')"
               :visible="${column.defaultVisible}"
               min-width="100"
@@ -195,7 +195,7 @@ export default {
           </vxe-colgroup>
 #else
           <vxe-column
-            field="${column.javaField}"
+            field="${column.tableShowField}"
             :title="$t('${tableName}.column.${column.javaField}')"
             :visible="${column.defaultVisible}"
             min-width="100"

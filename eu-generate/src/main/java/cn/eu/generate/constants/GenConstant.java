@@ -16,6 +16,9 @@ public class GenConstant {
     public static final String COMMON_ENTITY_FIELD_DATA_SOURCE = "data_source";
     public static final String COMMON_ENTITY_FIELD_STATUS = "status";
 
+    public static final String DEFAULT_CONVERT_FIELD_CREATE_BY = "createByNickname";
+    public static final String DEFAULT_CONVERT_FIELD_UPDATE_BY = "updateByNickname";
+
     public static final String UTF8 = "UTF-8";
 
     /**

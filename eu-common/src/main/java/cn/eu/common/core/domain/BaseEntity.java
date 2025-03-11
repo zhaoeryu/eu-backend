@@ -1,5 +1,7 @@
 package cn.eu.common.core.domain;
 
+import cn.eu.common.annotation.Translation;
+import cn.eu.common.constants.TransConstant;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 @Data
 public abstract class BaseEntity implements Serializable {
 
+    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = "createByNickname")
     @Schema(description = "创建者")
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT)
@@ -32,6 +35,7 @@ public abstract class BaseEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
+    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = "updateByNickname")
     @Schema(description = "更新者")
     @ExcelIgnore
     @TableField(fill = FieldFill.UPDATE)

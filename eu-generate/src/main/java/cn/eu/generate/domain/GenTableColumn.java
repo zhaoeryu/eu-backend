@@ -61,6 +61,13 @@ public class GenTableColumn implements Serializable {
      */
     @NotBlank(message = "java字段名称不能为空")
     private String javaField;
+
+    /**
+     * 表格展示字段
+     */
+    @TableField(exist = false)
+    private String tableShowField;
+
     /**
      * 字段长度
      */

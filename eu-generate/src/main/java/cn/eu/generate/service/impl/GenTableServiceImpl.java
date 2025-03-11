@@ -167,6 +167,14 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                 item.setNotNull(false);
             }
         }
+        // create_by、update_by 默认翻译
+        if (GenConstant.COMMON_ENTITY_FIELD_CREATE_BY.equals(item.getColumnName())) {
+            item.setTableShowField(GenConstant.DEFAULT_CONVERT_FIELD_CREATE_BY);
+        } else if (GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY.equals(item.getColumnName())) {
+            item.setTableShowField(GenConstant.DEFAULT_CONVERT_FIELD_UPDATE_BY);
+        } else {
+            item.setTableShowField(item.getJavaField());
+        }
     }
 
     @Override
