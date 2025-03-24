@@ -155,7 +155,14 @@ export default {
           <el-table-column type="selection"></el-table-column>
 #foreach($column in $columns)
 #if($column.tableShow)
-          <el-table-column prop="${column.javaField}" :label="$t('${tableName}.column.${column.javaField}')"></el-table-column>
+          <el-table-column
+            prop="${column.javaField}"
+    #if($i18nEnable)
+            :label="$t('${tableName}.field.${column.javaField}')"
+    #else
+            label="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+    #end
+          ></el-table-column>
 #end
 #end
           <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" :label="$t('general.column.operation')">

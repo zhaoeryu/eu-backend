@@ -1,13 +1,13 @@
 #macro(elFormItem $column $isQuery $indent)
 #set($formObj = "#if($isQuery)queryParams#{else}form#end")
-#set($columnType = "#if($isQuery)query#{else}form#end")
-$indent<el-form-item :label="$t('${tableName}.${columnType}.${column.javaField}')" prop="${column.javaField}">
+#set($x_field = "#if($i18nEnable)$t('${tableName}.field.${column.javaField}')#{else}'#if($column.columnComment)$column.columnComment#else$column.javaField#end'#end")
+$indent<el-form-item :label="$x_field" prop="${column.javaField}">
   #if ($column.formType == 'number')
-$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable />
+$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" :placeholder="$t('general.placeholder.input', { field: $x_field })" clearable />
   #elseif ($column.formType == 'switch')
 $indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true" :inactive-value="false" />
   #elseif ($column.formType == 'select')
-$indent  <el-select v-model="${formObj}.${column.javaField}" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable filterable style="width: 100%;">
+$indent  <el-select v-model="${formObj}.${column.javaField}" :placeholder="$t('general.placeholder.select', { field: $x_field })" clearable filterable style="width: 100%;">
     #if($column.dictKey)
 $indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):value="Number(item.value)"#{else}:value="item.value"#end />
     #elseif($column.enumKey)
@@ -40,7 +40,7 @@ $indent  </el-checkbox-group>
 $indent  <el-date-picker
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="date"
-$indent    :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')"
+$indent    :placeholder="$t('general.placeholder.select', { field: $x_field })"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd"
 $indent    style="width: 100%;"
@@ -50,7 +50,7 @@ $indent  </el-date-picker>
 $indent  <el-date-picker
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="datetime"
-$indent    :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')"
+$indent    :placeholder="$t('general.placeholder.select', { field: $x_field })"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd HH:mm:ss"
 $indent    style="width: 100%;"
@@ -82,7 +82,7 @@ $indent  <eu-editor v-model="${formObj}.${column.javaField}" />
   #elseif(!$column.builtInFormType)
 $indent  <$column.formType v-model="${formObj}.${column.javaField}" />
   #else
-$indent  <el-input v-model="${formObj}.${column.javaField}" :placeholder="$t('${tableName}.${columnType}.${column.javaField}.placeholder')" clearable />
+$indent  <el-input v-model="${formObj}.${column.javaField}" :placeholder="$t('general.placeholder.input', { field: $x_field })" clearable />
   #end
 $indent</el-form-item>
 #end

@@ -119,7 +119,14 @@ export default {
         <el-form :model="queryParams" :inline="true">
 #foreach($column in $columns)
 #if($column.areaQuery)
-          <el-form-item :label="$t('${tableName}.query.${column.javaField}')" prop="${column.javaField}">
+          <el-form-item
+    #if($i18nEnable)
+            :label="$t('${tableName}.field.${column.javaField}')"
+    #else
+            label="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+    #end
+            prop="${column.javaField}"
+          >
     #elTableQueryItem($column "          ")
           </el-form-item>
 #end
@@ -168,12 +175,20 @@ export default {
 #if($column.tableShow)
 #if($column.tableHeaderQuery)
           <vxe-colgroup
-            :title="$t('${tableName}.column.${column.javaField}')"
+    #if($i18nEnable)
+            :title="$t('${tableName}.field.${column.javaField}')"
+    #else
+            title="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+    #end
             field="group_${column.tableShowField}"
           >
             <vxe-column
               field="${column.tableShowField}"
-              :title="$t('${tableName}.column.${column.javaField}')"
+    #if($i18nEnable)
+              :title="$t('${tableName}.field.${column.javaField}')"
+    #else
+              title="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+    #end
               :visible="${column.defaultVisible}"
               min-width="100"
             >
@@ -196,7 +211,11 @@ export default {
 #else
           <vxe-column
             field="${column.tableShowField}"
-            :title="$t('${tableName}.column.${column.javaField}')"
+    #if($i18nEnable)
+            :title="$t('${tableName}.field.${column.javaField}')"
+    #else
+            title="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+    #end
             :visible="${column.defaultVisible}"
             min-width="100"
           >

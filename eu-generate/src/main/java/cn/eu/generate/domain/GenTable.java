@@ -74,6 +74,11 @@ public class GenTable implements Serializable {
      */
     private String crudEditMode;
 
+    /**
+     * 是否开启i18n
+     */
+    private Boolean i18nEnable;
+
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT)
     private String createBy;

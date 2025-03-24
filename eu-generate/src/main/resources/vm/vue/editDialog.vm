@@ -1,6 +1,8 @@
 <script>
 import { add, update } from '@/api/${apiPath}'
+#if($i18nEnable)
 import i18n from '@/plugins/i18n'
+#end
 
 export default {
   name: '${ClassName}EditDialog',
@@ -23,7 +25,7 @@ export default {
 #foreach($column in $columns)
 #if($column.formShow && $column.notNull)
         $column.javaField: [
-          { required: true, message: i18n.t('${tableName}.form.${column.javaField}.required'), trigger: #if($column.formType == "select" || $column.formType == "radio" || !$column.builtInFormType)'change'#else'blur'#end }
+          { required: true, message: #if($i18nEnable)i18n.t('general.required', { field: i18n.t('${tableName}.field.${column.javaField}') })#{else}'#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空'#end, trigger: #if($column.formType == "select" || $column.formType == "radio" || !$column.builtInFormType)'change'#else'blur'#end }
         ],
 #end
 #end
@@ -32,7 +34,8 @@ export default {
   },
   computed: {
     title() {
-      return this.form.id ? this.$t('${tableName}.edit.title') : this.$t('${tableName}.add.title')
+      #set($pageTitle = "#if($i18nEnable)this.$t('${tableName}.title')#{else}'${tableComment}'#end")
+      return this.form.id ? (this.$t('general.edit') + $pageTitle) : (this.$t('general.add') + $pageTitle)
     }
   },
   methods: {
@@ -50,7 +53,7 @@ export default {
         this.formLoading = true
         const reqPromise = this.form.id ? update(this.form) : add(this.form)
         reqPromise.then(() => {
-          this.$message.success(this.form.id ? this.$t(']]#${tableName}#[[.edit.success') : this.$t(']]#${tableName}#[[.add.success'))
+          this.$message.success(this.form.id ? this.$t('general.submit.update.success') : this.$t('general.submit.add.success'))
           this.show = false
           this.$emit('complete')
         }).finally(() => {
@@ -74,10 +77,10 @@ export default {
     :title="title"
     :visible.sync="show"
     :close-on-click-modal="false"
-    width="500px"
+    width="700px"
     @open="onDialogOpen"
   >
-    <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="100px">
 #foreach($column in $columns)
 #if($column.formShow)
     #elFormItem($column false "      ")

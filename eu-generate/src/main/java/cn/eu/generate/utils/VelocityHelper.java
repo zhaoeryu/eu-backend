@@ -62,9 +62,11 @@ public class VelocityHelper {
         }
 
         // properties
-        list.add(new GenerateTemplateDto("vm/i18n/messages.vm", "messages.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
-        list.add(new GenerateTemplateDto("vm/i18n/messages_zh_CN.vm", "messages_zh_CN.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
-        list.add(new GenerateTemplateDto("vm/i18n/messages_en_US.vm", "messages_en_US.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
+        if (Boolean.TRUE.equals(genTable.getI18nEnable())) {
+            list.add(new GenerateTemplateDto("vm/i18n/messages.vm", "messages.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
+            list.add(new GenerateTemplateDto("vm/i18n/messages_zh_CN.vm", "messages_zh_CN.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
+            list.add(new GenerateTemplateDto("vm/i18n/messages_en_US.vm", "messages_en_US.properties", GenConstant.TPL_FILE_TYPE_PROPERTIES, true));
+        }
 
         if (EuFrontHeader.VUE2.getDesc().equals(requestHeaderFront)) {
             // vue
@@ -78,8 +80,10 @@ public class VelocityHelper {
                 list.add(new GenerateTemplateDto("vm/vue/edit.vm", "edit.vue", GenConstant.TPL_FILE_TYPE_VUE));
             }
             list.add(new GenerateTemplateDto("vm/vue/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
-            list.add(new GenerateTemplateDto("vm/vue/locale.zh_CN.vm", "locale.zh_CN.js", GenConstant.TPL_FILE_TYPE_JS));
-            list.add(new GenerateTemplateDto("vm/vue/locale.en_US.vm", "local.en_US.js", GenConstant.TPL_FILE_TYPE_JS));
+            if (Boolean.TRUE.equals(genTable.getI18nEnable())) {
+                list.add(new GenerateTemplateDto("vm/vue/locale.zh_CN.vm", "locale.zh_CN.js", GenConstant.TPL_FILE_TYPE_JS));
+                list.add(new GenerateTemplateDto("vm/vue/locale.en_US.vm", "local.en_US.js", GenConstant.TPL_FILE_TYPE_JS));
+            }
         } else if (EuFrontHeader.VUE3.getDesc().equals(requestHeaderFront)) {
             // vue3
             list.add(new GenerateTemplateDto("vm/vue3/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
@@ -159,6 +163,7 @@ public class VelocityHelper {
         velocityContext.put("entityColumns", genColumns);
         velocityContext.put("columns", genTableColumns);
         velocityContext.put("crudEditMode", genTable.getCrudEditMode());
+        velocityContext.put("i18nEnable", genTable.getI18nEnable());
         // 字典key列表
         velocityContext.put("dicts", genTableColumns.stream()
                         .map(GenTableColumn::getDictKey)

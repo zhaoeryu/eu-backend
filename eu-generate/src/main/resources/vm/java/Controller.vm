@@ -58,7 +58,7 @@ public class ${ClassName}Controller extends EuBaseController {
     @SaCheckPermission("${permissionPrefix}:edit")
     @PutMapping
     public ResultBody update(@Validated @RequestBody ${ClassName} entity) {
-        Assert.notNull(entity.getId(), MessageUtils.message("assert.notNull", "id"));
+        Assert.notNull(entity.getId(), #if($i18nEnable)MessageUtils.message("assert.notNull", "id")#{else}"id不能为空"#end);
         ${className}Service.updateById(entity);
         return ResultBody.ok();
     }
@@ -67,7 +67,7 @@ public class ${ClassName}Controller extends EuBaseController {
     @SaCheckPermission("${permissionPrefix}:del")
     @DeleteMapping
     public ResultBody delete(@RequestParam("id") ${pkColumnType} id) {
-        Assert.notNull(id, MessageUtils.message("assert.notNull", "id"));
+        Assert.notNull(id, #if($i18nEnable)MessageUtils.message("assert.notNull", "id")#{else}"id不能为空"#end);
         ${className}Service.removeById(id);
         return ResultBody.ok();
     }
@@ -76,7 +76,7 @@ public class ${ClassName}Controller extends EuBaseController {
     @SaCheckPermission("${permissionPrefix}:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<${pkColumnType}> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.notEmpty(ids, #if($i18nEnable)MessageUtils.message("assert.notEmpty", "ids")#{else}"id不能为空"#end);
         ${className}Service.removeByIds(ids);
         return ResultBody.ok();
     }

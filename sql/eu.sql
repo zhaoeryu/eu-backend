@@ -21,6 +21,7 @@ CREATE TABLE `gen_table` (
   `gen_mode` tinyint(1) NOT NULL DEFAULT '0' COMMENT '生成模式',
   `detail_header_field_key` varchar(32) DEFAULT NULL COMMENT '详情页头部字段',
   `crud_edit_mode` varchar(10) NOT NULL COMMENT 'crud编辑模式',
+  `i18n_enable` bit(1) NOT NULL DEFAULT b'0' COMMENT '开启i18n',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',

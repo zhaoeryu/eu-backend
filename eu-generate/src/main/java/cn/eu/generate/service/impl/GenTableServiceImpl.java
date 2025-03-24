@@ -87,6 +87,9 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         genTable.setAuthor(StrUtil.blankToDefault(genTable.getAuthor(), System.getProperty("user.name")));
         genTable.setGenMode(genTable.getGenMode() == null ? GenMode.GENERATE.ordinal() : genTable.getGenMode());
         genTable.setCrudEditMode(StrUtil.blankToDefault(genTable.getCrudEditMode(), CrudEditMode.DIALOG.getValue()));
+        if (genTable.getI18nEnable() == null) {
+            genTable.setI18nEnable(false);
+        }
 
         return genTable;
     }

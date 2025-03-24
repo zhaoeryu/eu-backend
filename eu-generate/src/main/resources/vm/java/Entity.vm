@@ -44,9 +44,9 @@ public class ${ClassName} extends BaseEntity {
 #else
     #if ($column.notNull)
     #if ($column.javaType == 'String')
-    @NotBlank(message = "{valid.${ClassName}.${column.javaField}.notBlank}")
+    @NotBlank(message = "#if($i18nEnable){valid.${ClassName}.${column.javaField}.notBlank}#{else}#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空#end")
     #else
-    @NotNull(message = "{valid.${ClassName}.${column.javaField}.notNull}")
+    @NotNull(message = "#if($i18nEnable){valid.${ClassName}.${column.javaField}.notNull}#{else}#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空#end")
     #end
     #end
 #end
