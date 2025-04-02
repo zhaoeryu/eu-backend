@@ -114,33 +114,35 @@ export default {
     <content-block v-if="loading">
       <eu-loading style="height: 300px;" />
     </content-block>
-    <content-block v-else>
+    <template v-else>
+      <el-form ref="form" :model="form" :rules="rules" label-position="right" label-width="120px" :disabled="!allowEdit">
+        <content-block>
 #if($detailHeaderEnable)
-      <content-block-header
-        v-if="!isAddMode"
-        label="$detailHeaderFieldLabel"
-        :value="form.$detailHeaderFieldKey"
-      >
-        <template #right>
-          <!-- 这里可以做一些状态显示的tag -->
-        </template>
-      </content-block-header>
+          <content-block-header
+            v-if="!isAddMode"
+            label="$detailHeaderFieldLabel"
+            :value="form.$detailHeaderFieldKey"
+          >
+            <template #right>
+              <!-- 这里可以做一些状态显示的tag -->
+            </template>
+          </content-block-header>
 #end
-      <m-block-header :title="$t('general.info.basic')" :background="false" style="margin-top: unset;" />
-      <div class="content-body">
-        <el-form ref="form" :model="form" :rules="rules" label-position="right" label-width="120px" :disabled="!allowEdit">
-          <el-row>
+          <m-block-header :title="$t('general.info.basic')" :background="false" style="margin-top: unset;" />
+          <div class="content-body">
+            <el-row>
 #foreach($column in $columns)
 #if($column.formShow)
-            <el-col :span="8">
-    #elFormItem($column false "              ")
-            </el-col>
+              <el-col :span="8">
+      #elFormItem($column false "                ")
+              </el-col>
 #end
 #end
-          </el-row>
-        </el-form>
-      </div>
-    </content-block>
+            </el-row>
+          </div>
+        </content-block>
+      </el-form>
+    </template>
 
     <!-- 底部 -->
     <template #footer>
