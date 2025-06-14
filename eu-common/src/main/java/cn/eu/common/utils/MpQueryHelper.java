@@ -1,6 +1,7 @@
 package cn.eu.common.utils;
 
 import cn.eu.common.constants.Constants;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -65,7 +66,9 @@ public class MpQueryHelper {
                     Query.Type queryType = annotation.type();
 
                     // 判断值是否为空
-                    boolean isNonNull = value != null && !(value instanceof String && StrUtil.isBlank((String) value));
+                    boolean isNonNull = value != null &&
+                            !(value instanceof String && StrUtil.isBlank((String) value)) &&
+                            !(value instanceof Collection && CollUtil.isEmpty((Collection<?>) value));
 
                     // 判断查询类型是否不需要校验空值
                     boolean isNotNonNull = NOT_NONNULL_QUERY_TYPE.contains(queryType);
