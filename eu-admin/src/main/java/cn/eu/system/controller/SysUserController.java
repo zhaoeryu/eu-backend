@@ -143,8 +143,9 @@ public class SysUserController extends EuBaseController {
     @PutMapping("/profile")
     public ResultBody updateProfile(@Validated @RequestBody SysUser entity) {
         Assert.notNull(entity.getId(), MessageUtils.message("assert.notNull", "id"));
+        String userId = StpUtil.getLoginIdAsString();
         sysUserService.update(new LambdaUpdateWrapper<SysUser>()
-            .eq(SysUser::getId, entity.getId())
+            .eq(SysUser::getId, userId)
             .set(SysUser::getNickname, entity.getNickname())
             .set(SysUser::getMobile, entity.getMobile())
             .set(SysUser::getEmail, entity.getEmail())

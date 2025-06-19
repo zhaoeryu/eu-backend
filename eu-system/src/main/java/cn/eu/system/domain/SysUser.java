@@ -32,7 +32,6 @@ public class SysUser extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @ExcelIgnore
-    @ExcelProperty("ID")
     @TableId
     private String id;
     /** 登录名 */
