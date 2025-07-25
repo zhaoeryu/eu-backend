@@ -1,8 +1,6 @@
 <script>
 import { page, batchDel } from '@/api/${apiPath}'
 import ${ClassName}EditDialog from './${ClassName}EditDialog.vue'
-import QueryExpandWrapper from '@/components/Crud/QueryExpandWrapper/index.vue'
-import EuTableToolbar from '@/components/Crud/EuTableToolbar/index.vue'
 import TableColumnSettingMixin from '@/mixins/TableColumnSettingMixin'
 export default {
   name: '${ClassName}',
@@ -10,7 +8,7 @@ export default {
 #if($dicts)
   dicts: [#foreach($item in $dicts)'${item}'#if($foreach.hasNext), #end#end],
 #end
-  components: { EuTableToolbar, QueryExpandWrapper, ${ClassName}EditDialog },
+  components: { ${ClassName}EditDialog },
   data() {
     return {
       loading: false,

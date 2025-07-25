@@ -4,7 +4,7 @@ import cn.eu.common.utils.SpringContextHolder;
 import cn.eu.websocket.enums.WsCommands;
 import cn.eu.websocket.model.WsRequestPacket;
 import cn.eu.websocket.utils.WsSessionUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;

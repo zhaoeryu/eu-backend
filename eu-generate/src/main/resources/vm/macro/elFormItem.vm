@@ -48,6 +48,7 @@ $indent    :placeholder="$t('general.placeholder.select', { field: $x_field })"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd"
 $indent    style="width: 100%;"
+$indent    :placeholder="$t('general.placeholder.select', { field: $x_field })"
 $indent    clearable>
 $indent  </el-date-picker>
   #elseif ($column.formType == 'datetime')
@@ -58,6 +59,7 @@ $indent    :placeholder="$t('general.placeholder.select', { field: $x_field })"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd HH:mm:ss"
 $indent    style="width: 100%;"
+$indent    :placeholder="$t('general.placeholder.select', { field: $x_field })"
 $indent    clearable>
 $indent  </el-date-picker>
   #elseif ($column.formType == 'file')

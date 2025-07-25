@@ -7,7 +7,6 @@ import cn.eu.common.enums.BusinessStatus;
 import cn.eu.common.enums.BusinessType;
 import cn.eu.common.model.LoginBody;
 import cn.eu.common.utils.IpUtil;
-import cn.eu.common.utils.PropertyPreExcludeFilter;
 import cn.eu.common.utils.LoginUtil;
 import cn.eu.common.model.LoginUser;
 import cn.eu.system.domain.SysOperLog;
@@ -17,7 +16,8 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.filter.PropertyFilter;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -231,8 +231,11 @@ public class LogAspect {
     /**
      * 忽略敏感属性
      */
-    public PropertyPreExcludeFilter excludePropertyPreFilter(String[] excludeParamNames) {
-        return new PropertyPreExcludeFilter().addExcludes(ArrayUtil.addAll(EXCLUDE_PROPERTIES, excludeParamNames));
+    public PropertyFilter excludePropertyPreFilter(String[] excludeParamNames) {
+        return (source, name, value) -> {
+            String[] strings = ArrayUtil.addAll(EXCLUDE_PROPERTIES, excludeParamNames);
+            return !ArrayUtil.contains(strings, name);
+        };
     }
 
     /**

@@ -5,7 +5,7 @@ import cn.eu.common.constants.Constants;
 import cn.eu.common.model.LoginUser;
 import cn.eu.common.utils.LoginUtil;
 import cn.eu.websocket.model.WsResponsePacket;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;

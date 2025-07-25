@@ -41,14 +41,14 @@
         <druid.version>1.1.21</druid.version>
         <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
         <pagehelper.version>1.4.6</pagehelper.version>
-        <hutool.version>5.8.14</hutool.version>
-        <fastjson.version>1.2.71</fastjson.version>
-        <sa-token.version>1.34.0</sa-token.version>
+        <hutool.version>5.8.39</hutool.version>
+        <fastjson2.version>2.0.57</fastjson2.version>
+        <sa-token.version>1.44.0</sa-token.version>
         <ip2region.version>2.7.0</ip2region.version>
         <bitwalker.version>1.21</bitwalker.version>
         <captcha.version>1.6.2</captcha.version>
-        <easyexcel.version>3.3.2</easyexcel.version>
-        <knife4j.version>4.1.0</knife4j.version>
+        <easyexcel.version>4.0.3</easyexcel.version>
+        <knife4j.version>4.4.0</knife4j.version>
 
     </properties>
 
@@ -116,9 +116,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
             </dependency>
 
             <dependency>
@@ -134,13 +134,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis-fastjson</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-            <!-- Sa-Token 整合 jwt -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-jwt</artifactId>
+                <artifactId>sa-token-redis-jackson</artifactId>
                 <version>${sa-token.version}</version>
             </dependency>
 

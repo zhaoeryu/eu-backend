@@ -1,10 +1,6 @@
 <script>
 import { add, update, getById } from '@/api/${apiPath}'
 import i18n from '@/plugins/i18n'
-import ContentBlock from '@/components/ContentLayout/ContentBlock.vue'
-import ContentFooter from '@/components/ContentLayout/ContentFooter.vue'
-import ContentLayout from '@/components/ContentLayout/ContentLayout.vue'
-import ContentBlockHeader from '@/components/ContentLayout/ContentBlockHeader.vue'
 import PageModeMixin from '@/mixins/PageModeMixin'
 
 export default {
@@ -107,7 +103,7 @@ export default {
       </template>
       <template v-else>
         <el-button @click="onCancel">{{ $t('general.back.prev') }}</el-button>
-        <el-button v-if="!isAddMode" type="primary" @click="doLoadData">{{ $t('general.reload') }}</el-button>
+        <el-button v-if="!isAddMode" type="primary" :loading="loading" @click="doLoadData">{{ $t('general.reload') }}</el-button>
       </template>
     </template>
 
@@ -130,15 +126,13 @@ export default {
 #end
           <m-block-header :title="$t('general.info.basic')" :background="false" style="margin-top: unset;" />
           <div class="content-body">
-            <el-row>
+            <div class="grid grid-cols-3">
 #foreach($column in $columns)
 #if($column.formShow)
-              <el-col :span="8">
       #elFormItem($column false "                ")
-              </el-col>
 #end
 #end
-            </el-row>
+            </div>
           </div>
         </content-block>
       </el-form>

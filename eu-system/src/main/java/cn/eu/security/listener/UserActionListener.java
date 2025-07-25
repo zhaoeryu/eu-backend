@@ -2,6 +2,7 @@ package cn.eu.security.listener;
 
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
+import cn.dev33.satoken.stp.parameter.SaLoginParameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +16,13 @@ import org.springframework.stereotype.Component;
 public class UserActionListener implements SaTokenListener {
 
     @Override
-    public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginModel loginModel) {
-        log.info("doLogin: loginType={}, loginId={}, tokenValue={}, loginModel={}", loginType, loginId, tokenValue, loginModel);
+    public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginParameter loginParameter) {
+
     }
 
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
-        log.info("doLogout: loginType={}, loginId={}, tokenValue={}", loginType, loginId, tokenValue);
+
     }
 
     @Override
@@ -65,7 +66,7 @@ public class UserActionListener implements SaTokenListener {
     }
 
     @Override
-    public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
+    public void doRenewTimeout(String loginType, Object loginId, String tokenValue, long timeout) {
 
     }
 }

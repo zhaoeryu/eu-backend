@@ -6,7 +6,8 @@ import cn.eu.common.constants.Constants;
 import cn.eu.common.model.LoginUser;
 import cn.eu.common.model.dto.RoleDto;
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -52,6 +53,9 @@ public class LoginUtil {
     public static LoginUser getLoginUserBySaSession(SaSession session) {
         Object userStr = session.get(Constants.USER_KEY);
         Objects.requireNonNull(userStr);
+        if (userStr instanceof LoginUser) {
+            return (LoginUser) userStr;
+        }
         return JSONObject.parseObject(userStr.toString(), LoginUser.class);
     }
 
@@ -82,7 +86,7 @@ public class LoginUtil {
         Object roles = StpUtil.getSession().get(Constants.ROLE_KEY);
         List<RoleDto> roleList = new ArrayList<>();
         try {
-            roleList = JSONObject.parseArray(roles.toString(), RoleDto.class);
+            roleList = JSONArray.parseArray(roles.toString(), RoleDto.class);
         } catch (Exception e) {
             log.error("getLoginUserRoles error", e);
         }

@@ -1,7 +1,7 @@
 package cn.eu.common.model;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.Hidden;
 
 import java.io.Serializable;

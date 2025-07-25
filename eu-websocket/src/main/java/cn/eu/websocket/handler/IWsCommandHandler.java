@@ -1,6 +1,6 @@
 package cn.eu.websocket.handler;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.lang.reflect.ParameterizedType;

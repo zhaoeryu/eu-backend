@@ -14,7 +14,7 @@ import cn.eu.system.service.ISysDeptService;
 import cn.eu.system.service.ISysRoleService;
 import cn.eu.system.service.ISysUserService;
 import cn.hutool.core.collection.CollUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

@@ -70,11 +70,7 @@ public class LoginService {
         LoginUser authUser = assembleAuthUser(user);
 
         // 进行登录
-        StpUtil.login(user.getId(), SaLoginConfig
-                .setDevice(LoginType.ADMIN.getValue())
-//                .setExtra(Constants.USER_KEY, authUser)
-//                .setExtra(Constants.IS_ADMIN_KEY, user.getAdmin())
-        );
+        StpUtil.login(user.getId(), LoginType.ADMIN.getValue());
         LoginUtil.setLoginUser(authUser);
         // 记录登录用户的角色
         LoginUtil.setLoginUserRoles(SecurityConvert.convertSysUserListToRole(sysRoleService.getRolesByUserId(user.getId())));
