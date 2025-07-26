@@ -15,7 +15,7 @@ export default {
       ]
     })
   ],
-  components: { ContentBlockHeader, ContentLayout, ContentFooter, ContentBlock },
+  components: {},
   data() {
     return {
       loading: false,
@@ -129,7 +129,7 @@ export default {
             <div class="grid grid-cols-3">
 #foreach($column in $columns)
 #if($column.formShow)
-      #elFormItem($column false "                ")
+      #elFormItem($column false "              ")
 #end
 #end
             </div>
