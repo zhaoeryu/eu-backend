@@ -13,6 +13,11 @@ public @interface Query {
 
     Type type() default Type.EQ;
 
+    /**
+     * 指定数据库中的字段名。如果你的实体类字段名与数据库字段名不同，使用这个属性来指定正确的数据库字段名。
+     */
+    String value() default "";
+
     enum Type {
         // =
         EQ,

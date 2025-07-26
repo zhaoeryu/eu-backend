@@ -19,23 +19,21 @@ public class MetaHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.debug("start insert fill ....");
         try {
             String userId = Optional.ofNullable(StpUtil.getLoginIdDefaultNull()).map(String::valueOf).orElse(null);
             this.strictInsertFill(metaObject, "createBy", String.class, userId);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("填充createBy异常 {}", e.getMessage());
         }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.debug("start update fill ....");
         try {
             String userId = Optional.ofNullable(StpUtil.getLoginIdDefaultNull()).map(String::valueOf).orElse(null);
             this.strictUpdateFill(metaObject, "updateBy", String.class, userId);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("填充updateBy异常 {}", e.getMessage());
         }
     }
 

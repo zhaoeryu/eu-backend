@@ -64,6 +64,7 @@ public class MpQueryHelper {
                 if (annotation != null) {
                     Object value = field.get(criteria);
                     Query.Type queryType = annotation.type();
+                    String fieldName = annotation.value();
 
                     // 判断值是否为空
                     boolean isNonNull = value != null &&
@@ -74,7 +75,10 @@ public class MpQueryHelper {
                     boolean isNotNonNull = NOT_NONNULL_QUERY_TYPE.contains(queryType);
 
                     if (isNotNonNull || isNonNull) {
-                        String fieldName = field.getName();
+                        // 检查是否自定义了字段名，如果没有自定义，使用字段名
+                        if (StrUtil.isBlank(fieldName)) {
+                            fieldName = StrUtil.toUnderlineCase(field.getName());
+                        }
 
                         // 设置查询条件
                         fillQueryWrapper(queryWrapper, queryType, value, fieldName, tableAlias);
@@ -114,8 +118,7 @@ public class MpQueryHelper {
      * @param <T> 实体类
      */
     private static <T> void fillQueryWrapper(QueryWrapper<T> queryWrapper, Query.Type queryType, Object value, String attributeName, String tableAlias) {
-        String fieldName = StrUtil.toUnderlineCase(attributeName);
-        fieldName = wrapperAliasField(tableAlias, fieldName);
+        String fieldName = wrapperAliasField(tableAlias, attributeName);
         switch (queryType) {
             case EQ:
                 queryWrapper.eq(fieldName, value);
