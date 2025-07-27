@@ -24,19 +24,20 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity implements Serializable {
 
     @Translation(type = TransConstant.USER_ID_TO_NAME, ref = "createByNickname")
-    @Schema(description = "创建者")
+    @Schema(description = "创建人")
     @ExcelIgnore
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
     private String createBy;
 
     @Schema(description = "创建时间")
     @ExcelProperty("创建时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime createTime;
 
     @Translation(type = TransConstant.USER_ID_TO_NAME, ref = "updateByNickname")
-    @Schema(description = "更新者")
+    @Schema(description = "更新人")
     @ExcelIgnore
     @TableField(fill = FieldFill.UPDATE)
     private String updateBy;
@@ -45,11 +46,11 @@ public abstract class BaseEntity implements Serializable {
     @ExcelIgnore
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime updateTime;
 
     @Schema(description = "备注")
     @ExcelProperty("备注")
-    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String remark;
 
     @Schema(description = "删除标志(0:正常,1:删除)")
