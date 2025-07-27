@@ -3,6 +3,7 @@ package cn.eu.framework.config;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.eu.common.interceptor.LoginInfoInterceptor;
 import cn.eu.common.properties.EuProperties;
 import cn.eu.common.utils.ServiceLoadUtils;
 import cn.hutool.core.collection.CollUtil;
@@ -52,6 +53,8 @@ public class SaTokenConfigurer implements WebMvcConfigurer {
                 .check(r -> StpUtil.checkLogin());
         }))
         .addPathPatterns("/**");
+        registry.addInterceptor(new LoginInfoInterceptor())
+                .addPathPatterns("/**");
     }
 
     @Override

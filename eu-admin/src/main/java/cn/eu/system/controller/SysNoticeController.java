@@ -50,7 +50,7 @@ public class SysNoticeController extends EuBaseController {
     @SaCheckPermission("system:sysNotice:add")
     @PostMapping
     public ResultBody save(@Validated @RequestBody SysNotice entity) {
-        entity.setPublisher(LoginUtil.getLoginUser().getNickname());
+        entity.setPublisher(LoginUtil.getNickname());
         sysNoticeService.save(entity);
         return ResultBody.ok();
     }

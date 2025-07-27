@@ -1,6 +1,7 @@
 package cn.eu.framework.config;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.eu.common.utils.LoginUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -20,8 +21,8 @@ public class MetaHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         try {
-            String userId = Optional.ofNullable(StpUtil.getLoginIdDefaultNull()).map(String::valueOf).orElse(null);
-            this.strictInsertFill(metaObject, "createBy", String.class, userId);
+            String loginId = LoginUtil.getLoginId();
+            this.strictInsertFill(metaObject, "createBy", String.class, loginId);
         } catch (Exception e) {
             log.error("填充createBy异常 {}", e.getMessage());
         }
@@ -30,8 +31,8 @@ public class MetaHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         try {
-            String userId = Optional.ofNullable(StpUtil.getLoginIdDefaultNull()).map(String::valueOf).orElse(null);
-            this.strictUpdateFill(metaObject, "updateBy", String.class, userId);
+            String loginId = LoginUtil.getLoginId();
+            this.strictUpdateFill(metaObject, "updateBy", String.class, loginId);
         } catch (Exception e) {
             log.error("填充updateBy异常 {}", e.getMessage());
         }

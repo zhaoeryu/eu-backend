@@ -49,6 +49,7 @@
         <captcha.version>1.6.2</captcha.version>
         <easyexcel.version>4.0.3</easyexcel.version>
         <knife4j.version>4.4.0</knife4j.version>
+        <transmittable.version>2.14.5</transmittable.version>
 
     </properties>
 

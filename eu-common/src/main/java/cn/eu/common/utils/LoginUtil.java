@@ -5,6 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.model.LoginUser;
 import cn.eu.common.model.dto.RoleDto;
+import cn.eu.common.security.LoginContextHolder;
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -12,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -26,7 +26,15 @@ public class LoginUtil {
      * 获取当前登录用户ID
      */
     public static String getLoginId() {
-        return StpUtil.getLoginIdAsString();
+        String val = LoginContextHolder.get();
+        if (val != null) {
+            return val;
+        }
+        Object stpVal = StpUtil.getLoginIdDefaultNull();
+        if (stpVal != null) {
+            return String.valueOf(stpVal);
+        }
+        return null;
     }
 
     /**
@@ -42,7 +50,19 @@ public class LoginUtil {
      * 获取当前登录用户
      */
     public static LoginUser getLoginUser() {
-        return getLoginUserBySaSession(StpUtil.getSession());
+        SaSession session = getSession();
+        if (session == null) {
+            return null;
+        }
+        return getLoginUserBySaSession(session);
+    }
+
+    public static SaSession getSession() {
+        String loginId = getLoginId();
+        if (loginId == null) {
+            return null;
+        }
+        return StpUtil.getSessionByLoginId(loginId);
     }
 
     /**
@@ -51,8 +71,13 @@ public class LoginUtil {
      * @return AuthUser
      */
     public static LoginUser getLoginUserBySaSession(SaSession session) {
+        if (session == null) {
+            return null;
+        }
         Object userStr = session.get(Constants.USER_KEY);
-        Objects.requireNonNull(userStr);
+        if (userStr == null) {
+            return null;
+        }
         if (userStr instanceof LoginUser) {
             return (LoginUser) userStr;
         }
@@ -69,7 +94,10 @@ public class LoginUtil {
      * 设置当前登录用户
      */
     public static void setLoginUser(LoginUser authUser) {
-        StpUtil.getSession().set(Constants.USER_KEY, authUser);
+        Optional.ofNullable(getSession())
+                .ifPresent(session -> {
+                    session.set(Constants.USER_KEY, authUser);
+                });
     }
 
     /**
@@ -79,11 +107,18 @@ public class LoginUtil {
         if (CollUtil.isEmpty(roles)) {
             return;
         }
-        StpUtil.getSession().set(Constants.ROLE_KEY, roles);
+        Optional.ofNullable(getSession())
+                .ifPresent(session -> {
+                    session.set(Constants.ROLE_KEY, roles);
+                });
     }
 
     public static List<RoleDto> getLoginUserRoles() {
-        Object roles = StpUtil.getSession().get(Constants.ROLE_KEY);
+        SaSession session = getSession();
+        if (session == null) {
+            return new ArrayList<>();
+        }
+        Object roles = session.get(Constants.ROLE_KEY);
         List<RoleDto> roleList = new ArrayList<>();
         try {
             roleList = JSONArray.parseArray(roles.toString(), RoleDto.class);
