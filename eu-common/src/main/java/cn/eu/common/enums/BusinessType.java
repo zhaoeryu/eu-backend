@@ -1,5 +1,7 @@
 package cn.eu.common.enums;
 
+import cn.eu.common.annotation.IEuEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum BusinessType {
+public enum BusinessType implements IEuEnum<Integer> {
     /**
      * 其它
      */
@@ -73,42 +75,8 @@ public enum BusinessType {
     EXEC_JOB(13, "执行任务");
 
 
-    private final int value;
+    @JsonValue
+    private final Integer value;
     private final String desc;
 
-    public static BusinessType valueOf(Integer value) {
-        if (value == null) {
-            return null;
-        }
-        for (BusinessType status : BusinessType.values()) {
-            if (status.value == value) {
-                return status;
-            }
-        }
-        return null;
-    }
-
-    public static String parseValue(Integer value) {
-        if (value == null) {
-            return null;
-        }
-        for (BusinessType status : BusinessType.values()) {
-            if (status.getValue() == value) {
-                return status.getDesc();
-            }
-        }
-        return null;
-    }
-
-    public static Integer valueOfDesc(String desc) {
-        if (desc == null) {
-            return null;
-        }
-        for (BusinessType status : BusinessType.values()) {
-            if (status.desc.equals(desc)) {
-                return status.getValue();
-            }
-        }
-        return null;
-    }
 }

@@ -1,8 +1,8 @@
 package cn.eu.system.domain;
 
-import cn.eu.common.annotation.Sensitive;
 import cn.eu.common.core.domain.BaseEntity;
-import cn.eu.common.enums.SensitiveStrategy;
+import cn.eu.common.enums.*;
+import cn.eu.common.utils.easyexcel.EasyExcelEnumConverter;
 import cn.eu.system.easyexcel.converter.*;
 import cn.eu.common.xss.Xss;
 import com.alibaba.excel.annotation.ExcelIgnore;
@@ -49,7 +49,6 @@ public class SysUser extends BaseEntity {
     private String avatar;
     /** 手机号 */
     @ExcelProperty("手机号")
-    @Sensitive(strategy = SensitiveStrategy.PHONE)
     private String mobile;
     /** 邮箱 */
     @ExcelProperty("邮箱")
@@ -60,18 +59,18 @@ public class SysUser extends BaseEntity {
     @JsonIgnore // 密码不返回给前端
     private String password;
     /** 性别 */
-    @ExcelProperty(value = "性别", converter = SysUserSexConverter.class)
-    private Integer sex;
+    @ExcelProperty(value = "性别", converter = EasyExcelEnumConverter.class)
+    private SysUserSex sex;
     /** 是否管理员 */
-    @ExcelProperty(value = "是否管理员", converter = SysUserAdminConverter.class)
-    private Integer admin;
+    @ExcelProperty(value = "是否管理员", converter = EasyExcelEnumConverter.class)
+    private BooleanFlag admin;
     /** 部门ID */
     @ExcelProperty(value = "部门", converter = SysDeptConverter.class)
     @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Integer deptId;
     /** 账号状态 */
-    @ExcelProperty(value = "账号状态", converter = SysUserStatusConverter.class)
-    private Integer status;
+    @ExcelProperty(value = "账号状态", converter = EasyExcelEnumConverter.class)
+    private SysUserStatus status;
     /** 登录IP */
     @ExcelProperty("登录IP")
     private String loginIp;

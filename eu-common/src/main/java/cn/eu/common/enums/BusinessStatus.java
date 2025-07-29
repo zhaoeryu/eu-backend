@@ -1,5 +1,6 @@
 package cn.eu.common.enums;
 
+import cn.eu.common.annotation.IEuEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum BusinessStatus {
+public enum BusinessStatus implements IEuEnum<Integer> {
     /**
      * 成功
      */
@@ -20,43 +21,7 @@ public enum BusinessStatus {
      */
     FAIL(1, "失败");
 
-
-    private final int value;
+    private final Integer value;
     private final String desc;
 
-    public static BusinessStatus valueOf(Integer value) {
-        if (value == null) {
-            return null;
-        }
-        for (BusinessStatus status : BusinessStatus.values()) {
-            if (status.value == value) {
-                return status;
-            }
-        }
-        return null;
-    }
-
-    public static String parseValue(Integer value) {
-        if (value == null) {
-            return null;
-        }
-        for (BusinessStatus status : BusinessStatus.values()) {
-            if (status.getValue() == value) {
-                return status.getDesc();
-            }
-        }
-        return null;
-    }
-
-    public static Integer valueOfDesc(String desc) {
-        if (desc == null) {
-            return null;
-        }
-        for (BusinessStatus status : BusinessStatus.values()) {
-            if (status.desc.equals(desc)) {
-                return status.getValue();
-            }
-        }
-        return null;
-    }
 }

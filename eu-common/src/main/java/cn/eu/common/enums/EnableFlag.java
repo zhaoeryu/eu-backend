@@ -6,29 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author zhaoeryu
- * @since 2023/6/4
+ * @author Eu.z
+ * @since 2025/7/29
  */
 @Getter
 @AllArgsConstructor
-public enum MenuType implements IEuEnum<Integer> {
+public enum EnableFlag implements IEuEnum<Integer> {
 
-    /**
-    * 目录
-    */
-    CATALOG(1, "目录"),
-
-    /**
-    * 菜单
-    */
-    MENU(2, "菜单"),
-
-    /**
-    * 按钮
-    */
-    BUTTON(3, "按钮");
+    ENABLED(0, "启用"),
+    DISABLED(1, "禁用");
 
     @JsonValue
     private final Integer value;
     private final String desc;
+
 }

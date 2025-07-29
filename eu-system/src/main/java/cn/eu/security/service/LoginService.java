@@ -19,6 +19,7 @@ import cn.eu.system.service.ISysUserService;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -138,8 +140,7 @@ public class LoginService {
         redisUtil.delete(tryLoginRedisKey);
     }
 
-    private void checkAccountStatus(Integer status) {
-        SysUserStatus sysUserStatus = SysUserStatus.valueOf(status);
+    private void checkAccountStatus(SysUserStatus sysUserStatus) {
         if (sysUserStatus != null && SysUserStatus.NORMAL != sysUserStatus) {
             switch (sysUserStatus) {
                 case DISABLE:
@@ -178,8 +179,8 @@ public class LoginService {
         authUser.setAvatar(user.getAvatar());
         authUser.setMobile(user.getMobile());
         authUser.setEmail(user.getEmail());
-        authUser.setSex(user.getSex());
-        authUser.setAdmin(user.getAdmin());
+        authUser.setSex(Optional.ofNullable(user.getSex()).map(IEnum::getValue).orElse(null));
+        authUser.setAdmin(Optional.ofNullable(user.getAdmin()).map(IEnum::getValue).orElse(null));
         authUser.setPrevLoginIp(user.getLoginIp());
         authUser.setPrevLoginRegion(prevIpRegion);
         authUser.setPrevLoginTime(user.getLoginTime());

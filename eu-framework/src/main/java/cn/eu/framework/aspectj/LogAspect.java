@@ -137,12 +137,12 @@ public class LogAspect {
             operLog.setDeptName(authUser.getDeptName());
             operLog.setReqIp(clientIp);
             operLog.setReqRegion(ipRegion);
-            operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
+            operLog.setStatus(BusinessStatus.SUCCESS);
             operLog.setBrowser(browser);
             operLog.setOs(os);
 
             if (e != null) {
-                operLog.setStatus(BusinessStatus.FAIL.ordinal());
+                operLog.setStatus(BusinessStatus.FAIL);
                 operLog.setErrorMsg(StrUtil.sub(e.getMessage(), 0, 255));
                 operLog.setErrorStack(ExceptionUtil.stacktraceToString(e, 8000));
             }
@@ -178,7 +178,7 @@ public class LogAspect {
      */
     public void getControllerMethodDescription(JoinPoint joinPoint, Log log, SysOperLog operLog, Object jsonResult) throws Exception {
         // 设置action动作
-        operLog.setBusinessType(log.businessType().ordinal());
+        operLog.setBusinessType(log.businessType());
         // 设置标题
         operLog.setTitle(log.title());
         // 是否需要保存request，参数和值

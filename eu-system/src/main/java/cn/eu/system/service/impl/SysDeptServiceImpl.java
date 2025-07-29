@@ -2,7 +2,7 @@ package cn.eu.system.service.impl;
 
 import cn.eu.common.annotation.DataScope;
 import cn.eu.common.core.service.impl.EuServiceImpl;
-import cn.eu.common.enums.DeptStatus;
+import cn.eu.common.enums.EnableFlag;
 import cn.eu.common.utils.MessageUtils;
 import cn.eu.common.utils.MpQueryHelper;
 import cn.eu.system.domain.SysDept;
@@ -85,7 +85,7 @@ public class SysDeptServiceImpl extends EuServiceImpl<SysDeptMapper, SysDept> im
     @Override
     public List<SysDept> listWithConcatenatedDeptName() {
         return DeptNameConcatenater.concatenater(list(new LambdaQueryWrapper<SysDept>()
-                .eq(SysDept::getStatus, DeptStatus.NORMAL.getValue())
+                .eq(SysDept::getStatus, EnableFlag.ENABLED)
                 .orderByAsc(SysDept::getParentIds)
                 .orderByAsc(SysDept::getSortNum)
         ));

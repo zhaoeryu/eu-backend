@@ -1,7 +1,7 @@
 package cn.eu.system.domain;
 
 import cn.eu.common.core.domain.BaseEntity;
-import cn.eu.common.enums.MenuStatus;
+import cn.eu.common.enums.EnableFlag;
 import cn.eu.common.enums.MenuType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -38,9 +38,8 @@ public class SysMenu extends BaseEntity {
     private String component;
     /**
      * 菜单状态
-     * @see MenuStatus#getValue()
      */
-    private Integer status;
+    private EnableFlag status;
     /** 是否固定 */
     private Boolean affix;
     /** 是否显示 */
@@ -56,9 +55,8 @@ public class SysMenu extends BaseEntity {
     private String badge;
     /**
      * 菜单类型
-     * @see MenuType#getValue()
      */
-    private Integer menuType;
+    private MenuType menuType;
     /** 父菜单ID */
     private Integer parentId;
     /** 是否显示Header */

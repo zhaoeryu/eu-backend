@@ -1,8 +1,8 @@
 package cn.eu.system.domain;
 
 import cn.eu.common.core.domain.BaseEntity;
-import cn.eu.common.enums.PostStatus;
-import cn.eu.system.easyexcel.converter.SysPostStatusConverter;
+import cn.eu.common.enums.EnableFlag;
+import cn.eu.common.utils.easyexcel.EasyExcelEnumConverter;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -45,9 +45,8 @@ public class SysPost extends BaseEntity {
     private String code;
     /**
      * 状态
-     * @see PostStatus#getValue()
      */
-    @ExcelProperty(value = "状态", converter = SysPostStatusConverter.class)
     @Schema(description = "状态")
-    private Integer status;
+    @ExcelProperty(value = "状态", converter = EasyExcelEnumConverter.class)
+    private EnableFlag status;
 }

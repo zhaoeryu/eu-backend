@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -39,6 +40,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResultBody exception(Exception ex, HttpServletRequest request, HttpServletResponse response) {
         return buildBody(ex, request.getRequestURI());
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResultBody bindException(BindException ex, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String errorMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+            return buildBody(errorMessage, IError.ERROR.getCode(), request.getRequestURI());
+        } catch (Exception e) {
+            return buildBody(ex, request.getRequestURI());
+        }
     }
 
     /**

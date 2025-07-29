@@ -1,7 +1,7 @@
 package cn.eu.system.service.impl;
 
 import cn.eu.common.core.service.impl.EuServiceImpl;
-import cn.eu.common.enums.SysDictStatus;
+import cn.eu.common.enums.EnableFlag;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.EasyExcelHelper;
 import cn.eu.common.utils.MpQueryHelper;
@@ -141,7 +141,7 @@ public class SysDictServiceImpl extends EuServiceImpl<SysDictMapper, SysDict> im
         SysDict entity = new SysDict();
         entity.setId(-1);
         entity.setDictKey("sex");
-        entity.setStatus(SysDictStatus.NORMAL.getValue());
+        entity.setStatus(EnableFlag.ENABLED);
         entity.setRemark("性别");
         return entity;
     }

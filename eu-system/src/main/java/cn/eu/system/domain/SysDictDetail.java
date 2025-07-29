@@ -1,8 +1,8 @@
 package cn.eu.system.domain;
 
 import cn.eu.common.core.domain.BaseEntity;
-import cn.eu.common.enums.SysDictDetailStatus;
-import cn.eu.system.easyexcel.converter.SysDictDetailStatusConverter;
+import cn.eu.common.enums.EnableFlag;
+import cn.eu.common.utils.easyexcel.EasyExcelEnumConverter;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -43,12 +43,8 @@ public class SysDictDetail extends BaseEntity {
     @ExcelProperty("字典详情值")
     @NotBlank(message = "{valid.SysDictDetail.dictValue.notBlank}")
     private String dictValue;
-    /**
-     * 状态
-     * @see SysDictDetailStatus#getValue()
-     */
-    @ExcelProperty(value = "状态", converter = SysDictDetailStatusConverter.class)
-    private Integer status;
+    @ExcelProperty(value = "状态", converter = EasyExcelEnumConverter.class)
+    private EnableFlag status;
     /** 排序 */
     @ExcelProperty("排序")
     private Integer sortNum;

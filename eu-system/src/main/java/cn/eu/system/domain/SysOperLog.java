@@ -1,8 +1,9 @@
 package cn.eu.system.domain;
 
 import cn.eu.common.core.domain.BaseEntity;
-import cn.eu.system.easyexcel.converter.BusinessStatusConverter;
-import cn.eu.system.easyexcel.converter.BusinessTypeConverter;
+import cn.eu.common.enums.BusinessStatus;
+import cn.eu.common.enums.BusinessType;
+import cn.eu.common.utils.easyexcel.EasyExcelEnumConverter;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -39,8 +40,8 @@ public class SysOperLog extends BaseEntity {
      * 业务类型
      */
     @NotNull(message = "{valid.SysOperLog.businessType.notNull}")
-    @ExcelProperty(value = "业务类型", converter = BusinessTypeConverter.class)
-    private Integer businessType;
+    @ExcelProperty(value = "业务类型", converter = EasyExcelEnumConverter.class)
+    private BusinessType businessType;
 
     /**
      * 执行方法
@@ -116,8 +117,8 @@ public class SysOperLog extends BaseEntity {
      * 操作状态
      */
     @NotNull(message = "{valid.SysOperLog.status.notNull}")
-    @ExcelProperty(value = "操作状态", converter = BusinessStatusConverter.class)
-    private Integer status;
+    @ExcelProperty(value = "操作状态", converter = EasyExcelEnumConverter.class)
+    private BusinessStatus status;
 
     /**
      * 错误消息

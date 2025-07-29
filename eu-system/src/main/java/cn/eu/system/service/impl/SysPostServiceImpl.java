@@ -50,7 +50,7 @@ public class SysPostServiceImpl extends EuServiceImpl<SysPostMapper, SysPost> im
 
     @Override
     public List<Integer> getPostIdsByUserId(String userId) {
-        List<SysPost> posts = sysPostMapper.getPostsByUserId(userId, PostStatus.NORMAL.getValue());
+        List<SysPost> posts = sysPostMapper.getPostsByUserId(userId, EnableFlag.ENABLED.getValue());
         return posts.stream()
                 .map(SysPost::getId)
                 .distinct()
@@ -135,7 +135,7 @@ public class SysPostServiceImpl extends EuServiceImpl<SysPostMapper, SysPost> im
         SysPost entity = new SysPost();
         entity.setPostName("总裁");
         entity.setCode("ceo");
-        entity.setStatus(SysPostStatus.NORMAL.getValue());
+        entity.setStatus(EnableFlag.ENABLED);
         return entity;
     }
 }

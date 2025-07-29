@@ -40,10 +40,10 @@ public class SecurityConvert {
             loginUser.setEmail(sysUser.getEmail());
         }
         if (sysUser.getSex() != null) {
-            loginUser.setSex(sysUser.getSex());
+            loginUser.setSex(sysUser.getSex().getValue());
         }
         if (sysUser.getAdmin() != null) {
-            loginUser.setAdmin(sysUser.getAdmin());
+            loginUser.setAdmin(sysUser.getAdmin().getValue());
         }
         if (sysUser.getDeptId() != null) {
             loginUser.setDeptId(sysUser.getDeptId());

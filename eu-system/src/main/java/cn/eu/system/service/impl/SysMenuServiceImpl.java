@@ -2,7 +2,7 @@ package cn.eu.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.core.service.impl.EuServiceImpl;
-import cn.eu.common.enums.MenuStatus;
+import cn.eu.common.enums.EnableFlag;
 import cn.eu.common.enums.MenuType;
 import cn.eu.common.utils.MpQueryHelper;
 import cn.eu.common.utils.LoginUtil;
@@ -30,7 +30,7 @@ public class SysMenuServiceImpl extends EuServiceImpl<SysMenuMapper, SysMenu> im
 
     @Override
     public List<SysMenu> list(SysMenuQueryCriteria criteria) {
-        criteria.setStatus(MenuStatus.NORMAL.getValue());
+        criteria.setStatus(EnableFlag.ENABLED.getValue());
         if (LoginUtil.isAdminLogin()) {
             return list(MpQueryHelper.buildQueryWrapper(criteria, SysMenu.class)
                     .lambda()
@@ -42,7 +42,7 @@ public class SysMenuServiceImpl extends EuServiceImpl<SysMenuMapper, SysMenu> im
 
     @Override
     public List<String> getMenuPermissionByUserId(String userId) {
-        List<SysMenu> menus = sysMenuMapper.getMenuPermissionByUserId(userId, MenuStatus.NORMAL.getValue());
+        List<SysMenu> menus = sysMenuMapper.getMenuPermissionByUserId(userId, EnableFlag.ENABLED.getValue());
         return menus.stream()
                 .map(SysMenu::getPermission)
                 .distinct()
@@ -54,10 +54,10 @@ public class SysMenuServiceImpl extends EuServiceImpl<SysMenuMapper, SysMenu> im
         if (LoginUtil.isAdminLogin()) {
             // 管理员登录，返回所有菜单
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<SysMenu>()
-                    .eq(SysMenu::getStatus, MenuStatus.NORMAL.getValue())
+                    .eq(SysMenu::getStatus, EnableFlag.ENABLED)
                     .ne(SysMenu::getMenuType, MenuType.BUTTON.getValue());
             return list(queryWrapper);
         }
-        return sysMenuMapper.getMenusByUserId(userId, MenuStatus.NORMAL.getValue(), MenuType.BUTTON.getValue());
+        return sysMenuMapper.getMenusByUserId(userId, EnableFlag.ENABLED.getValue(), MenuType.BUTTON.getValue());
     }
 }

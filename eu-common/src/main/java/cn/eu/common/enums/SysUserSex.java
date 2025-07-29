@@ -1,5 +1,7 @@
 package cn.eu.common.enums;
 
+import cn.eu.common.annotation.IEuEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum SysUserSex {
+public enum SysUserSex implements IEuEnum<Integer> {
 
     /**
      * 女
@@ -20,30 +22,8 @@ public enum SysUserSex {
      */
     MAN(1, "男");
 
-    private final int value;
+    @JsonValue
+    private final Integer value;
     private final String desc;
 
-    public static String parseValue(Integer value) {
-        if (value == null) {
-            return null;
-        }
-        for (SysUserSex item : SysUserSex.values()) {
-            if (item.getValue() == value) {
-                return item.getDesc();
-            }
-        }
-        return null;
-    }
-
-    public static Integer valueOfDesc(String desc) {
-        if (desc == null) {
-            return null;
-        }
-        for (SysUserSex item : SysUserSex.values()) {
-            if (item.desc.equals(desc)) {
-                return item.getValue();
-            }
-        }
-        return null;
-    }
 }

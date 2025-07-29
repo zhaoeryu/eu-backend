@@ -1,7 +1,7 @@
 package cn.eu.system.service.impl;
 
 import cn.eu.common.core.service.impl.EuServiceImpl;
-import cn.eu.common.enums.SysRoleStatus;
+import cn.eu.common.enums.EnableFlag;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.EasyExcelHelper;
 import cn.eu.common.utils.MpQueryHelper;
@@ -56,7 +56,7 @@ public class SysRoleServiceImpl extends EuServiceImpl<SysRoleMapper, SysRole> im
 
     @Override
     public List<String> getRolePermissionByUserId(String userId) {
-        List<SysRole> roles = sysRoleMapper.getRolePermissionByUserId(userId, SysRoleStatus.NORMAL.getValue());
+        List<SysRole> roles = sysRoleMapper.getRolePermissionByUserId(userId, EnableFlag.ENABLED.getValue());
         return roles.stream()
                 .map(SysRole::getRoleKey)
                 .distinct()
@@ -65,12 +65,12 @@ public class SysRoleServiceImpl extends EuServiceImpl<SysRoleMapper, SysRole> im
 
     @Override
     public List<SysRole> getRolesByUserId(String userId) {
-        return sysRoleMapper.getRolesByUserId(userId, SysRoleStatus.NORMAL.getValue());
+        return sysRoleMapper.getRolesByUserId(userId, EnableFlag.ENABLED.getValue());
     }
 
     @Override
     public List<Integer> getRoleIdsByUserId(String userId) {
-        List<SysRole> roles = sysRoleMapper.getRolesByUserId(userId, SysRoleStatus.NORMAL.getValue());
+        List<SysRole> roles = sysRoleMapper.getRolesByUserId(userId, EnableFlag.ENABLED.getValue());
         return roles.stream()
                 .map(SysRole::getId)
                 .distinct()
@@ -229,7 +229,7 @@ public class SysRoleServiceImpl extends EuServiceImpl<SysRoleMapper, SysRole> im
         entity.setRoleKey("common");
         entity.setRoleName("普通用户");
         entity.setDescription("拥有网站的最基础功能");
-        entity.setStatus(SysRoleStatus.NORMAL.getValue());
+        entity.setStatus(EnableFlag.ENABLED);
         return entity;
     }
 }

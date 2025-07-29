@@ -1,7 +1,7 @@
 package cn.eu.system.service.impl;
 
 import cn.eu.common.core.service.impl.EuServiceImpl;
-import cn.eu.common.enums.SysDictDetailStatus;
+import cn.eu.common.enums.EnableFlag;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.EasyExcelHelper;
 import cn.eu.common.utils.MessageUtils;
@@ -149,7 +149,7 @@ public class SysDictDetailServiceImpl extends EuServiceImpl<SysDictDetailMapper,
         entity.setDictKey("sex");
         entity.setDictLabel("男");
         entity.setDictValue("1");
-        entity.setStatus(SysDictDetailStatus.NORMAL.getValue());
+        entity.setStatus(EnableFlag.ENABLED);
         entity.setSortNum(99);
         entity.setRemark("这里可以写备注");
         return entity;

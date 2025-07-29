@@ -1,7 +1,7 @@
 package cn.eu.system.domain;
 
 import cn.eu.common.core.domain.BaseEntity;
-import cn.eu.common.enums.DeptStatus;
+import cn.eu.common.enums.EnableFlag;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -30,11 +30,8 @@ public class SysDept extends BaseEntity {
     @ExcelProperty("部门名称")
     @NotBlank(message = "{valid.SysDept.deptName.notBlank}")
     private String deptName;
-    /**
-     * 状态
-     * @see DeptStatus#getValue()
-     */
-    private Integer status;
+
+    private EnableFlag status;
     /**
      * 显示顺序
      */

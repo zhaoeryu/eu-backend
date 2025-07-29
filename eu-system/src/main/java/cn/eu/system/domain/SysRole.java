@@ -1,8 +1,8 @@
 package cn.eu.system.domain;
 
 import cn.eu.common.core.domain.BaseEntity;
-import cn.eu.common.enums.SysRoleStatus;
-import cn.eu.system.easyexcel.converter.SysRoleStatusConverter;
+import cn.eu.common.enums.EnableFlag;
+import cn.eu.common.utils.easyexcel.EasyExcelEnumConverter;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -40,10 +40,9 @@ public class SysRole extends BaseEntity {
     private String description;
     /**
      * 角色状态
-     * @see SysRoleStatus#getValue()
      */
-    @ExcelProperty(value = "角色状态", converter = SysRoleStatusConverter.class)
-    private Integer status;
+    @ExcelProperty(value = "状态", converter = EasyExcelEnumConverter.class)
+    private EnableFlag status;
     /**
      * 数据权限
      */

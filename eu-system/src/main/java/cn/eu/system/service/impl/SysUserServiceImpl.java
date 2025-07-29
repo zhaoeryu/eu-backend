@@ -232,8 +232,8 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
                     ValidateUtil.valid(item);
                     // 填充默认数据
                     item.setPassword(PasswordEncoder.encode(PasswordGenerator.buildInitialPassword(item.getUsername(), item.getMobile())));
-                    item.setAdmin(SysUserAdmin.NORMAL.getValue());
-                    item.setStatus(SysUserStatus.NORMAL.getValue());
+                    item.setAdmin(BooleanFlag.FALSE);
+                    item.setStatus(SysUserStatus.NORMAL);
                 });
             }
 
@@ -342,7 +342,7 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
         exampleUser.setNickname("张三");
         exampleUser.setMobile("18500000000");
         exampleUser.setEmail("zhangsan@eu.com");
-        exampleUser.setSex(SysUserSex.MAN.getValue());
+        exampleUser.setSex(SysUserSex.MAN);
         exampleUser.setDeptId(1);
         exampleUser.setRemark("这里可以写一些备注");
         return exampleUser;
