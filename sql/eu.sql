@@ -52,6 +52,7 @@ CREATE TABLE `gen_table_column` (
   `not_null` bit(1) NOT NULL DEFAULT b'0' COMMENT '不为null',
   `java_type` varchar(32) NOT NULL COMMENT 'java字段类型',
   `java_field` varchar(32) NOT NULL COMMENT 'java字段名称',
+  `final_column_comment` varchar(255) DEFAULT NULL COMMENT '调整后的字段描述',
   `column_length` int(6) DEFAULT NULL COMMENT '字段长度',
   `excel_export` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否导出',
   `table_show` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否在列表显示',
