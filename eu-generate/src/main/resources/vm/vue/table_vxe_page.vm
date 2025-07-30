@@ -50,7 +50,7 @@ export default {
       #[[this.$router.push(this.$route.path + '/add')]]#
     },
     onExport() {
-      this.download('/api/${apiPath}/export', this.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
+      this.$download('/api/${apiPath}/export', this.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
     },
     onBatchDel() {
       #[[const ids = this.$refs.table.getCheckboxRecords().map(item => item.id)]]#

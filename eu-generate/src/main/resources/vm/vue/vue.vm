@@ -49,7 +49,7 @@ export default {
       this.$refs.${className}EditDialog.open()
     },
     onExport() {
-      this.download('/api/${apiPath}/export', this.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
+      this.$download('/api/${apiPath}/export', this.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
     },
     onBatchDel() {
       #[[const ids = this.$refs.table.selection.map(item => item.id)]]#
