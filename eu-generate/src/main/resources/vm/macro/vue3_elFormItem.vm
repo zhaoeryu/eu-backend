@@ -1,12 +1,12 @@
 #macro(vue3ElFormItem $column $isQuery $indent)
 #set($formObj = "#if($isQuery)queryParams#{else}form#end")
-$indent<el-form-item label="${column.columnComment}" prop="${column.javaField}">
+$indent<el-form-item label="${column.finalColumnComment}" prop="${column.javaField}">
   #if ($column.formType == 'number')
-$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" placeholder="请输入${column.columnComment}" clearable />
+$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" placeholder="请输入${column.finalColumnComment}" clearable />
   #elseif ($column.formType == 'switch')
 $indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true" :inactive-value="false" />
   #elseif ($column.formType == 'select')
-$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.columnComment}" clearable filterable style="width: 100%;">
+$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%;">
     #if($column.dictKey)
 $indent    <el-option v-for="item in dict['${column.dictKey}Dict'].values" :key="item.value" :label="item.label" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):value="Number(item.value)"#{else}:value="item.value"#end />
     #elseif($column.enumKey)
@@ -39,7 +39,7 @@ $indent  </el-checkbox-group>
 $indent  <el-date-picker
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="date"
-$indent    placeholder="请选择${column.columnComment}"
+$indent    placeholder="请选择${column.finalColumnComment}"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd"
 $indent    style="width: 100%;"
@@ -49,7 +49,7 @@ $indent  </el-date-picker>
 $indent  <el-date-picker
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="datetime"
-$indent    placeholder="请选择${column.columnComment}"
+$indent    placeholder="请选择${column.finalColumnComment}"
 $indent    align="left"
 $indent    value-format="yyyy-MM-dd HH:mm:ss"
 $indent    style="width: 100%;"
@@ -79,7 +79,7 @@ $indent  </upload-file>
   #elseif($column.formType == 'editor')
 $indent  <eu-editor v-model="${formObj}.${column.javaField}" />
   #else
-$indent  <el-input v-model="${formObj}.${column.javaField}" placeholder="请输入${column.columnComment}" clearable />
+$indent  <el-input v-model="${formObj}.${column.javaField}" placeholder="请输入${column.finalColumnComment}" clearable />
   #end
 $indent</el-form-item>
 #end

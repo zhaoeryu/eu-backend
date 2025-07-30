@@ -165,7 +165,7 @@ function onSortComplete() {
           <el-table-column type="selection"></el-table-column>
 #foreach($column in $columns)
 #if($column.tableShow)
-          <el-table-column prop="${column.javaField}" label="${column.columnComment}"></el-table-column>
+          <el-table-column prop="${column.javaField}" label="${column.finalColumnComment}"></el-table-column>
 #end
 #end
           <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" label="操作">

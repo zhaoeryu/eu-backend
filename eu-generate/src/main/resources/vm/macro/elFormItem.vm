@@ -1,10 +1,10 @@
 #macro(elFormItem $column $isQuery $indent)
 #set($formObj = "#if($isQuery)queryParams#{else}form#end")
-#set($x_field = "#if($i18nEnable)$t('${tableName}.field.${column.javaField}')#{else}'#if($column.columnComment)$column.columnComment#else$column.javaField#end'#end")
+#set($x_field = "#if($i18nEnable)$t('${tableName}.field.${column.javaField}')#{else}'#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end'#end")
 #if ($i18nEnable)
 $indent<el-form-item :label="$x_field" prop="${column.javaField}">
 #else
-$indent<el-form-item label="#if($column.columnComment)$column.columnComment#else$column.javaField#end" prop="${column.javaField}">
+$indent<el-form-item label="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end" prop="${column.javaField}">
 #end
   #if ($column.formType == 'number')
 $indent  <el-input v-model="${formObj}.${column.javaField}" type="number" :placeholder="$t('general.placeholder.input', { field: $x_field })" clearable />

@@ -1,6 +1,6 @@
 export default {
   '${tableName}.title': '${tableComment}',
 #foreach($column in $columns)
-  '${tableName}.field.${column.javaField}': '#if($column.columnComment)$column.columnComment#else$column.javaField#end',
+  '${tableName}.field.${column.javaField}': '#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end',
 #end
 }

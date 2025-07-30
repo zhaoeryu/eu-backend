@@ -58,7 +58,9 @@ public class GenUtil {
      * @return 是否可以在表格中显示
      */
     public static boolean isFieldTableShow(String fieldName) {
-        return !CollUtil.contains(Arrays.asList(GenConstant.BLACK_LIST_FIELD_TABLE), fieldName);
+        return !CollUtil.contains(Arrays.asList(
+                GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG
+        ), fieldName);
     }
 
     /**
@@ -67,7 +69,15 @@ public class GenUtil {
      * @return 是否可以在表单中显示
      */
     public static boolean isFieldFormShow(String fieldName) {
-        return !CollUtil.contains(Arrays.asList(GenConstant.BLACK_LIST_FIELD_FORM), fieldName);
+        String[] BLACK_LIST_FIELD_FORM = {
+                GenConstant.COMMON_ENTITY_FIELD_ID,
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG,
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_TIME,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_TIME,
+        };
+        return !CollUtil.contains(Arrays.asList(BLACK_LIST_FIELD_FORM), fieldName);
     }
 
     /**
@@ -76,7 +86,14 @@ public class GenUtil {
      * @return 是否在表格中默认可见
      */
     public static boolean isFieldInTableVisible(String fieldName) {
-        return !CollUtil.contains(Arrays.asList(GenConstant.HIDDEN_FIELD_TABLE), fieldName);
+        String[] HIDDEN_FIELD_TABLE = {
+                GenConstant.COMMON_ENTITY_FIELD_ID,
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_TIME,
+                GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG,
+        };
+        return !CollUtil.contains(Arrays.asList(HIDDEN_FIELD_TABLE), fieldName);
     }
 
     /**
@@ -85,14 +102,24 @@ public class GenUtil {
      * @return 是否可以导出
      */
     public static boolean isFieldExport(String fieldName) {
-        return !CollUtil.contains(Arrays.asList(GenConstant.BLACK_LIST_FIELD_EXPORT), fieldName);
+        return !CollUtil.contains(Arrays.asList(
+                GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG
+        ), fieldName);
     }
 
     /**
      * 检查字段是否在BaseEntity中
      */
     public static boolean isFieldBaseEntity(String fieldName) {
-        return CollUtil.contains(Arrays.asList(GenConstant.BASE_ENTITY_FIELD_LIST), fieldName);
+        String[] BASE_ENTITY_FIELD_LIST = {
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_TIME,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_TIME,
+                GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG,
+                GenConstant.COMMON_ENTITY_FIELD_REMARK,
+        };
+        return CollUtil.contains(Arrays.asList(BASE_ENTITY_FIELD_LIST), fieldName);
     }
 
     /**

@@ -158,7 +158,7 @@ export default {
     #if($i18nEnable)
             :label="$t('${tableName}.field.${column.javaField}')"
     #else
-            label="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+            label="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end"
     #end
           ></el-table-column>
 #end

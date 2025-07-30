@@ -121,7 +121,7 @@ export default {
     #if($i18nEnable)
             :label="$t('${tableName}.field.${column.javaField}')"
     #else
-            label="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+            label="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end"
     #end
             prop="${column.javaField}"
           >
@@ -176,7 +176,7 @@ export default {
     #if($i18nEnable)
             :title="$t('${tableName}.field.${column.javaField}')"
     #else
-            title="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+            title="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end"
     #end
             field="group_${column.tableShowField}"
           >
@@ -185,7 +185,7 @@ export default {
     #if($i18nEnable)
               :title="$t('${tableName}.field.${column.javaField}')"
     #else
-              title="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+              title="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end"
     #end
               :visible="${column.defaultVisible}"
               min-width="100"
@@ -212,7 +212,7 @@ export default {
     #if($i18nEnable)
             :title="$t('${tableName}.field.${column.javaField}')"
     #else
-            title="#if($column.columnComment)$column.columnComment#else$column.javaField#end"
+            title="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end"
     #end
             :visible="${column.defaultVisible}"
             min-width="100"

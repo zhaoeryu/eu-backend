@@ -23,7 +23,17 @@ import java.time.LocalDateTime;
 @Data
 public abstract class BaseEntity implements Serializable {
 
-    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = "createByNickname")
+    public static final String FIELD_CREATE_BY = "create_by";
+    public static final String FIELD_UPDATE_BY = "update_by";
+    public static final String FIELD_CREATE_TIME = "create_time";
+    public static final String FIELD_UPDATE_TIME = "update_time";
+    public static final String FIELD_DEL_FLAG = "del_flag";
+    public static final String FIELD_REMARK = "remark";
+
+    public static final String TRANS_FIELD_CREATE_BY = "createByNickname";
+    public static final String TRANS_FIELD_UPDATE_BY = "updateByNickname";
+
+    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = TRANS_FIELD_CREATE_BY)
     @Schema(description = "创建人")
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
@@ -36,7 +46,7 @@ public abstract class BaseEntity implements Serializable {
     @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime createTime;
 
-    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = "updateByNickname")
+    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = TRANS_FIELD_UPDATE_BY)
     @Schema(description = "更新人")
     @ExcelIgnore
     @TableField(fill = FieldFill.UPDATE)

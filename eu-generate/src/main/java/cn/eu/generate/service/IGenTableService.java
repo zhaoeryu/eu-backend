@@ -29,11 +29,9 @@ public interface IGenTableService extends IEuService<GenTable> {
 
     TableInfoVo getTableInfo(String tableName);
 
-    boolean saveTable(GenTable entity);
-
-    void saveColumns(List<GenTableColumn> entityList);
-
     void sync(String tableName);
 
     void generator(String tableName, HttpServletResponse response) throws IOException;
+
+    void saveInfo(TableInfoVo info);
 }

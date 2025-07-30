@@ -40,6 +40,10 @@ public class GenTableColumn implements Serializable {
      */
     private String columnComment;
     /**
+     * 调整后的字段描述
+     */
+    private String finalColumnComment;
+    /**
      * 字段键
      */
     private String columnKey;

@@ -18,6 +18,7 @@ import cn.eu.generate.utils.GenUtil;
 import cn.eu.generate.utils.VelocityHelper;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -120,6 +121,9 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         if (item.getTableShow() == null) {
             item.setTableShow(GenUtil.isFieldTableShow(item.getColumnName()));
         }
+        if (StrUtil.isBlank(item.getFinalColumnComment())) {
+            item.setFinalColumnComment(item.getColumnComment());
+        }
         if (item.getFormShow() == null) {
             item.setFormShow(GenUtil.isFieldFormShow(item.getColumnName()));
         }
@@ -190,16 +194,6 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         tableInfoVo.setTable(genTable);
         tableInfoVo.setColumns(genTableColumns);
         return tableInfoVo;
-    }
-
-    @Override
-    public boolean saveTable(GenTable entity) {
-        return StrUtil.isBlank(entity.getId()) ? save(entity) : updateById(entity);
-    }
-
-    @Override
-    public void saveColumns(List<GenTableColumn> entityList) {
-        genTableColumnService.saveOrUpdateBatch(entityList);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -348,6 +342,18 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         } else {
             throw new RuntimeException("生成模式错误");
         }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveInfo(TableInfoVo info) {
+        // 保存表配置
+        GenTable entity = info.getTable();
+        boolean saveSuccessfully = StrUtil.isBlank(entity.getId()) ? save(entity) : updateById(entity);
+        Assert.isTrue(saveSuccessfully, "保存表配置失败");
+
+        // 保存字段配置
+        genTableColumnService.saveOrUpdateBatch(info.getColumns());
     }
 
     private String getGenFilePath(String rootPath, GenerateTemplateDto generateTemplateDto, GenTable genTable) {

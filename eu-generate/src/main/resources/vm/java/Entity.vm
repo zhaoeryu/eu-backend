@@ -44,14 +44,14 @@ public class ${ClassName} extends BaseEntity {
 #else
     #if ($column.notNull)
     #if ($column.javaType == 'String')
-    @NotBlank(message = "#if($i18nEnable){valid.${ClassName}.${column.javaField}.notBlank}#{else}#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空#end")
+    @NotBlank(message = "#if($i18nEnable){valid.${ClassName}.${column.javaField}.notBlank}#{else}#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end不能为空#end")
     #else
-    @NotNull(message = "#if($i18nEnable){valid.${ClassName}.${column.javaField}.notNull}#{else}#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空#end")
+    @NotNull(message = "#if($i18nEnable){valid.${ClassName}.${column.javaField}.notNull}#{else}#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end不能为空#end")
     #end
     #end
 #end
 #if ($column.excelExport)
-    @ExcelProperty("#if($column.columnComment)$column.columnComment#else$column.javaField#end")
+    @ExcelProperty("#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end")
 #else
     @ExcelIgnore
 #end

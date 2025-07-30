@@ -33,7 +33,7 @@ export default {
 #foreach($column in $columns)
 #if($column.formShow && $column.notNull)
         $column.javaField: [
-          { required: true, message: #if($i18nEnable)i18n.t('general.required', { field: i18n.t('${tableName}.field.${column.javaField}') })#{else}'#if($column.columnComment)$column.columnComment#else$column.javaField#end不能为空'#end, trigger: #if($column.formType == "select" || $column.formType == "radio" || !$column.builtInFormType)'change'#else'blur'#end }
+          { required: true, message: #if($i18nEnable)i18n.t('general.required', { field: i18n.t('${tableName}.field.${column.javaField}') })#{else}'#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end不能为空'#end, trigger: #if($column.formType == "select" || $column.formType == "radio" || !$column.builtInFormType)'change'#else'blur'#end }
         ],
 #end
 #end

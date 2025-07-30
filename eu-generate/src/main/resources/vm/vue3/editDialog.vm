@@ -27,7 +27,7 @@ const rules = {
 #foreach($column in $columns)
 #if($column.formShow && $column.notNull)
   $column.javaField: [
-    { required: true, message: '${column.columnComment}不能为空', trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
+    { required: true, message: '${column.finalColumnComment}不能为空', trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
   ],
 #end
 #end

@@ -60,16 +60,10 @@ public class GenerateController {
         return ResultBody.ok().data(tableInfo);
     }
 
-    @Log(title = "保存代码生成表配置", businessType = BusinessType.OTHER)
-    @PostMapping("/table")
-    public ResultBody saveTable(@RequestBody @Validated GenTable entity) {
-        genTableService.saveTable(entity);
-        return ResultBody.ok();
-    }
-    @Log(title = "保存代码生成列配置", businessType = BusinessType.OTHER)
-    @PostMapping("/columns")
-    public ResultBody saveColumns(@RequestBody @Validated List<GenTableColumn> entityList) {
-        genTableService.saveColumns(entityList);
+    @Log(title = "保存代码生成配置", businessType = BusinessType.OTHER)
+    @PostMapping("/save")
+    public ResultBody save(@RequestBody @Validated TableInfoVo info) {
+        genTableService.saveInfo(info);
         return ResultBody.ok();
     }
 
