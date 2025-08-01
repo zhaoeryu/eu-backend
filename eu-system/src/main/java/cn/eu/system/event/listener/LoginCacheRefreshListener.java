@@ -64,7 +64,12 @@ public class LoginCacheRefreshListener implements ApplicationListener<LoginCache
             return;
         }
         Object userStr = session.get(Constants.USER_KEY);
-        LoginUser authUser = JSONObject.parseObject(userStr.toString(), LoginUser.class);
+        LoginUser authUser = null;
+        if (userStr instanceof LoginUser) {
+            authUser = (LoginUser) userStr;
+        } else {
+            JSONObject.parseObject(userStr.toString(), LoginUser.class);
+        }
 
 
         SysUser sysUser = userService.getById(userId);
