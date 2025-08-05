@@ -1,7 +1,6 @@
 package cn.eu.common.enums;
 
 import cn.eu.common.annotation.IEuEnum;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,7 +15,6 @@ public enum BooleanFlag implements IEuEnum<Integer> {
     FALSE(0, "否"),
     TRUE(1, "是");
 
-    @JsonValue
     private final Integer value;
     private final String desc;
 

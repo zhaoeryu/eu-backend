@@ -1,7 +1,6 @@
 package cn.eu.common.enums;
 
 import cn.eu.common.annotation.IEuEnum;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,7 +21,6 @@ public enum SysUserSex implements IEuEnum<Integer> {
      */
     MAN(1, "男");
 
-    @JsonValue
     private final Integer value;
     private final String desc;
 

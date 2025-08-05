@@ -1,7 +1,6 @@
 package cn.eu.common.enums;
 
 import cn.eu.common.annotation.IEuEnum;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -28,7 +27,6 @@ public enum MenuType implements IEuEnum<Integer> {
     */
     BUTTON(3, "按钮");
 
-    @JsonValue
     private final Integer value;
     private final String desc;
 }

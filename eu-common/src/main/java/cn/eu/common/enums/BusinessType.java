@@ -1,7 +1,6 @@
 package cn.eu.common.enums;
 
 import cn.eu.common.annotation.IEuEnum;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -75,7 +74,6 @@ public enum BusinessType implements IEuEnum<Integer> {
     EXEC_JOB(13, "执行任务");
 
 
-    @JsonValue
     private final Integer value;
     private final String desc;
 

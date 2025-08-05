@@ -1,7 +1,6 @@
 package cn.eu.common.enums;
 
 import cn.eu.common.annotation.IEuEnum;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -29,7 +28,6 @@ public enum SysUserStatus implements IEuEnum<Integer> {
      */
     DELETED(2, "删除");
 
-    @JsonValue
     private final Integer value;
     private final String desc;
 
