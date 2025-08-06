@@ -86,9 +86,10 @@ public class VelocityHelper {
             }
         } else if (EuFrontHeader.VUE3.getDesc().equals(requestHeaderFront)) {
             // vue3
+            list.add(new GenerateTemplateDto("vm/vue3/type.vm", "type.d.ts", GenConstant.TPL_FILE_TYPE_TS));
+            list.add(new GenerateTemplateDto("vm/vue3/api.vm", "api.ts", GenConstant.TPL_FILE_TYPE_TS));
             list.add(new GenerateTemplateDto("vm/vue3/vue.vm", "index.vue", GenConstant.TPL_FILE_TYPE_VUE));
             list.add(new GenerateTemplateDto("vm/vue3/editDialog.vm", "editDialog.vue", GenConstant.TPL_FILE_TYPE_VUE));
-            list.add(new GenerateTemplateDto("vm/vue3/api.vm", "api.js", GenConstant.TPL_FILE_TYPE_JS));
         }
         return list;
     }
@@ -123,6 +124,7 @@ public class VelocityHelper {
         list.add("vm/macro/elFormItem.vm");
         list.add("vm/macro/elTableQueryItem.vm");
         list.add("vm/macro/vue3_elFormItem.vm");
+        list.add("vm/macro/vue3_elTableQueryItem.vm");
         return list;
     }
 
@@ -170,6 +172,12 @@ public class VelocityHelper {
                         .filter(StrUtil::isNotBlank)
                         .distinct()
                         .collect(Collectors.toList()));
+        // 枚举key列表
+        velocityContext.put("enums", genTableColumns.stream()
+                .map(GenTableColumn::getEnumKey)
+                .filter(StrUtil::isNotBlank)
+                .distinct()
+                .collect(Collectors.toList()));
 
         // 详情页顶部显示字段逻辑处理
         boolean detailHeaderEnable = StrUtil.isNotBlank(genTable.getDetailHeaderFieldKey());

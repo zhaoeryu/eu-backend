@@ -1,0 +1,7 @@
+import type { BaseEntity } from '@/types/api'
+
+export interface ${ClassName} extends BaseEntity {
+#foreach ($column in $entityColumns)
+  $column.javaField: $column.jsType#if (!$column.notNull) | null#end;
+#end
+}

@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { add, update } from '@/api/${apiPath}'
-import {ElMessage} from "element-plus";
-import {computed, nextTick, ref} from "vue";
-import { UploadFilled, Plus } from '@element-plus/icons-vue'
+import {computed, nextTick, useTemplateRef} from "vue";
+import {ElMessage, type FormInstance} from "element-plus";
+import useVisible from "@/hooks/visible";
+import useLoading from "@/hooks/loading";
+import {useResettableReactive} from "@/hooks/resettable";
+import type {${ClassName}} from "@/types/${apiPath}";
+#if($enums)
+import {#foreach($item in $enums)${item}#if($foreach.hasNext), #end#end} from "@/utils/business-enums";
+#end
 
 #if($dicts)
 defineOptions({
@@ -11,51 +17,56 @@ defineOptions({
 #end
 
 const DEFAULT_FORM = {
+  id: null,
 #foreach($column in $columns)
-#if($column.formShow)
+#if($column.formShow && $column.javaField != 'id')
   $column.javaField: null,
+#end
+#end
+}
+const rules = {
+#foreach($column in $columns)
+#if($column.formShow && $column.notNull)
+  $column.javaField: [{ required: true, message: '${column.finalColumnComment}不能为空', trigger: 'change' }],
 #end
 #end
 }
 
 const emit = defineEmits(['complete'])
 
-const show = ref(false)
-const formLoading = ref(false)
-const form = ref(DEFAULT_FORM)
-const rules = {
-#foreach($column in $columns)
-#if($column.formShow && $column.notNull)
-  $column.javaField: [
-    { required: true, message: '${column.finalColumnComment}不能为空', trigger: #if($column.formType == "select" || $column.formType == "radio")'change'#else'blur'#end }
-  ],
-#end
-#end
-}
-const refForm = ref(null)
-const title = computed(() => {
-  return form.value.id ? '修改${tableComment}' : '新增${tableComment}'
+const refForm = useTemplateRef<FormInstance>('refForm')
+const { visible, setVisible } = useVisible(false)
+const { loading: formLoading, setLoading: setFormLoading } = useLoading(false)
+const [ state, reset ] = useResettableReactive({
+  form: {
+    ...DEFAULT_FORM
+  }
 })
 
-function open(row) {
-  form.value = Object.assign({...DEFAULT_FORM}, row)
-  show.value = true
+const title = computed(() => {
+  return state.form.id ? '修改${tableComment}' : '新增${tableComment}'
+})
+
+function open(row: ${ClassName}) {
+  reset()
+  state.form = Object.assign({...DEFAULT_FORM}, row)
+  setVisible(true)
 }
 
 function onSubmit() {
-  refForm.value.validate(valid => {
+  refForm.value?.validate(valid => {
     if (!valid) {
-      return false
+      return
     }
 
-    formLoading.value = true
-    const reqPromise = form.value.id ? update(form.value) : add(form.value)
+    setFormLoading(true)
+    const reqPromise = state.form.id ? update(state.form) : add(state.form)
     reqPromise.then(() => {
-      ElMessage.success(form.value.id ? '修改成功' : '新增成功')
-      show.value = false
+      ElMessage.success(state.form.id ? '修改成功' : '新增成功')
+      setVisible(false)
       emit('complete')
     }).finally(() => {
-      formLoading.value = false
+      setFormLoading(false)
     })
   })
 }
@@ -68,6 +79,12 @@ async function onDialogOpen() {
   });
 }
 
+function onReset() {
+  if (refForm.value) {
+    refForm.value.resetFields();
+  }
+}
+
 defineExpose({
   open
 })
@@ -75,13 +92,13 @@ defineExpose({
 
 <template>
   <el-dialog
+    v-model="visible"
     :title="title"
-    v-model="show"
     :close-on-click-modal="false"
-    width="500px"
+    width="800px"
     @open="onDialogOpen"
   >
-    <el-form ref="refForm" :model="form" :rules="rules" label-width="80px">
+    <el-form ref="refForm" :model="state.form" :rules="rules" label-width="120px">
 #foreach($column in $columns)
 #if($column.formShow)
     #vue3ElFormItem($column false "      ")
@@ -89,7 +106,7 @@ defineExpose({
 #end
     </el-form>
     <template #footer>
-      <el-button @click="show = false">取 消</el-button>
+      <el-button @click="onReset">重 置</el-button>
       <el-button :loading="formLoading" class="eu-submit-btn" type="primary" @click="onSubmit">确 定</el-button>
     </template>
   </el-dialog>

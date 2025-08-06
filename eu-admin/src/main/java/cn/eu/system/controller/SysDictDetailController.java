@@ -76,6 +76,17 @@ public class SysDictDetailController extends EuBaseController {
         return ResultBody.ok().data(res);
     }
 
+    @GetMapping("/fetchOne")
+    public ResultBody list(@RequestParam("dictKey") String dictKey, @RequestParam("dictValue") String dictValue) {
+        SysDictDetail res = sysDictDetailService.getOne(new LambdaQueryWrapper<SysDictDetail>()
+                .eq(SysDictDetail::getDictKey, dictKey)
+                .eq(SysDictDetail::getDictValue, dictValue)
+                .orderByAsc(SysDictDetail::getSortNum)
+                .last("limit 1")
+        );
+        return ResultBody.ok().data(res);
+    }
+
     @Log(title = "导出字典详情", businessType = BusinessType.EXPORT, isSaveResponseData = false)
     @SaCheckPermission("system:dict-detail:export")
     @PostMapping("/export")

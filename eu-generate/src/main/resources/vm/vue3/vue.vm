@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import ${ClassName}EditDialog from './${ClassName}EditDialog.vue'
-import {onMounted, ref} from "vue";
-import {batchDel, page} from "@/api/system/post";
+import {onMounted, useTemplateRef} from "vue";
+import {batchDel, page} from "@/api/${apiPath}";
 import {download} from "@/utils/request";
-import {ElMessage, ElMessageBox} from "element-plus";
-import {Refresh, Search, UploadFilled, Plus} from "@element-plus/icons-vue";
+import {ElMessage, ElMessageBox, type TableInstance} from "element-plus";
+import {Refresh, Search} from "@element-plus/icons-vue";
+import useLoading from "@/hooks/loading";
+import {useResettableReactive} from "@/hooks/resettable";
+import type {${ClassName}} from "@/types/${apiPath}";
+#if($enums)
+import {#foreach($item in $enums)${item}#if($foreach.hasNext), #end#end} from "@/utils/business-enums";
+#end
 
 #if($dicts)
 defineOptions({
@@ -12,56 +18,59 @@ defineOptions({
 })
 #end
 
-const DEFAULT_QUERY_PARAMS = {
-#foreach($column in $columns)
-#if($column.queryType)
-        $column.javaField: null,
-#end
-#end
+const DEFAULT_PAGE = {
   page: 1,
   size: 10,
   sort: []
 }
 
-const list = ref([])
-const total = ref(0)
-const loading = ref(false)
-const isQueryShow = ref(true)
-const queryParams = ref(DEFAULT_QUERY_PARAMS)
-const multipleDisabled = ref(true)
-
-const refTable = ref(null)
-const ref${ClassName}EditDialog = ref(null)
-const refImportDialog = ref(null)
+const ref${ClassName}EditDialog = useTemplateRef<InstanceType<typeof ${ClassName}EditDialog>>('ref${ClassName}EditDialog')
+const refTable = useTemplateRef<TableInstance>('refTable')
+const { loading, setLoading } = useLoading(false);
+const [state, reset] = useResettableReactive({
+  list: [],
+  total: 0,
+  isQueryShow: true,
+  multipleDisabled: true,
+  queryParams: {
+#foreach($column in $columns)
+  #if($column.queryType)
+    $column.javaField: null,
+  #end
+#end
+    
+    ...DEFAULT_PAGE
+  },
+})
 
 onMounted(() => {
   onRefresh()
 })
 
 function onQuery() {
-  loading.value = true
-  page(queryParams.value).then(res => {
-    list.value = res.data.records
-    total.value = res.data.total
+  setLoading(true)
+  page(state.queryParams).then(res => {
+    state.list = res.data.records
+    state.total = res.data.total
   }).finally(() => {
-    loading.value = false
+    setLoading(false)
   })
 }
 function onRefresh() {
-  queryParams.value = {...DEFAULT_QUERY_PARAMS}
+  reset('queryParams')
   onQuery()
 }
 
 function onAdd() {
-  ref${ClassName}EditDialog.value.open()
+  ref${ClassName}EditDialog.value?.open({} as ${ClassName})
 }
 
 function onExport() {
-  download('/api/${apiPath}/export', queryParams.value, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
+  download('/api/${apiPath}/export', state.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
 }
 
 function onBatchDel() {
-  const ids = refTable.value.getSelectionRows().map(item => item.id)
+  const ids = refTable.value?.getSelectionRows().map(item => item.id) || []
   ElMessageBox.confirm(`确认要删除选中的${ids.length}条记录吗？`, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -83,15 +92,15 @@ function onBatchDel() {
   });
 }
 
-function onSelectionChange(selection) {
-  multipleDisabled.value = !selection.length
+function onSelectionChange(selection: ${ClassName}[]) {
+  state.multipleDisabled = !selection.length
 }
 
-function onRowUpdate(row) {
-  ref${ClassName}EditDialog.value.open(row)
+function onRowUpdate(row: ${ClassName}) {
+  ref${ClassName}EditDialog.value?.open(row)
 }
 
-function onRowDelete(row) {
+function onRowDelete(row: ${ClassName}) {
   ElMessageBox.confirm(`确认要删除"${ row.$delShowField }"吗？`, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -114,7 +123,7 @@ function onRowDelete(row) {
 }
 
 function onSortComplete() {
-  queryParams.value.page = DEFAULT_QUERY_PARAMS.page
+  state.queryParams.page = DEFAULT_PAGE.page
   onQuery()
 }
 
@@ -123,11 +132,15 @@ function onSortComplete() {
 <template>
   <div class="page-container">
     <div class="page-body">
-      <query-expand-wrapper :show="isQueryShow">
-        <el-form :model="queryParams" :inline="true">
+      <query-expand-wrapper :show="state.isQueryShow">
+        <el-form :model="state.queryParams" :inline="true">
 #foreach($column in $columns)
 #if($column.queryType)
-    #vue3ElFormItem($column true "          ")
+          <el-form-item
+            label="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end"
+            prop="${column.javaField}">
+            #vue3ElTableQueryItem($column "          ")
+          </el-form-item>
 #end
 #end
           <el-form-item>
@@ -138,7 +151,9 @@ function onSortComplete() {
       </query-expand-wrapper>
       <div v-loading="loading">
         <eu-table-toolbar
-          :multiple-disabled="multipleDisabled"
+          v-model:sort="state.queryParams.sort"
+          v-model:searchToggle="state.isQueryShow"
+          :multiple-disabled="state.multipleDisabled"
           :opt-show="{
             import: false
           }"
@@ -147,8 +162,6 @@ function onSortComplete() {
             del: ['${permissionPrefix}:del'],
             export: ['${permissionPrefix}:export'],
           }"
-          v-model:sort="queryParams.sort"
-          v-model:searchToggle="isQueryShow"
           :ref-table="refTable"
           @add="onAdd"
           @batchDel="onBatchDel"
@@ -158,17 +171,27 @@ function onSortComplete() {
         />
         <el-table
           ref="refTable"
-          :data="list"
-          @selection-change="onSelectionChange"
+          :data="state.list"
           style="width: 100%"
+          @selection-change="onSelectionChange"
         >
           <el-table-column type="selection"></el-table-column>
 #foreach($column in $columns)
 #if($column.tableShow)
-          <el-table-column prop="${column.javaField}" label="${column.finalColumnComment}"></el-table-column>
+          <el-table-column prop="${column.javaField}" label="${column.finalColumnComment}" width="120">
+          #if($column.dictKey)
+            <template #default="{ row }">
+              <dict-text :value="row.${column.javaField}" dict-key="${column.dictKey}" />
+            </template>
+          #elseif($column.enumKey)
+            <template #default="{ row }">
+              <enum-tag :value="row.$column.javaField" :enums="$column.enumKey" />
+            </template>
+          #end
+          </el-table-column>
 #end
 #end
-          <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" label="操作">
+          <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" label="操作" width="150">
             <template #default="{ row }">
               <el-button v-permissions="['${permissionPrefix}:edit']" text type="primary" @click="onRowUpdate(row)">修改</el-button>
               <el-button v-permissions="['${permissionPrefix}:del']" text type="primary" @click="onRowDelete(row)">删除</el-button>
@@ -176,9 +199,9 @@ function onSortComplete() {
           </el-table-column>
         </el-table>
         <pagination
-          v-model:page="queryParams.page"
-          v-model:limit="queryParams.size"
-          :total="total"
+          v-model:page="state.queryParams.page"
+          v-model:limit="state.queryParams.size"
+          :total="state.total"
           @pagination="onQuery"
         />
       </div>

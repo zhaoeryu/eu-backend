@@ -109,6 +109,9 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         if (StrUtil.isBlank(item.getJavaType())) {
             item.setJavaType(FieldTypeMappingUtil.getJavaType(item.getColumnType()));
         }
+        if (StrUtil.isBlank(item.getJsType())) {
+            item.setJsType(FieldTypeMappingUtil.getJsType(item.getColumnType()));
+        }
         if (StrUtil.isBlank(item.getJavaField())) {
             item.setJavaField(StrUtil.toCamelCase(item.getColumnName()));
         }
@@ -283,6 +286,8 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
             item.setJavaType(FieldTypeMappingUtil.getJavaType(item.getColumnType()));
             item.setJavaField(StrUtil.toCamelCase(item.getColumnName()));
             item.setColumnLength(FieldTypeMappingUtil.getFieldLength(item.getColumnType()));
+
+            item.setJsType(FieldTypeMappingUtil.getJsType(item.getColumnType()));
         });
         if (CollUtil.isNotEmpty(cacheColumns)) {
             genTableColumnService.updateBatchById(cacheColumns);
@@ -535,7 +540,13 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                 filePathJoiner.add("generate")
                         .add("vue3")
                         .add("api")
-                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()) + ".js");
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()) + ".ts");
+                break;
+            case "vm/vue3/type.vm":
+                filePathJoiner.add("generate")
+                        .add("vue3")
+                        .add("types")
+                        .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()) + ".d.ts");
                 break;
             default:
                 throw new RuntimeException("未受支持的模版:" + generateTemplateDto.getPath());

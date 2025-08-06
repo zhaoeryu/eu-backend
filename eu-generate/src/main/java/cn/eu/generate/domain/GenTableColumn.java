@@ -88,7 +88,11 @@ public class GenTableColumn implements Serializable {
      * 是否在表单显示
      */
     private Boolean formShow;
-
+    /**
+     * js字段类型
+     */
+    @NotBlank(message = "js字段类型不能为空")
+    private String jsType;
     /**
      * 表单类型
      */

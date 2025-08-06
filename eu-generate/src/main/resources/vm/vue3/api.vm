@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function page(params) {
+export function page(params: any) {
   return request({
     url: '/api/${apiPath}/page',
     method: 'get',
@@ -8,7 +8,7 @@ export function page(params) {
   })
 }
 
-export function add(data) {
+export function add(data: any) {
   return request({
     url: '/api/${apiPath}',
     method: 'post',
@@ -16,7 +16,7 @@ export function add(data) {
   })
 }
 
-export function update(data) {
+export function update(data: any) {
   return request({
     url: '/api/${apiPath}',
     method: 'put',
@@ -24,7 +24,7 @@ export function update(data) {
   })
 }
 
-export function batchDel(ids) {
+export function batchDel(ids: any[]) {
   return request({
     url: '/api/${apiPath}/batch',
     method: 'delete',
@@ -32,7 +32,7 @@ export function batchDel(ids) {
   })
 }
 
-export function getById(id) {
+export function getById(id: string | number) {
   return request({
     url: '/api/${apiPath}/query/' + id,
     method: 'get'

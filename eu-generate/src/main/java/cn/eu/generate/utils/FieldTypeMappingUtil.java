@@ -16,6 +16,7 @@ public class FieldTypeMappingUtil {
      * 字段类型映射文件
      */
     private static final Props PROPS = PropsUtil.get("field-type-mapping.properties");;
+    private static final Props PROPS_JS = PropsUtil.get("field-type-js.properties");;
 
     /**
      * 根据数据库字段类型获取java类型
@@ -23,9 +24,21 @@ public class FieldTypeMappingUtil {
      * @return java类型
      */
     public static String getJavaType(String dbType) {
+        return PROPS.getProperty(getDbType(dbType));
+    }
+
+    /**
+     * 根据数据库字段类型获取js类型
+     * @param dbType 数据库字段类型
+     * @return js类型
+     */
+    public static String getJsType(String dbType) {
+        return PROPS_JS.getProperty(getDbType(dbType));
+    }
+
+    public static String getDbType(String dbType) {
         // 去掉括号及括号里的内容
-        dbType = dbType.replaceAll("\\(.*\\)", "");
-        return PROPS.getProperty(dbType);
+        return dbType.replaceAll("\\(.*\\)", "");
     }
 
     /**
@@ -197,7 +210,7 @@ public class FieldTypeMappingUtil {
                 "int(11)\n" +
                 "varchar(20)";
         CollUtil.newArrayList(str.split("\n")).forEach(s -> {
-            System.out.println(getFieldLength(s));
+            System.out.println(getJsType(s));
         });
 
 //        System.out.println(getFormType("VARCHAR(32)"));

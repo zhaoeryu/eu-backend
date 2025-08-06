@@ -57,6 +57,7 @@ CREATE TABLE `gen_table_column` (
   `excel_export` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否导出',
   `table_show` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否在列表显示',
   `form_show` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否在表单显示',
+  `js_type` varchar(32) NOT NULL COMMENT 'js字段类型',
   `form_type` varchar(32) DEFAULT NULL COMMENT '表单类型',
   `query_type` varchar(32) DEFAULT NULL COMMENT '查询方式',
   `dict_key` varchar(32) DEFAULT NULL COMMENT '关联字典',

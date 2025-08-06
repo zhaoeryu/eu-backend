@@ -60,6 +60,7 @@ public class GenConstant {
     public static final String TPL_FILE_TYPE_XML = "xml";
     public static final String TPL_FILE_TYPE_VUE = "vue";
     public static final String TPL_FILE_TYPE_JS = "js";
+    public static final String TPL_FILE_TYPE_TS = "ts";
     public static final String TPL_FILE_TYPE_SQL = "sql";
     public static final String TPL_FILE_TYPE_PROPERTIES = "properties";
 }
