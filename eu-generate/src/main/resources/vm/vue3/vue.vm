@@ -1,31 +1,33 @@
 <script setup lang="ts">
-import ${ClassName}EditDialog from './${ClassName}EditDialog.vue'
-import {onMounted, useTemplateRef} from "vue";
-import {batchDel, page} from "@/api/${apiPath}";
-import {download} from "@/utils/request";
-import {ElMessage, ElMessageBox, type TableInstance} from "element-plus";
-import {Refresh, Search} from "@element-plus/icons-vue";
-import useLoading from "@/hooks/loading";
-import {useResettableReactive} from "@/hooks/resettable";
-import type {${ClassName}} from "@/types/${apiPath}";
+import { ElMessage, ElMessageBox, type TableInstance } from 'element-plus';
+import { Refresh, Search } from '@element-plus/icons-vue';
+import { onMounted, useTemplateRef } from 'vue';
+
+import { batchDel, page } from '@/api/${apiPath}';
+import { download } from '@/utils/request';
+import useLoading from '@/hooks/loading';
+import { useResettableReactive } from '@/hooks/resettable';
+import type { ${ClassName} } from '@/types/${apiPath}';
 #if($enums)
-import {#foreach($item in $enums)${item}#if($foreach.hasNext), #end#end} from "@/utils/business-enums";
+import { #foreach($item in $enums)${item}#if($foreach.hasNext), #end#end } from '@/utils/business-enums';
 #end
+
+import ${ClassName}EditDialog from './${ClassName}EditDialog.vue';
 
 #if($dicts)
 defineOptions({
   dicts: [#foreach($item in $dicts)'${item}'#if($foreach.hasNext), #end#end],
-})
+});
 #end
 
 const DEFAULT_PAGE = {
   page: 1,
   size: 10,
-  sort: []
-}
+  sort: [],
+};
 
-const ref${ClassName}EditDialog = useTemplateRef<InstanceType<typeof ${ClassName}EditDialog>>('ref${ClassName}EditDialog')
-const refTable = useTemplateRef<TableInstance>('refTable')
+const ref${ClassName}EditDialog = useTemplateRef<InstanceType<typeof ${ClassName}EditDialog>>('ref${ClassName}EditDialog');
+const refTable = useTemplateRef<TableInstance>('refTable');
 const { loading, setLoading } = useLoading(false);
 const [state, reset] = useResettableReactive({
   list: [],
@@ -38,39 +40,40 @@ const [state, reset] = useResettableReactive({
     $column.javaField: null,
   #end
 #end
-    
-    ...DEFAULT_PAGE
+    ...DEFAULT_PAGE,
   },
-})
+});
 
 onMounted(() => {
-  onRefresh()
-})
+  onRefresh();
+});
 
 function onQuery() {
-  setLoading(true)
-  page(state.queryParams).then(res => {
-    state.list = res.data.records
-    state.total = res.data.total
-  }).finally(() => {
-    setLoading(false)
-  })
+  setLoading(true);
+  page(state.queryParams)
+    .then((res) => {
+      state.list = res.data.records;
+      state.total = res.data.total;
+    })
+    .finally(() => {
+      setLoading(false);
+    });
 }
 function onRefresh() {
-  reset('queryParams')
-  onQuery()
+  reset('queryParams');
+  onQuery();
 }
 
 function onAdd() {
-  ref${ClassName}EditDialog.value?.open({} as ${ClassName})
+  ref${ClassName}EditDialog.value?.open({} as ${ClassName});
 }
 
 function onExport() {
-  download('/api/${apiPath}/export', state.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#)
+  download('/api/${apiPath}/export', state.queryParams, `${tableComment}#[[_${new Date().getTime()}.xlsx`]]#);
 }
 
 function onBatchDel() {
-  const ids = refTable.value?.getSelectionRows().map(item => item.id) || []
+  const ids = refTable.value?.getSelectionRows().map((item) => item.id) || [];
   ElMessageBox.confirm(`确认要删除选中的${ids.length}条记录吗？`, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -78,55 +81,58 @@ function onBatchDel() {
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true;
-        batchDel(ids).then(() => {
-          ElMessage.success('删除成功')
-          done()
-          onRefresh()
-        }).finally(() => {
-          instance.confirmButtonLoading = false;
-        })
+        batchDel(ids)
+          .then(() => {
+            ElMessage.success('删除成功');
+            done();
+            onRefresh();
+          })
+          .finally(() => {
+            instance.confirmButtonLoading = false;
+          });
       } else {
-        done()
+        done();
       }
-    }
+    },
   });
 }
 
 function onSelectionChange(selection: ${ClassName}[]) {
-  state.multipleDisabled = !selection.length
+  state.multipleDisabled = !selection.length;
 }
 
 function onRowUpdate(row: ${ClassName}) {
-  ref${ClassName}EditDialog.value?.open(row)
+  ref${ClassName}EditDialog.value?.open(row);
 }
 
 function onRowDelete(row: ${ClassName}) {
-  ElMessageBox.confirm(`确认要删除"${ row.$delShowField }"吗？`, '提示', {
+  ElMessageBox.confirm(`确认要删除"#[[${row.]]#$delShowField}"吗？`, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
     beforeClose: (action, instance, done) => {
       if (action === 'confirm') {
         instance.confirmButtonLoading = true;
-        batchDel([row.id]).then(() => {
-          ElMessage.success('删除成功')
-          done()
-          onRefresh()
-        }).finally(() => {
-          instance.confirmButtonLoading = false;
-        })
+        batchDel([row.id])
+          .then(() => {
+            ElMessage.success('删除成功');
+            done();
+            onRefresh();
+          })
+          .finally(() => {
+            instance.confirmButtonLoading = false;
+          });
       } else {
-        done()
+        done();
       }
-    }
+    },
   });
 }
 
 function onSortComplete() {
-  state.queryParams.page = DEFAULT_PAGE.page
-  onQuery()
+  state.queryParams.page = DEFAULT_PAGE.page;
+  onQuery();
 }
-
 </script>
 
 <template>
@@ -136,9 +142,7 @@ function onSortComplete() {
         <el-form :model="state.queryParams" :inline="true">
 #foreach($column in $columns)
 #if($column.queryType)
-          <el-form-item
-            label="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end"
-            prop="${column.javaField}">
+          <el-form-item label="#if($column.finalColumnComment)$column.finalColumnComment#else$column.javaField#end" prop="${column.javaField}">
             #vue3ElTableQueryItem($column "          ")
           </el-form-item>
 #end
@@ -152,10 +156,10 @@ function onSortComplete() {
       <div v-loading="loading">
         <eu-table-toolbar
           v-model:sort="state.queryParams.sort"
-          v-model:searchToggle="state.isQueryShow"
+          v-model:search-toggle="state.isQueryShow"
           :multiple-disabled="state.multipleDisabled"
           :opt-show="{
-            import: false
+            import: false,
           }"
           :permission="{
             add: ['${permissionPrefix}:add'],
@@ -169,15 +173,11 @@ function onSortComplete() {
           @refresh="onRefresh"
           @sort="onSortComplete"
         />
-        <el-table
-          ref="refTable"
-          :data="state.list"
-          style="width: 100%"
-          @selection-change="onSelectionChange"
-        >
-          <el-table-column type="selection"></el-table-column>
+        <el-table ref="refTable" :data="state.list" style="width: 100%" @selection-change="onSelectionChange">
+          <el-table-column type="selection" fixed="left"></el-table-column>
 #foreach($column in $columns)
 #if($column.tableShow)
+#if($column.dictKey || $column.enumKey)
           <el-table-column prop="${column.javaField}" label="${column.finalColumnComment}" width="120">
           #if($column.dictKey)
             <template #default="{ row }">
@@ -189,25 +189,22 @@ function onSortComplete() {
             </template>
           #end
           </el-table-column>
+#else
+          <el-table-column prop="${column.javaField}" label="${column.finalColumnComment}" width="120" />
 #end
 #end
-          <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" label="操作" width="150">
+#end
+          <el-table-column v-permissions="['${permissionPrefix}:edit', '${permissionPrefix}:del']" label="操作" width="150" fixed="right">
             <template #default="{ row }">
               <el-button v-permissions="['${permissionPrefix}:edit']" text type="primary" @click="onRowUpdate(row)">修改</el-button>
               <el-button v-permissions="['${permissionPrefix}:del']" text type="primary" @click="onRowDelete(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
-        <pagination
-          v-model:page="state.queryParams.page"
-          v-model:limit="state.queryParams.size"
-          :total="state.total"
-          @pagination="onQuery"
-        />
+        <pagination v-model:page="state.queryParams.page" v-model:limit="state.queryParams.size" :total="state.total" @pagination="onQuery" />
       </div>
     </div>
 
     <${classNameKebabCase}-edit-dialog ref="ref${ClassName}EditDialog" @complete="onRefresh" />
-
   </div>
 </template>

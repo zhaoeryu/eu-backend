@@ -1,40 +1,40 @@
-import request from '@/utils/request'
+import request from '@/utils/request';
 
 export function page(params: any) {
   return request({
     url: '/api/${apiPath}/page',
     method: 'get',
-    params
-  })
+    params,
+  });
 }
 
 export function add(data: any) {
   return request({
     url: '/api/${apiPath}',
     method: 'post',
-    data
-  })
+    data,
+  });
 }
 
 export function update(data: any) {
   return request({
     url: '/api/${apiPath}',
     method: 'put',
-    data
-  })
+    data,
+  });
 }
 
 export function batchDel(ids: any[]) {
   return request({
     url: '/api/${apiPath}/batch',
     method: 'delete',
-    data: ids
-  })
+    data: ids,
+  });
 }
 
 export function getById(id: string | number) {
   return request({
     url: '/api/${apiPath}/query/' + id,
-    method: 'get'
-  })
+    method: 'get',
+  });
 }

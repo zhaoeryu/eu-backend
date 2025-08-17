@@ -2,15 +2,15 @@
 #set($formObj = "state.queryParams")
 #set($columnType = "query")
   #if ($column.formType == 'number')
-$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" placeholder="按下回车进行搜索" clearable style="width: 100%;" @change="onQuery" />
+$indent  <el-input v-model="${formObj}.${column.javaField}" type="number" placeholder="按下回车进行搜索" clearable style="width: 100%" @change="onQuery" />
   #elseif ($column.formType == 'switch')
 $indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true" :inactive-value="false" @change="onQuery" />
   #elseif ($column.formType == 'select' && $column.dictKey)
-$indent  <dict-select v-model="${formObj}.${column.javaField}" dict-key="${column.dictKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%;" />
+$indent  <dict-select v-model="${formObj}.${column.javaField}" dict-key="${column.dictKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%" />
   #elseif ($column.formType == 'select' && $column.enumKey)
-$indent  <enum-select v-model="${formObj}.${column.javaField}" :enums="${column.enumKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%;" />
+$indent  <enum-select v-model="${formObj}.${column.javaField}" :enums="${column.enumKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%" />
   #elseif ($column.formType == 'select')
-$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%;">
+$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%">
 $indent    <el-option label="请手动进行设置" value="请手动进行设置" />
 $indent  </el-select>
   #elseif ($column.formType == 'date')
@@ -21,7 +21,7 @@ $indent    type="daterange"
 $indent    range-separator="-"
 $indent    format="MM-DD"
 $indent    value-format="YYYY-MM-DD"
-$indent    style="width: 100%;"
+$indent    style="width: 100%"
 $indent    placeholder="请选择"
 $indent    @change="onQuery"
 $indent    clearable>
@@ -32,7 +32,7 @@ $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="date"
 $indent    format="MM-DD"
 $indent    value-format="YYYY-MM-DD"
-$indent    style="width: 100%;"
+$indent    style="width: 100%"
 $indent    placeholder="请选择"
 $indent    @change="onQuery"
 $indent    clearable>
@@ -45,7 +45,7 @@ $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="datetimerange"
 $indent    range-separator="-"
 $indent    value-format="YYYY-MM-DD HH:mm:ss"
-$indent    style="width: 100%;"
+$indent    style="width: 100%"
 $indent    placeholder="请选择"
 $indent    @change="onQuery"
 $indent    clearable>
@@ -55,7 +55,7 @@ $indent  <el-date-picker
 $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="datetime"
 $indent    value-format="YYYY-MM-DD HH:mm:ss"
-$indent    style="width: 100%;"
+$indent    style="width: 100%"
 $indent    placeholder="请选择"
 $indent    @change="onQuery"
 $indent    clearable>
@@ -64,6 +64,6 @@ $indent  </el-date-picker>
   #elseif(!$column.builtInFormType)
 $indent  <$column.formType v-model="${formObj}.${column.javaField}" @change="onQuery" />
   #else
-$indent  <el-input v-model="${formObj}.${column.javaField}" placeholder="按下回车进行搜索" clearable style="width: 100%;" @change="onQuery" />
+$indent  <el-input v-model="${formObj}.${column.javaField}" placeholder="按下回车进行搜索" clearable style="width: 100%" @change="onQuery" />
   #end
 #end

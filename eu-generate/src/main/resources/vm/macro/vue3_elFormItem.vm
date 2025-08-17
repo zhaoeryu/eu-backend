@@ -6,17 +6,17 @@ $indent  <el-input v-model="${formObj}.${column.javaField}" type="number" placeh
   #elseif ($column.formType == 'switch')
 $indent  <el-switch v-model="${formObj}.${column.javaField}" :active-value="true" :inactive-value="false" />
   #elseif ($column.formType == 'select' && $column.dictKey)
-$indent  <dict-select v-model="${formObj}.${column.javaField}" dict-key="${column.dictKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%;" />
+$indent  <dict-select v-model="${formObj}.${column.javaField}" dict-key="${column.dictKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%" />
   #elseif ($column.formType == 'select' && $column.enumKey)
-$indent  <enum-select v-model="${formObj}.${column.javaField}" :enums="${column.enumKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%;" />
+$indent  <enum-select v-model="${formObj}.${column.javaField}" :enums="${column.enumKey}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%" />
   #elseif ($column.formType == 'select')
-$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%;">
+$indent  <el-select v-model="${formObj}.${column.javaField}" placeholder="请选择${column.finalColumnComment}" clearable filterable style="width: 100%">
 $indent    <el-option label="请手动进行设置" value="请手动进行设置" />
 $indent  </el-select>
   #elseif ($column.formType == 'radio' && $column.enumKey)
 $indent  <enum-radio-group v-model="${formObj}.${column.javaField}" :enums="${column.enumKey}" />
   #elseif ($column.formType == 'radio')
-$indent  <el-radio-group v-model="${formObj}.${column.javaField}" style="width: 100%;">
+$indent  <el-radio-group v-model="${formObj}.${column.javaField}" style="width: 100%">
     #if($column.dictKey)
 $indent    <el-radio v-for="item in dict['${column.dictKey}Dict'].values" :key="item.value" :value="item.value">{{ item.label }}</el-radio>
     #else
@@ -24,7 +24,7 @@ $indent    <el-radio :value="0">请手动进行设置</el-radio>
     #end
 $indent  </el-radio-group>
   #elseif ($column.formType == 'checkbox')
-$indent  <el-checkbox-group v-model="${formObj}.${column.javaField}" style="width: 100%;">
+$indent  <el-checkbox-group v-model="${formObj}.${column.javaField}" style="width: 100%">
     #if($column.dictKey)
 $indent    <el-checkbox v-for="item in dict['${column.dictKey}Dict'].values" :key="item.value" :value="item.value">{{ item.label }}</el-checkbox>
     #elseif($column.enumKey)
@@ -39,7 +39,7 @@ $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="date"
 $indent    placeholder="请选择${column.finalColumnComment}"
 $indent    value-format="YYYY-MM-DD"
-$indent    style="width: 100%;"
+$indent    style="width: 100%"
 $indent    clearable>
 $indent  </el-date-picker>
   #elseif ($column.formType == 'datetime')
@@ -48,7 +48,7 @@ $indent    v-model="${formObj}.${column.javaField}"
 $indent    type="datetime"
 $indent    placeholder="请选择${column.finalColumnComment}"
 $indent    value-format="YYYY-MM-DD HH:mm:ss"
-$indent    style="width: 100%;"
+$indent    style="width: 100%"
 $indent    clearable>
 $indent  </el-date-picker>
   #elseif ($column.formType == 'file')
