@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ElMessage, ElMessageBox, type TableInstance } from 'element-plus';
 import { Refresh, Search } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import type { TableInstance } from 'element-plus';
 import { onMounted, useTemplateRef } from 'vue';
 
-import { batchDel, page } from '@/api/${apiPath}';
-import { download } from '@/utils/request';
+import { batchDel, page } from '@/api/business/contract';
 import useLoading from '@/hooks/loading';
 import { useResettableReactive } from '@/hooks/resettable';
 import type { ${ClassName} } from '@/types/${apiPath}';
+import { download } from '@/utils/request';
 #if($enums)
 import { #foreach($item in $enums)${item}#if($foreach.hasNext), #end#end } from '@/utils/business-enums';
 #end
@@ -73,7 +74,7 @@ function onExport() {
 }
 
 function onBatchDel() {
-  const ids = refTable.value?.getSelectionRows().map((item) => item.id) || [];
+  const ids = refTable.value?.getSelectionRows().map((item) => item.id) ?? [];
   ElMessageBox.confirm(`确认要删除选中的${ids.length}条记录吗？`, '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',

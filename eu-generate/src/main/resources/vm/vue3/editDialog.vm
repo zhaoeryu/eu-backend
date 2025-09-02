@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { ElMessage } from 'element-plus';
+import type { FormInstance } from 'element-plus';
 import { computed, nextTick, useTemplateRef } from 'vue';
-import { ElMessage, type FormInstance } from 'element-plus';
 
-import { add, update } from '@/api/${apiPath}';
-import useVisible from '@/hooks/visible';
+import { add, update } from '@/api/business/contract';
 import useLoading from '@/hooks/loading';
 import { useResettableReactive } from '@/hooks/resettable';
+import useVisible from '@/hooks/visible';
 import type { ${ClassName} } from '@/types/${apiPath}';
 #if($enums)
 import { #foreach($item in $enums)${item}#if($foreach.hasNext), #end#end } from '@/utils/business-enums';
