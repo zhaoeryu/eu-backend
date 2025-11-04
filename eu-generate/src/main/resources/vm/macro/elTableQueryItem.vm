@@ -10,7 +10,7 @@ $indent  <el-select v-model="${formObj}.${column.javaField}" clearable filterabl
     #if($column.dictKey)
 $indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):value="Number(item.value)"#{else}:value="item.value"#end />
     #elseif($column.enumKey)
-$indent    <el-option v-for="item in $enumsConvertToList($enums.${column.enumKey})" :key="item.value" :label="item.label" :value="item.value" />
+$indent    <el-option v-for="item in $enumsConvertToList(#[[$enums]]#.${column.enumKey})" :key="item.value" :label="item.label" :value="item.value" />
     #else
 $indent    <el-option label="请手动进行设置" value="请手动进行设置" />
     #end

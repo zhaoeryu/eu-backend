@@ -15,7 +15,7 @@ $indent  <el-select v-model="${formObj}.${column.javaField}" :placeholder="$t('g
     #if($column.dictKey)
 $indent    <el-option v-for="item in dict.dict['${column.dictKey}']" :key="item.value" :label="item.label" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):value="Number(item.value)"#{else}:value="item.value"#end />
     #elseif($column.enumKey)
-$indent    <el-option v-for="item in $enumsConvertToList($enums.${column.enumKey})" :key="item.value" :label="item.label" :value="item.value" />
+$indent    <el-option v-for="item in $enumsConvertToList(#[[$enums]]#.${column.enumKey})" :key="item.value" :label="item.label" :value="item.value" />
     #else
 $indent    <el-option label="请手动进行设置" value="请手动进行设置" />
     #end
@@ -25,7 +25,7 @@ $indent  <el-radio-group v-model="${formObj}.${column.javaField}" style="width: 
     #if($column.dictKey)
 $indent    <el-radio v-for="item in dict.dict['${column.dictKey}']" :key="item.value" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):label="Number(item.value)"#{else}:label="item.value"#end>{{ item.label }}</el-radio>
     #elseif($column.enumKey)
-$indent    <el-radio v-for="item in $enumsConvertToList($enums.${column.enumKey})" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
+$indent    <el-radio v-for="item in $enumsConvertToList(#[[$enums]]#.${column.enumKey})" :key="item.value" :label="item.value">{{ item.label }}</el-radio>
     #else
 $indent    <el-radio :label="0">请手动进行设置</el-radio>
     #end
@@ -35,7 +35,7 @@ $indent  <el-checkbox-group v-model="${formObj}.${column.javaField}" style="widt
     #if($column.dictKey)
 $indent    <el-checkbox v-for="item in dict.dict['${column.dictKey}']" :key="item.value" #if($column.javaType == 'Integer' || $column.javaType == 'Long' || $column.javaType == 'Double' || $column.javaType == 'Float' || $column.javaType == 'BigDecimal'):label="Number(item.value)"#{else}:label="item.value"#end>{{ item.label }}</el-checkbox>
     #elseif($column.enumKey)
-$indent    <el-checkbox v-for="item in $enumsConvertToList($enums.${column.enumKey})" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
+$indent    <el-checkbox v-for="item in $enumsConvertToList(#[[$enums]]#.${column.enumKey})" :key="item.value" :label="item.value">{{ item.label }}</el-checkbox>
     #else
 $indent    <el-checkbox :label="0">请手动进行设置</el-checkbox>
     #end
@@ -83,6 +83,8 @@ $indent    </template>
 $indent  </upload-file>
   #elseif($column.formType == 'editor')
 $indent  <eu-editor v-model="${formObj}.${column.javaField}" />
+  #elseif($column.formType == 'textarea')
+$indent  <el-input v-model="${formObj}.${column.javaField}" type="textarea" maxlength="${column.columnLength}" :placeholder="$t('general.placeholder.input', { field: $x_field })" clearable />
   #elseif(!$column.builtInFormType)
 $indent  <$column.formType v-model="${formObj}.${column.javaField}" />
   #else

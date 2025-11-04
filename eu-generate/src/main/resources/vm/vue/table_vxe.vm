@@ -200,7 +200,7 @@ export default {
               </template>
 #elseif($column.enumKey)
               <template #default="{ row }">
-                {{ $enumsParseLabel($enums.${column.enumKey}, row.${column.javaField}) }}
+                {{ $enumsParseLabel(#[[$enums]]#.${column.enumKey}, row.${column.javaField}) }}
               </template>
 #end
               </template>
@@ -223,7 +223,7 @@ export default {
             </template>
 #elseif($column.enumKey)
             <template #default="{ row }">
-              {{ $enumsParseLabel($enums.${column.enumKey}, row.${column.javaField}) }}
+              {{ $enumsParseLabel(#[[$enums]]#.${column.enumKey}, row.${column.javaField}) }}
             </template>
 #end
           </vxe-column>

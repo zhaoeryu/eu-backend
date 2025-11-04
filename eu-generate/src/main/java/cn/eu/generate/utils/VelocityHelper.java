@@ -148,7 +148,7 @@ public class VelocityHelper {
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("package", StrUtil.blankToDefault(genTable.getPackageName(), GenConstant.DEFAULT_PACKAGE_NAME));
         velocityContext.put("module", moduleName);
-        velocityContext.put("funcGroup", genTable.getFuncGroup());
+        velocityContext.put("funcGroup", StrUtil.blankToDefault(genTable.getFuncGroup(), ""));
         // 如果没有配置作者，则默认当前系统用户
         velocityContext.put("author", StrUtil.blankToDefault(genTable.getAuthor(), System.getProperty("user.name")));
         velocityContext.put("date", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
