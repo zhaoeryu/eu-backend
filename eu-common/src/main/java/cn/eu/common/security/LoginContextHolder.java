@@ -1,5 +1,9 @@
 package cn.eu.common.security;
 
+import cn.eu.common.model.LoginUser;
+
+import java.util.Optional;
+
 /**
  * 用于存储登录信息
  * @author Eu.z
@@ -7,20 +11,20 @@ package cn.eu.common.security;
  */
 public class LoginContextHolder {
 
-    private static final ThreadLocal<String> userIdHolder = new ThreadLocal<>();
+    private static final ThreadLocal<LoginUser> userHolder = new ThreadLocal<>();
 
-    public static String get() {
-        return userIdHolder.get();
+    public static Optional<LoginUser> get() {
+        return Optional.ofNullable(userHolder.get());
     }
 
-    public static void set(String val) {
+    public static void set(LoginUser val) {
         if (val != null) {
-            userIdHolder.set(val);
+            userHolder.set(val);
         }
     }
 
     public static void reset() {
-        userIdHolder.remove();
+        userHolder.remove();
     }
 
 }

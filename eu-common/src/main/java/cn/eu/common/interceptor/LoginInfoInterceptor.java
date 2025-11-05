@@ -1,7 +1,9 @@
 package cn.eu.common.interceptor;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.eu.common.model.LoginUser;
 import cn.eu.common.security.LoginContextHolder;
+import cn.eu.common.utils.LoginUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,9 +20,9 @@ public class LoginInfoInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        Object loginIdDefaultNull = StpUtil.getLoginIdDefaultNull();
-        if (loginIdDefaultNull != null) {
-            LoginContextHolder.set(String.valueOf(loginIdDefaultNull));
+        LoginUser loginUser = LoginUtil.getLoginUser();
+        if (loginUser != null) {
+            LoginContextHolder.set(loginUser);
         }
         return true;
     }

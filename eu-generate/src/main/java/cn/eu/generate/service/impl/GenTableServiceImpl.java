@@ -2,6 +2,7 @@ package cn.eu.generate.service.impl;
 
 import cn.eu.common.core.service.impl.EuServiceImpl;
 import cn.eu.common.model.PageResult;
+import cn.eu.common.utils.Query;
 import cn.eu.generate.constants.GenConstant;
 import cn.eu.generate.domain.GenTable;
 import cn.eu.generate.domain.GenTableColumn;
@@ -131,7 +132,18 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
             item.setFormShow(GenUtil.isFieldFormShow(item.getColumnName()));
         }
         if (StrUtil.isBlank(item.getQueryType())) {
-            item.setQueryType(null);
+            String queryType = null;
+            switch (item.getColumnName()) {
+                case GenConstant.COMMON_ENTITY_FIELD_CREATE_BY_NAME:
+                case GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY_NAME:
+                case GenConstant.COMMON_ENTITY_FIELD_REMARK:
+                    queryType = Query.Type.LIKE.name();
+                    break;
+                case GenConstant.COMMON_ENTITY_FIELD_CREATE_TIME:
+                    queryType = Query.Type.EQ.name();
+                    break;
+            }
+            item.setQueryType(queryType);
         }
         if (item.getDefaultVisible() == null) {
             item.setDefaultVisible(
@@ -147,25 +159,29 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
         }
         if (StrUtil.isBlank(item.getFormType())) {
             String formType = null;
-            switch (item.getJavaType()) {
-                case "Integer":
-                case "Long":
-                case "Float":
-                case "Double":
-                case "BigDecimal":
-                    formType = "number";
-                    break;
-                case "LocalDateTime":
-                    formType = "datetime";
-                    break;
-                case "LocalDate":
-                    formType = "date";
-                    break;
-                case "Boolean":
-                    formType = "switch";
-                    break;
-                default:
-                    // 其他类型默认为input
+            if (GenConstant.COMMON_ENTITY_FIELD_REMARK.equals(item.getColumnName())) {
+                formType = "textarea";
+            } else {
+                switch (item.getJavaType()) {
+                    case "Integer":
+                    case "Long":
+                    case "Float":
+                    case "Double":
+                    case "BigDecimal":
+                        formType = "number";
+                        break;
+                    case "LocalDateTime":
+                        formType = "datetime";
+                        break;
+                    case "LocalDate":
+                        formType = "date";
+                        break;
+                    case "Boolean":
+                        formType = "switch";
+                        break;
+                    default:
+                        // 其他类型默认为input
+                }
             }
             item.setFormType(formType);
         }
@@ -177,14 +193,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                 item.setNotNull(false);
             }
         }
-        // create_by、update_by 默认翻译
-        if (GenConstant.COMMON_ENTITY_FIELD_CREATE_BY.equals(item.getColumnName())) {
-            item.setTableShowField(GenConstant.DEFAULT_CONVERT_FIELD_CREATE_BY);
-        } else if (GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY.equals(item.getColumnName())) {
-            item.setTableShowField(GenConstant.DEFAULT_CONVERT_FIELD_UPDATE_BY);
-        } else {
-            item.setTableShowField(item.getJavaField());
-        }
+        item.setTableShowField(item.getJavaField());
     }
 
     @Override

@@ -26,10 +26,6 @@ public class LoginUtil {
      * 获取当前登录用户ID
      */
     public static String getLoginId() {
-        String val = LoginContextHolder.get();
-        if (val != null) {
-            return val;
-        }
         Object stpVal = StpUtil.getLoginIdDefaultNull();
         if (stpVal != null) {
             return String.valueOf(stpVal);
@@ -50,6 +46,10 @@ public class LoginUtil {
      * 获取当前登录用户
      */
     public static LoginUser getLoginUser() {
+        Optional<LoginUser> loginUser = LoginContextHolder.get();
+        if (loginUser.isPresent()) {
+            return loginUser.get();
+        }
         SaSession session = getSession();
         if (session == null) {
             return null;

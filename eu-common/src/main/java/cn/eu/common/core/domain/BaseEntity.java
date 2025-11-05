@@ -1,7 +1,5 @@
 package cn.eu.common.core.domain;
 
-import cn.eu.common.annotation.Translation;
-import cn.eu.common.constants.TransConstant;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -25,19 +23,22 @@ public abstract class BaseEntity implements Serializable {
 
     public static final String FIELD_CREATE_BY = "create_by";
     public static final String FIELD_UPDATE_BY = "update_by";
+    public static final String FIELD_CREATE_BY_NAME = "create_by_name";
+    public static final String FIELD_UPDATE_BY_NAME = "update_by_name";
     public static final String FIELD_CREATE_TIME = "create_time";
     public static final String FIELD_UPDATE_TIME = "update_time";
     public static final String FIELD_DEL_FLAG = "del_flag";
     public static final String FIELD_REMARK = "remark";
 
-    public static final String TRANS_FIELD_CREATE_BY = "createByNickname";
-    public static final String TRANS_FIELD_UPDATE_BY = "updateByNickname";
-
-    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = TRANS_FIELD_CREATE_BY)
     @Schema(description = "创建人")
     @ExcelIgnore
     @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
     private String createBy;
+
+    @Schema(description = "创建人")
+    @ExcelProperty("创建人")
+    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
+    private String createByName;
 
     @Schema(description = "创建时间")
     @ExcelProperty("创建时间")
@@ -46,11 +47,15 @@ public abstract class BaseEntity implements Serializable {
     @TableField(updateStrategy = FieldStrategy.NEVER)
     private LocalDateTime createTime;
 
-    @Translation(type = TransConstant.USER_ID_TO_NAME, ref = TRANS_FIELD_UPDATE_BY)
     @Schema(description = "更新人")
     @ExcelIgnore
     @TableField(fill = FieldFill.UPDATE)
     private String updateBy;
+
+    @Schema(description = "更新人")
+    @ExcelProperty("更新人")
+    @TableField(fill = FieldFill.UPDATE)
+    private String updateByName;
 
     @Schema(description = "更新时间")
     @ExcelIgnore
@@ -63,9 +68,9 @@ public abstract class BaseEntity implements Serializable {
     @ExcelProperty("备注")
     private String remark;
 
-    @Schema(description = "删除标志(0:正常,1:删除)")
+    @Schema(description = "删除标志(0:正常,NULL:删除)")
     @ExcelIgnore
-    @TableLogic(value = "0", delval = "1")
+    @TableLogic(value = "0", delval = "NULL")
     private Integer delFlag;
 
 }

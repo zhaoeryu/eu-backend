@@ -59,6 +59,8 @@ public class GenUtil {
      */
     public static boolean isFieldTableShow(String fieldName) {
         return !CollUtil.contains(Arrays.asList(
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY,
                 GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG
         ), fieldName);
     }
@@ -73,6 +75,8 @@ public class GenUtil {
                 GenConstant.COMMON_ENTITY_FIELD_ID,
                 GenConstant.COMMON_ENTITY_FIELD_CREATE_BY,
                 GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_BY_NAME,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY_NAME,
                 GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG,
                 GenConstant.COMMON_ENTITY_FIELD_CREATE_TIME,
                 GenConstant.COMMON_ENTITY_FIELD_UPDATE_TIME,
@@ -103,6 +107,8 @@ public class GenUtil {
      */
     public static boolean isFieldExport(String fieldName) {
         return !CollUtil.contains(Arrays.asList(
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY,
                 GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG
         ), fieldName);
     }
@@ -114,6 +120,8 @@ public class GenUtil {
         String[] BASE_ENTITY_FIELD_LIST = {
                 GenConstant.COMMON_ENTITY_FIELD_CREATE_BY,
                 GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY,
+                GenConstant.COMMON_ENTITY_FIELD_CREATE_BY_NAME,
+                GenConstant.COMMON_ENTITY_FIELD_UPDATE_BY_NAME,
                 GenConstant.COMMON_ENTITY_FIELD_CREATE_TIME,
                 GenConstant.COMMON_ENTITY_FIELD_UPDATE_TIME,
                 GenConstant.COMMON_ENTITY_FIELD_DEL_FLAG,

@@ -11,9 +11,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OptionItem {
+public class OptionItem<T> {
 
     private String label;
-    private String value;
+    private T value;
+    private Object raw;
 
+    public OptionItem(String label, T value) {
+        this.label = label;
+        this.value = value;
+    }
 }

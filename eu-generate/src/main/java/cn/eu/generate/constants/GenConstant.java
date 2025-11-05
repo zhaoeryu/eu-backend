@@ -11,13 +11,12 @@ public class GenConstant {
     public static final String COMMON_ENTITY_FIELD_ID = "id";
     public static final String COMMON_ENTITY_FIELD_CREATE_BY = BaseEntity.FIELD_CREATE_BY;
     public static final String COMMON_ENTITY_FIELD_UPDATE_BY = BaseEntity.FIELD_UPDATE_BY;
+    public static final String COMMON_ENTITY_FIELD_CREATE_BY_NAME = BaseEntity.FIELD_CREATE_BY_NAME;
+    public static final String COMMON_ENTITY_FIELD_UPDATE_BY_NAME = BaseEntity.FIELD_UPDATE_BY_NAME;
     public static final String COMMON_ENTITY_FIELD_CREATE_TIME = BaseEntity.FIELD_CREATE_TIME;
     public static final String COMMON_ENTITY_FIELD_UPDATE_TIME = BaseEntity.FIELD_UPDATE_TIME;
     public static final String COMMON_ENTITY_FIELD_DEL_FLAG = BaseEntity.FIELD_DEL_FLAG;
     public static final String COMMON_ENTITY_FIELD_REMARK = BaseEntity.FIELD_REMARK;
-
-    public static final String DEFAULT_CONVERT_FIELD_CREATE_BY = BaseEntity.TRANS_FIELD_CREATE_BY;
-    public static final String DEFAULT_CONVERT_FIELD_UPDATE_BY = BaseEntity.TRANS_FIELD_UPDATE_BY;
 
     public static final String UTF8 = "UTF-8";
 
@@ -40,18 +39,6 @@ public class GenConstant {
      * 默认模块名
      */
     public static final String DEFAULT_MODULE_NAME = "eu-admin";
-
-    /**
-     * BaseEntity里的字段
-     */
-    public static final String[] BASE_ENTITY_FIELD_LIST = {
-            COMMON_ENTITY_FIELD_CREATE_BY,
-            COMMON_ENTITY_FIELD_UPDATE_BY,
-            COMMON_ENTITY_FIELD_CREATE_TIME,
-            COMMON_ENTITY_FIELD_UPDATE_TIME,
-            COMMON_ENTITY_FIELD_DEL_FLAG,
-            COMMON_ENTITY_FIELD_REMARK,
-    };
 
     /**
      * 模版文件类型

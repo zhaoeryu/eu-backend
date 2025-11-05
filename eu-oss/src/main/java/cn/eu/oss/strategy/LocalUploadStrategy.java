@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.StringJoiner;
 
 /**
  * @author zhaoeryu
@@ -32,8 +35,10 @@ public class LocalUploadStrategy implements IUploadStrategy {
     @Override
     public UploadResult upload(MultipartFile multipartFile) throws IOException {
         log.info("本地上传根路径=>{}, 服务地址=>{}", ossProperties.getLocalPath(), ossProperties.getServiceHost());
-        String ext = FileUtil.extName(multipartFile.getOriginalFilename());
-        ext = StrUtil.isNotBlank(ext) ? "." + ext : "";
+        String extName = FileUtil.extName(multipartFile.getOriginalFilename());
+        String ext = StrUtil.isNotBlank(extName) ? "." + extName : "";
+        // 文件大小 kb
+        Long fileSize = multipartFile.getSize() / 1024;
 
         String fileType = null;
         try {
@@ -43,13 +48,19 @@ public class LocalUploadStrategy implements IUploadStrategy {
         }
         fileType = StrUtil.blankToDefault(fileType, "files");
 
-        String suffixPath = "/" + fileType + "/" + IdUtil.getSnowflakeNextIdStr() + ext;
-        File uploadFile = new File(ossProperties.getLocalPath() + suffixPath);
+        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String filePath = File.separator + new StringJoiner(File.separator)
+                .add(date)
+                .add(fileType)
+                .add(IdUtil.getSnowflakeNextIdStr() + ext);
+        File uploadFile = new File(File.separator + ossProperties.getLocalPath() + filePath);
         FileUtil.touch(uploadFile);
         multipartFile.transferTo(uploadFile);
 
-        String fileUri = environment.getProperty("server.servlet.context-path", "") + ossProperties.getLocalFilePrefix() + suffixPath;
+        String uriSuffix = ossProperties.getLocalFilePrefix() + StrUtil.replace(filePath, File.separator, "/");
+        String fileUri = environment.getProperty("server.servlet.context-path", "") + uriSuffix;
         String fileUrl = ossProperties.getServiceHost() + fileUri;
-        return new UploadResult(multipartFile.getOriginalFilename(),  fileUrl, fileUri);
+
+        return new UploadResult(multipartFile.getOriginalFilename(),  fileUrl, fileUri, extName, fileSize);
     }
 }
