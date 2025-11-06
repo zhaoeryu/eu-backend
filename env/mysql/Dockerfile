@@ -1,4 +1,4 @@
-FROM mysql:5.7
+FROM mysql:8.0
 MAINTAINER cn.zhaoey@gmail.com
 
 ENV TZ=Asia/Shanghai

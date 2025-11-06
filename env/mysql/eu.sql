@@ -14,7 +14,7 @@ CREATE TABLE `gen_table` (
   `package_name` varchar(255) NOT NULL COMMENT '包路径',
   `module_name` varchar(32) NOT NULL COMMENT '模块名',
   `func_group` varchar(32) DEFAULT NULL COMMENT '功能分组',
-  `table_name` varchar(32) NOT NULL COMMENT '表名',
+  `table_name` varchar(64) NOT NULL COMMENT '表名',
   `table_comment` varchar(255) DEFAULT NULL COMMENT '表注释',
   `author` varchar(32) DEFAULT NULL COMMENT '作者',
   `del_show_field` varchar(32) DEFAULT NULL COMMENT '删除时，提示使用的字段',
@@ -23,8 +23,10 @@ CREATE TABLE `gen_table` (
   `crud_edit_mode` varchar(10) NOT NULL COMMENT 'crud编辑模式',
   `i18n_enable` bit(1) NOT NULL DEFAULT b'0' COMMENT '开启i18n',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uni_table_name` (`table_name`) USING BTREE COMMENT '表唯一'
@@ -42,8 +44,8 @@ COMMIT;
 DROP TABLE IF EXISTS `gen_table_column`;
 CREATE TABLE `gen_table_column` (
   `id` varchar(20) NOT NULL,
-  `table_name` varchar(32) NOT NULL COMMENT '表名',
-  `column_name` varchar(32) NOT NULL COMMENT '字段名',
+  `table_name` varchar(64) NOT NULL COMMENT '表名',
+  `column_name` varchar(64) NOT NULL COMMENT '字段名',
   `column_comment` varchar(255) DEFAULT NULL COMMENT '字段描述',
   `column_key` varchar(32) DEFAULT NULL COMMENT '字段键',
   `column_type` varchar(32) NOT NULL COMMENT '字段类型',
@@ -66,8 +68,10 @@ CREATE TABLE `gen_table_column` (
   `table_header_query` bit(1) DEFAULT b'0' COMMENT '是否表头里查询',
   `default_visible` bit(1) NOT NULL DEFAULT b'0' COMMENT '默认是否可见',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uni_table_column` (`table_name`,`column_name`) COMMENT '字典唯一'
@@ -98,11 +102,13 @@ CREATE TABLE `quartz_job` (
   `pause_after_failure` bit(1) NOT NULL DEFAULT b'0' COMMENT '失败后是否暂停任务',
   `alarm_email` varchar(255) DEFAULT NULL COMMENT '任务失败后的告警邮箱',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='quartz任务';
 
@@ -132,11 +138,13 @@ CREATE TABLE `quartz_job_log` (
   `end_time` datetime NOT NULL COMMENT '结束执行时间',
   `exec_time` bigint(20) NOT NULL COMMENT '执行时长，单位：毫秒',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='任务执行日志';
 
@@ -158,13 +166,15 @@ CREATE TABLE `sys_dept` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `sort_num` int(10) NOT NULL DEFAULT '0',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uni_dept_name` (`dept_name`,`parent_id`) USING BTREE COMMENT '同级部门唯一'
+  UNIQUE KEY `uni_dept_name` (`dept_name`,`parent_id`, `del_flag`) USING BTREE COMMENT '同级部门唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COMMENT='部门';
 
 -- ----------------------------
@@ -176,13 +186,15 @@ CREATE TABLE `sys_dict` (
   `dict_key` varchar(20) NOT NULL COMMENT '字典key',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uni_dict_key` (`dict_key`) USING BTREE COMMENT '字典Key唯一'
+  UNIQUE KEY `uni_dict_key` (`dict_key`, `del_flag`) USING BTREE COMMENT '字典Key唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='字典';
 
 -- ----------------------------
@@ -198,13 +210,15 @@ CREATE TABLE `sys_dict_detail` (
   `sort_num` int(10) NOT NULL DEFAULT '0' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uni_label` (`pid`,`dict_label`) COMMENT '字典Label唯一'
+  UNIQUE KEY `uni_label` (`pid`,`dict_label`, `del_flag`) COMMENT '字典Label唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='字典详情';
 
 -- ----------------------------
@@ -233,11 +247,13 @@ CREATE TABLE `sys_menu` (
   `show_header` bit(1) DEFAULT NULL COMMENT '是否显示Header',
   `show_footer` bit(1) DEFAULT NULL COMMENT '是否显示Footer',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   `always_show` bit(1) DEFAULT NULL COMMENT '是否保持显示',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2197 DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
@@ -262,7 +278,6 @@ INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (1007, '字典管理', NULL, 70, 'system:dict:list', '/dicts', 'Dicts', 'system/dicts', 0, b'0', b'1', b'1', b'0', NULL, NULL, NULL, 2, 10, b'1', b'1', NULL, '2023-06-05 08:18:37', '1', '2024-04-17 13:02:27', NULL, 0, NULL);
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (1008, '任务管理', NULL, 80, 'system:job:list', '/jobs', 'Jobs', 'system/jobs', 0, b'0', b'1', b'1', b'0', NULL, b'0', NULL, 2, 10, b'1', b'1', NULL, '2023-06-05 08:18:37', '1', '2024-04-17 13:02:33', NULL, 0, NULL);
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (1009, '通知公告', 'tongzhi', 90, NULL, '/sysNotice', 'SysNotice', 'system/sysNotice', 0, b'0', b'1', b'1', b'0', NULL, b'0', NULL, 2, 10, b'1', b'1', NULL, '2023-08-30 05:40:34', '1', '2024-04-17 13:19:05', NULL, 0, b'0');
-INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (1010, '快捷菜单', NULL, 100, NULL, '/usual-menus', 'UsualMenus', 'system/usual-menus', 0, b'0', b'1', b'1', b'0', NULL, b'0', NULL, 2, 10, b'1', b'0', NULL, '2023-06-05 08:18:37', '1', '2024-04-17 13:14:41', NULL, 0, NULL);
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2000, '在线用户', NULL, 10, 'monitor:online:list', '/online', 'OnlineUser', 'monitor/online', 0, b'0', b'1', b'0', b'0', NULL, b'0', 'New', 2, 20, b'1', b'1', '1', '2023-06-11 08:20:20', '1', '2024-04-17 13:09:15', NULL, 0, NULL);
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2001, '操作日志', NULL, 20, 'system:sysOperLog:list', '/oper-logs', 'OperLogs', 'system/oper-logs', 0, b'0', b'1', b'1', b'0', NULL, b'0', NULL, 2, 20, b'1', b'1', NULL, '2023-06-05 08:18:37', '1', '2024-04-17 13:15:33', NULL, 0, NULL);
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2002, 'Druid', NULL, 30, NULL, 'http://localhost:8000/druid/datasource.html', NULL, NULL, 0, b'0', b'1', b'0', b'0', NULL, b'0', NULL, 2, 20, NULL, NULL, '1', '2023-07-12 03:46:41', NULL, '2024-04-17 13:09:20', NULL, 0, NULL);
@@ -340,11 +355,13 @@ CREATE TABLE `sys_notice` (
   `status` tinyint(1) NOT NULL COMMENT '公告状态',
   `publisher` varchar(32) DEFAULT NULL COMMENT '发布人',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知公告';
 
@@ -380,11 +397,13 @@ CREATE TABLE `sys_oper_log` (
   `error_stack` text COMMENT '异常堆栈',
   `exec_time` int(11) NOT NULL COMMENT '执行时长',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作日志';
 
@@ -404,14 +423,16 @@ CREATE TABLE `sys_post` (
   `code` varchar(20) NOT NULL COMMENT '岗位编码',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uni_post_name` (`post_name`) USING BTREE COMMENT '岗位名称唯一',
-  UNIQUE KEY `uni_code` (`code`) USING BTREE COMMENT '岗位编码唯一'
+  UNIQUE KEY `uni_post_name` (`post_name`, `del_flag`) USING BTREE COMMENT '岗位名称唯一',
+  UNIQUE KEY `uni_code` (`code`, `del_flag`) USING BTREE COMMENT '岗位编码唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COMMENT='岗位';
 
 -- ----------------------------
@@ -426,13 +447,16 @@ CREATE TABLE `sys_role` (
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
   `data_scope` tinyint(1) DEFAULT NULL COMMENT '数据权限',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uni_role_key` (`role_key`) USING BTREE COMMENT '角色Key唯一'
+  UNIQUE KEY `uni_role_key` (`role_key`, `del_flag`) USING BTREE COMMENT '角色Key唯一',
+  UNIQUE KEY `uni_role_name` (`role_name`, `del_flag`) USING BTREE COMMENT '角色名称唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
@@ -482,13 +506,15 @@ CREATE TABLE `sys_user` (
   `last_active_time` datetime DEFAULT NULL COMMENT '最后一次活跃时间',
   `password_reset_time` datetime DEFAULT NULL COMMENT '最后一次密码重置时间',
   `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `del_flag` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除标志',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uni_username` (`username`) USING BTREE COMMENT '登录名唯一'
+  UNIQUE KEY `uni_username` (`username`, `del_flag`) USING BTREE COMMENT '登录名唯一'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------
