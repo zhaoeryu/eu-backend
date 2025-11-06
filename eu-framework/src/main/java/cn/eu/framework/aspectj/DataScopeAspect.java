@@ -7,6 +7,7 @@ import cn.eu.common.model.dto.RoleDto;
 import cn.eu.common.utils.DataScopeContextHelper;
 import cn.eu.common.utils.LoginUtil;
 import cn.eu.common.model.LoginUser;
+import cn.eu.common.utils.MpUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,9 @@ public class DataScopeAspect {
             return;
         }
         LoginUser loginUser = LoginUtil.getLoginUser();
+        if (loginUser == null) {
+            return;
+        }
         List<RoleDto> roles = LoginUtil.getLoginUserRoles();
 
         StringBuilder sqlBuilder = new StringBuilder();
@@ -90,18 +94,24 @@ public class DataScopeAspect {
                     break;
                 case DATA_SCOPE_DEPT_AND_CHILD:
                     // 数据范围：本部门及以下数据权限
+                    String findInSetSql;
+                    if (MpUtil.isPostgresql()) {
+                        findInSetSql = StrUtil.format("id = COALESCE(array_position(string_to_array(parent_ids, ',')::int[], {}), 0)", loginUser.getDeptId());
+                    } else {
+                        findInSetSql = StrUtil.format("find_in_set({}, parent_ids)", loginUser.getDeptId());
+                    }
                     if (dataScope.isSingleQuery()) {
                         sqlBuilder.append(StrUtil.format(
-                                " OR id IN ( SELECT id FROM sys_dept WHERE id = {} OR find_in_set( {} , parent_ids ) ) ",
+                                " OR id IN ( SELECT id FROM sys_dept WHERE id = {} OR {} ) ",
                                 loginUser.getDeptId(),
-                                loginUser.getDeptId()
+                                findInSetSql
                         ));
                     } else if (StrUtil.isNotBlank(dataScope.deptAlias())) {
                         sqlBuilder.append(StrUtil.format(
-                                " OR {}.id IN ( SELECT id FROM sys_dept WHERE id = {} OR find_in_set( {} , parent_ids ) ) ",
+                                " OR {}.id IN ( SELECT id FROM sys_dept WHERE id = {} OR {} ) ",
                                 dataScope.deptAlias(),
                                 loginUser.getDeptId(),
-                                loginUser.getDeptId()
+                                findInSetSql
                         ));
                     } else {
                         log.warn("dataScope.deptAlias() 未设置 deptAlias");

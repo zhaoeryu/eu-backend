@@ -29,6 +29,7 @@
 - JDK：21
 - Maven：3.8+
 - MySQL：5.7+
+- PostgreSQL：16+
 - Redis：6.2+
 
 ## 主框架选型

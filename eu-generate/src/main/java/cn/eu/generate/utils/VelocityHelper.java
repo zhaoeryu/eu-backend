@@ -3,6 +3,7 @@ package cn.eu.generate.utils;
 import cn.dev33.satoken.spring.SpringMVCUtil;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.EuFrontHeader;
+import cn.eu.common.utils.MpUtil;
 import cn.eu.generate.constants.GenConstant;
 import cn.eu.generate.domain.GenTable;
 import cn.eu.generate.domain.GenTableColumn;
@@ -55,10 +56,11 @@ public class VelocityHelper {
         // xml
         list.add(new GenerateTemplateDto("vm/xml/Mapper.vm", "Mapper.xml", GenConstant.TPL_FILE_TYPE_XML));
         // sql
+        String sqlPathPrefix = MpUtil.isPostgresql() ? "vm/pgsql" : "vm/sql";
         if (CrudEditMode.DIALOG.getValue().equals(genTable.getCrudEditMode())) {
-            list.add(new GenerateTemplateDto("vm/sql/sql.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
+            list.add(new GenerateTemplateDto(sqlPathPrefix + "/sql.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
         } else {
-            list.add(new GenerateTemplateDto("vm/sql/sql_page.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
+            list.add(new GenerateTemplateDto(sqlPathPrefix + "/sql_page.vm", "sql", GenConstant.TPL_FILE_TYPE_SQL));
         }
 
         // properties

@@ -37,6 +37,7 @@
 
         <spring-boot.version>3.2.12</spring-boot.version>
         <mysql.version>8.0.33</mysql.version>
+        <postgresql.version>42.5.4</postgresql.version>
         <druid.version>1.2.22</druid.version>
         <mybatis-plus.version>3.5.14</mybatis-plus.version>
         <mybatis-plus-dynamic.version>4.3.0</mybatis-plus-dynamic.version>
@@ -83,6 +84,11 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

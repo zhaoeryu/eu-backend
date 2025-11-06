@@ -26,8 +26,10 @@ JAVA_OPT="${JAVA_OPT} -Xlog:gc*:file=${BASE_DIR}/logs/gc-%t.log:time,tags,uptime
 #===========================================================================================
 # System Properties
 #===========================================================================================
-JAVA_OPT="${JAVA_OPT} -DMYSQL_HOST=${MYSQL_HOST}"
-JAVA_OPT="${JAVA_OPT} -DMYSQL_PASSWORD=${MYSQL_PASSWORD}"
+JAVA_OPT="${JAVA_OPT} -DDB_HOST=${DB_HOST}"
+JAVA_OPT="${JAVA_OPT} -DDB_PORT=${DB_PORT}"
+JAVA_OPT="${JAVA_OPT} -DDB_USERNAME=${DB_USERNAME}"
+JAVA_OPT="${JAVA_OPT} -DDB_PASSWORD=${DB_PASSWORD}"
 JAVA_OPT="${JAVA_OPT} -DREDIS_HOST=${REDIS_HOST}"
 JAVA_OPT="${JAVA_OPT} -DREDIS_PASSWORD=${REDIS_PASSWORD}"
 

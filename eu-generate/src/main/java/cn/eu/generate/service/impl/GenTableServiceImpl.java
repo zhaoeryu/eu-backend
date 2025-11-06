@@ -455,6 +455,8 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                 break;
             case "vm/sql/sql.vm":
             case "vm/sql/sql_page.vm":
+            case "vm/pgsql/sql.vm":
+            case "vm/pgsql/sql_page.vm":
                 filePathJoiner.add("generate")
                         .add("sql")
                         .add(GenUtil.underlineToCamel(genTable.getTableName()) + ".sql");

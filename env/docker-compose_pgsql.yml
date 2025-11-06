@@ -1,25 +1,21 @@
 services:
-  mysql:
+  postgres:
     build:
-      context: mysql
-    platform: linux/amd64
+      context: pgsql
+    container_name: ${PROJECT_NAME}-postgres
+    image: ${PROJECT_NAME}/postgres:16
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWD}
-    container_name: ${PROJECT_NAME}-mysql
-    image: ${PROJECT_NAME}/mysql:5.7
-    command:
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_general_ci
-      --explicit_defaults_for_timestamp=true
-      --lower_case_table_names=1
-      --max_allowed_packet=128M
-    volumes:
-      - ${VOLUMES_MYSQL_LOCAL_PATH}:/var/lib/mysql
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - ${MYSQL_PORT}:3306
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - ${VOLUMES_PGSQL_LOCAL_PATH}:/var/lib/postgresql/data
     networks:
       app_net:
-        ipv4_address: 172.16.${SUBNET_NUM}.11
+        ipv4_address: 172.16.${SUBNET_NUM}.13
   redis:
     image: redis:6.0
     container_name: ${PROJECT_NAME}-redis
@@ -39,9 +35,10 @@ services:
     container_name: ${PROJECT_NAME}-admin
     environment:
       SPRING_PROFILE: ${APP_PROFILE}
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_PASSWORD: ${MYSQL_ROOT_PASSWD}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWD}
@@ -50,7 +47,7 @@ services:
     volumes:
       - ${VOLUMES_EU_ADMIN_LOCAL_PATH}:/home/eu/logs
     depends_on:
-      - mysql
+      - postgres
       - redis
     networks:
       app_net:

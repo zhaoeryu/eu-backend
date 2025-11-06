@@ -1,0 +1,27 @@
+-- 创建菜单
+WITH ins_parent AS (
+    INSERT INTO sys_menu (
+        menu_name, menu_icon, sort_num, permission, path,
+        component_name, component, status, affix, visible,
+        cache, dot, badge, menu_type, parent_id
+    ) VALUES (
+        '${tableComment}', 'business', 999, '${permissionPrefix}:list', '/${apiPath}',
+        '${ClassName}', '${funcGroup}/${className}', 0, false, true,
+        true, false, null, 2, null
+    )
+    RETURNING id
+)
+
+-- 创建按钮权限
+INSERT INTO sys_menu (menu_name, sort_num, permission, menu_type, parent_id)
+SELECT menu_name, sort_num, permission, 3, ins_parent.id
+FROM ins_parent,
+     (VALUES
+        ('列表',   10, '${permissionPrefix}:list'),
+        ('详情',   20, '${permissionPrefix}:query'),
+        ('新增',   30, '${permissionPrefix}:add'),
+        ('修改',   40, '${permissionPrefix}:edit'),
+        ('删除',   50, '${permissionPrefix}:del'),
+        ('导出',   60, '${permissionPrefix}:export'),
+        ('导入',   70, '${permissionPrefix}:import')
+     ) AS v(menu_name, sort_num, permission);

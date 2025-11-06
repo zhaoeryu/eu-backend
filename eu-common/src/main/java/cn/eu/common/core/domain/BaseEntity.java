@@ -61,7 +61,7 @@ public abstract class BaseEntity implements Serializable {
     @ExcelIgnore
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(updateStrategy = FieldStrategy.NEVER)
+    @TableField(update = "now()")
     private LocalDateTime updateTime;
 
     @Schema(description = "备注")

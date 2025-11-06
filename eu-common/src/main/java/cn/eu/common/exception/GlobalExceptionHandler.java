@@ -5,6 +5,7 @@ import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
 import cn.eu.common.model.IError;
 import cn.eu.common.model.ResultBody;
+import cn.eu.common.utils.ExceptionUtil;
 import cn.eu.common.utils.MessageUtils;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,6 @@ import java.util.regex.Pattern;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    final String REGX_DUPLICATE_KEY = "Duplicate entry '(.*)' for key '(.*)'";
 
     /**
      * 基础异常处理
@@ -71,15 +70,11 @@ public class GlobalExceptionHandler {
         if (StrUtil.isBlank(errorMessage)) {
             return buildBody(ex, request.getRequestURI());
         }
-        // 提取重复字段
-        Matcher matcher = Pattern.compile(REGX_DUPLICATE_KEY).matcher(errorMessage);
-        if (matcher.find()) {
-            String duplicateField = matcher.group(2);
-            String duplicateFieldValue = matcher.group(1);
-            if (StrUtil.isNotBlank(duplicateField)) {
-                return buildBody(StrUtil.format("[{}]({}){}", duplicateField, duplicateFieldValue, MessageUtils.message("error.duplicate_key")), IError.ERROR.getCode(), request.getRequestURI());
-            }
+        String duplicateKeyMessage = ExceptionUtil.getDuplicateKeyMessage(errorMessage);
+        if (StrUtil.isNotBlank(duplicateKeyMessage)) {
+            return buildBody(duplicateKeyMessage, IError.ERROR.getCode(), request.getRequestURI());
         }
+
         return buildBody(ex, request.getRequestURI());
     }
 

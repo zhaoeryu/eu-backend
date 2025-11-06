@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.eu.generate.mapper.GenTableMapper">
 
-    <sql id="selectDbTable">
+    <sql id="selectDbTable" databaseId="mysql">
         select
             table_name,
             table_comment,
@@ -12,7 +12,16 @@
         where TABLE_SCHEMA = (select DATABASE())
     </sql>
 
-    <select id="selectDbTableList" resultType="cn.eu.generate.domain.GenTable">
+    <sql id="selectDbTable" databaseId="postgresql">
+        SELECT
+            table_name,
+            obj_description((table_name)::regclass, 'pg_class') AS table_comment
+        FROM information_schema.tables t
+        WHERE table_schema = CURRENT_SCHEMA
+          AND table_type = 'BASE TABLE'
+    </sql>
+
+    <select id="selectDbTableList" resultType="cn.eu.generate.domain.GenTable" databaseId="mysql">
         <include refid="selectDbTable"></include>
         <if test="tableName != null and tableName != ''">
             AND lower(table_name) like lower(concat('%', #{tableName}, '%'))
@@ -22,7 +31,17 @@
         </if>
         order by create_time desc
     </select>
-    <select id="selectDbTableColumnList" resultType="cn.eu.generate.domain.GenTableColumn">
+    <select id="selectDbTableList" resultType="cn.eu.generate.domain.GenTable" databaseId="postgresql">
+        <include refid="selectDbTable"></include>
+        <if test="tableName != null and tableName != ''">
+            AND lower(table_name) like lower(concat('%', #{tableName}, '%'))
+        </if>
+        <if test="tableComment != null and tableComment != ''">
+            AND obj_description((t.table_schema || '.' || t.table_name)::regclass, 'pg_class') like concat('%', #{tableComment}, '%')
+        </if>
+        ORDER BY (t.table_schema || '.' || t.table_name)::regclass::oid desc
+    </select>
+    <select id="selectDbTableColumnList" resultType="cn.eu.generate.domain.GenTableColumn" databaseId="mysql">
         SELECT
             table_name,
             column_name,
@@ -39,6 +58,56 @@
           AND table_name = #{tableName}
 
         ORDER BY ordinal_position
+    </select>
+    <select id="selectDbTableColumnList" resultType="cn.eu.generate.domain.GenTableColumn" databaseId="postgresql">
+        SELECT
+            c.table_name,
+            c.column_name,
+            col_description((c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position) AS column_comment,
+            CASE
+                WHEN c.data_type = 'character varying' THEN 'varchar(' || COALESCE(c.character_maximum_length::text, '255') || ')'
+                WHEN c.data_type = 'character' THEN 'char(' || c.character_maximum_length::text || ')'
+                WHEN c.data_type = 'numeric' THEN 'numeric(' || COALESCE(c.numeric_precision::text, '') || ',' || COALESCE(c.numeric_scale::text, '') || ')'
+                WHEN c.data_type = 'timestamp without time zone' THEN 'timestamp'
+                WHEN c.data_type = 'timestamp with time zone' THEN 'timestamptz'
+                WHEN c.data_type = 'integer' THEN 'integer'
+                WHEN c.data_type = 'bigint' THEN 'bigint'
+                WHEN c.data_type = 'smallint' THEN 'smallint'
+                WHEN c.data_type = 'boolean' THEN 'boolean'
+                WHEN c.data_type = 'text' THEN 'text'
+                WHEN c.data_type = 'date' THEN 'date'
+                WHEN c.data_type = 'time without time zone' THEN 'time'
+                WHEN c.data_type = 'double precision' THEN 'double precision'
+                WHEN c.data_type = 'real' THEN 'real'
+                WHEN c.data_type = 'json' THEN 'json'
+                WHEN c.data_type = 'jsonb' THEN 'jsonb'
+                ELSE c.data_type
+            END AS column_type,
+            CASE
+                WHEN tc.constraint_type = 'PRIMARY KEY' THEN 'PRI'
+                WHEN tc.constraint_type = 'UNIQUE' THEN 'UNI'
+                ELSE ''
+            END AS column_key,
+            CASE
+                WHEN c.is_identity = 'YES' OR (pg_get_serial_sequence(c.table_schema || '.' || c.table_name, c.column_name) IS NOT NULL) THEN 1
+                ELSE 0
+            END AS auto_pk,
+            CASE
+                WHEN c.is_nullable = 'NO' AND (tc.constraint_type IS NULL OR tc.constraint_type != 'PRIMARY KEY') THEN 1
+                ELSE 0
+            END AS not_null,
+            c.ordinal_position AS column_sort
+        FROM information_schema.columns c
+        LEFT JOIN information_schema.key_column_usage kcu
+            ON c.table_name = kcu.table_name
+            AND c.column_name = kcu.column_name
+            AND c.table_schema = kcu.table_schema
+        LEFT JOIN information_schema.table_constraints tc
+            ON kcu.constraint_name = tc.constraint_name
+            AND kcu.table_schema = tc.table_schema
+        WHERE c.table_schema = CURRENT_SCHEMA
+          AND c.table_name = #{tableName}
+        ORDER BY c.ordinal_position
     </select>
     <select id="selectDbTableByTableName" resultType="cn.eu.generate.domain.GenTable">
         <include refid="selectDbTable"></include>
