@@ -11,7 +11,7 @@ import cn.eu.system.model.query.SysUserQueryCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public interface ISysUserService extends IEuService<SysUser> {
     void batchAssignRole(AssignRoleDto dto);
 
     int countByRoleIds(List<Integer> roleIds);
-    int countByDeptIds(List<Integer> deptId);
+    Long countByDeptIds(List<Integer> deptId);
     int countByPostIds(List<Integer> postIds);
 
     ImportResult importData(MultipartFile file, Integer importMode) throws IOException;

@@ -32,8 +32,8 @@ public class SaTokenConfigurer implements WebMvcConfigurer {
 
     private static final List<String> DEFAULT_EXCLUDE_URIS = Arrays.asList(
             "/doc.html",
-            "/v3/api-docs/swagger-config",
-            "/v3/api-docs",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
             "/webjars/**",
             "/favicon.ico",
             "/swagger-ui/**",

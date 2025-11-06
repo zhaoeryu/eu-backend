@@ -26,18 +26,18 @@
 - 前端-Vue3：👉[点我进入 eu-vue3](https://gitee.com/zhaoeryu/eu-vue3)
 
 ## 开发环境
-- JDK：1.8+
+- JDK：21
 - Maven：3.8+
 - MySQL：5.7+
 - Redis：6.2+
 
 ## 主框架选型
-- `SpringBoot` 2.4.x
-- `Sa-Token` 1.34.x
-- `MybatisPlus` 3.4.x
-- `Druid` 1.1.x
-- `Quartz` 2.3.x
-- `Knife4j` 4.1.x
+- `SpringBoot` 3.2.x
+- `Sa-Token` 1.44.x
+- `MybatisPlus` 3.5.x
+- `Druid` 1.2.x
+- `Quartz` 2.5.x
+- `Knife4j` 4.4.x
 
 ## 内置功能
 1. 用户管理

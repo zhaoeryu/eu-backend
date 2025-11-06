@@ -13,9 +13,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.activation.DataSource;
-import javax.activation.URLDataSource;
-import javax.mail.internet.MimeMessage;
+import jakarta.activation.DataSource;
+import jakarta.activation.URLDataSource;
+import jakarta.mail.internet.MimeMessage;
 import java.net.URL;
 import java.util.Date;
 

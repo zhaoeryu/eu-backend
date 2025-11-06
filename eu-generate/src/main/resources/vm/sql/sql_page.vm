@@ -4,8 +4,8 @@ INSERT INTO `sys_menu` (`menu_name`, `menu_icon`, `sort_num`, `permission`, `pat
 -- 菜单ID
 SELECT @parentId := LAST_INSERT_ID();
 
-INSERT INTO `sys_menu` (`menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`) VALUES ('新增${tableComment}', 'business', 999, '${permissionPrefix}:add', '/${apiPath}/add', '${ClassName}Add', '${funcGroup}/${className}/edit', 0, b'0', b'0', b'1', NULL, NULL, 2, @parentId, b'1', b'1');
-INSERT INTO `sys_menu` (`menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`) VALUES ('编辑${tableComment}', 'business', 999, '${permissionPrefix}:query', '/${apiPath}/edit/:id', '${ClassName}Edit', '${funcGroup}/${className}/edit', 0, b'0', b'0', b'1', NULL, NULL, 2, @parentId, b'1', b'1');
+INSERT INTO `sys_menu` (`menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`) VALUES ('新增${tableComment}', 'business', 999, '${permissionPrefix}:add', '/${apiPath}/add', '${ClassName}Add', '${funcGroup}/${className}/edit', 0, b'0', b'0', b'1', NULL, NULL, 2, NULL, b'1', b'1');
+INSERT INTO `sys_menu` (`menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`) VALUES ('编辑${tableComment}', 'business', 999, '${permissionPrefix}:query', '/${apiPath}/edit/:id', '${ClassName}Edit', '${funcGroup}/${className}/edit', 0, b'0', b'0', b'1', NULL, NULL, 2, NULL, b'1', b'1');
 
 -- 创建按钮权限
 INSERT INTO `sys_menu` (`menu_name`, `sort_num`, `permission`, `menu_type`, `parent_id`) VALUES ('列表', 10, '${permissionPrefix}:list', 3, @parentId);

@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -208,7 +208,7 @@ public class SysUserServiceImpl extends EuServiceImpl<SysUserMapper, SysUser> im
     }
 
     @Override
-    public int countByDeptIds(List<Integer> deptIds) {
+    public Long countByDeptIds(List<Integer> deptIds) {
         return count(new LambdaQueryWrapper<SysUser>()
             .in(SysUser::getDeptId, deptIds)
         );

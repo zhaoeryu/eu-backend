@@ -1,6 +1,8 @@
 package cn.eu.framework.config;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,14 +17,8 @@ public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-
-        // 防止全表更新与删除
-//        interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
-//        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
-        // 数据权限
-//        DataPermissionInterceptor dataPermissionInterceptor = new DataPermissionInterceptor();
-//        dataPermissionInterceptor.setDataPermissionHandler(new DataScopeDataPermissionHandler());
-//        interceptor.addInnerInterceptor(dataPermissionInterceptor);
+        // 分页插件
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
     }
 

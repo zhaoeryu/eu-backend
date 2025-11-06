@@ -20,12 +20,13 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +40,7 @@ public class SysDictDetailServiceImpl extends EuServiceImpl<SysDictDetailMapper,
 
     @Autowired
     SysDictDetailMapper SysDictDetailMapper;
+    @Lazy
     @Autowired
     ISysDictService sysDictService;
 

@@ -2,7 +2,7 @@ package cn.eu.system.model.pojo;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @author zhaoeryu

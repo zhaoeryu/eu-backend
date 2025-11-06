@@ -2,7 +2,7 @@ package cn.eu.system.model.query;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author zhaoeryu

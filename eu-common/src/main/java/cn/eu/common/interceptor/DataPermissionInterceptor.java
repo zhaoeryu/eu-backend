@@ -75,7 +75,7 @@ public class DataPermissionInterceptor implements Interceptor {
         }
         // 解析为JSql对象，然后拼接数据权限的SQL到where条件中，拼接完重新生成BoundSql对象
         Select select = (Select) CCJSqlParserUtil.parse(boundSql.getSql());
-        PlainSelect plainSelect = select.getSelectBody(PlainSelect.class);
+        PlainSelect plainSelect = select.getPlainSelect();
         // 判断是否有where条件，如果没有直接拼接，如果有则拼接and
         if (plainSelect.getWhere() == null) {
             plainSelect.setWhere(CCJSqlParserUtil.parseCondExpression(dataScopeSql));

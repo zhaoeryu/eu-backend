@@ -17,7 +17,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
@@ -52,7 +52,6 @@ public class SysUser extends BaseEntity {
     private String mobile;
     /** 邮箱 */
     @ExcelProperty("邮箱")
-    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String email;
     /** 密码 */
     @ExcelIgnore
@@ -66,7 +65,6 @@ public class SysUser extends BaseEntity {
     private BooleanFlag admin;
     /** 部门ID */
     @ExcelProperty(value = "部门", converter = SysDeptConverter.class)
-    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private Integer deptId;
     /** 账号状态 */
     @ExcelProperty(value = "账号状态", converter = EasyExcelEnumConverter.class)

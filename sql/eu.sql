@@ -14,7 +14,7 @@ CREATE TABLE `gen_table` (
   `package_name` varchar(255) NOT NULL COMMENT '包路径',
   `module_name` varchar(32) NOT NULL COMMENT '模块名',
   `func_group` varchar(32) DEFAULT NULL COMMENT '功能分组',
-  `table_name` varchar(32) NOT NULL COMMENT '表名',
+  `table_name` varchar(64) NOT NULL COMMENT '表名',
   `table_comment` varchar(255) DEFAULT NULL COMMENT '表注释',
   `author` varchar(32) DEFAULT NULL COMMENT '作者',
   `del_show_field` varchar(32) DEFAULT NULL COMMENT '删除时，提示使用的字段',
@@ -44,8 +44,8 @@ COMMIT;
 DROP TABLE IF EXISTS `gen_table_column`;
 CREATE TABLE `gen_table_column` (
   `id` varchar(20) NOT NULL,
-  `table_name` varchar(32) NOT NULL COMMENT '表名',
-  `column_name` varchar(32) NOT NULL COMMENT '字段名',
+  `table_name` varchar(64) NOT NULL COMMENT '表名',
+  `column_name` varchar(64) NOT NULL COMMENT '字段名',
   `column_comment` varchar(255) DEFAULT NULL COMMENT '字段描述',
   `column_key` varchar(32) DEFAULT NULL COMMENT '字段键',
   `column_type` varchar(32) NOT NULL COMMENT '字段类型',
