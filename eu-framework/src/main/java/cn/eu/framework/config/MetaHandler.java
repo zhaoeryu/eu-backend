@@ -1,5 +1,6 @@
 package cn.eu.framework.config;
 
+import cn.dev33.satoken.spring.SpringMVCUtil;
 import cn.eu.common.model.LoginUser;
 import cn.eu.common.utils.LoginUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -19,6 +20,9 @@ public class MetaHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         try {
+            if (!SpringMVCUtil.isWeb()) {
+                return;
+            }
             LoginUser loginUser = LoginUtil.getLoginUser();
             if (loginUser == null) {
                 return;
@@ -33,6 +37,9 @@ public class MetaHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         try {
+            if (!SpringMVCUtil.isWeb()) {
+                return;
+            }
             LoginUser loginUser = LoginUtil.getLoginUser();
             if (loginUser == null) {
                 return;
