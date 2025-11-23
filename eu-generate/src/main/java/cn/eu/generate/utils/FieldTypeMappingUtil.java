@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.setting.dialect.Props;
 import cn.hutool.setting.dialect.PropsUtil;
 
+import java.util.StringJoiner;
+
 /**
  * @author zhaoeryu
  * @since 2023/6/28
@@ -38,7 +40,9 @@ public class FieldTypeMappingUtil {
 
     public static String getDbType(String dbType) {
         // 去掉括号及括号里的内容
-        return dbType.replaceAll("\\(.*\\)", "");
+        return dbType.replaceAll("\\(.*\\)", "")
+                // 去掉无用的unsigned
+                .replaceAll("(?i)\\s+unsigned", "");
     }
 
     /**
@@ -208,9 +212,14 @@ public class FieldTypeMappingUtil {
                 "int(11)\n" +
                 "varchar(20)\n" +
                 "int(11)\n" +
+                "int unsigned\n" +
                 "varchar(20)";
         CollUtil.newArrayList(str.split("\n")).forEach(s -> {
-            System.out.println(getJsType(s));
+            System.out.println(new StringJoiner("\t")
+                    .add(getDbType(s))
+                    .add(getJavaType(s))
+                    .add(getJsType(s))
+            );
         });
 
 //        System.out.println(getFormType("VARCHAR(32)"));
