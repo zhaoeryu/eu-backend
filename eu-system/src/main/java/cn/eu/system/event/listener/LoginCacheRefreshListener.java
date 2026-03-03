@@ -68,7 +68,7 @@ public class LoginCacheRefreshListener implements ApplicationListener<LoginCache
         if (userStr instanceof LoginUser) {
             authUser = (LoginUser) userStr;
         } else {
-            JSONObject.parseObject(userStr.toString(), LoginUser.class);
+            authUser = JSONObject.parseObject(userStr.toString(), LoginUser.class);
         }
 
 
