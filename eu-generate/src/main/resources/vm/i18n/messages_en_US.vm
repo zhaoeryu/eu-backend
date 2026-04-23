@@ -9,3 +9,7 @@ valid.${ClassName}.${column.javaField}.notNull=$column.javaField cannot be null
         #end
     #end
 #end
+${ClassName}._name=$ClassName
+#foreach ($column in $entityColumns)
+${ClassName}.${column.javaField}=$column.javaField
+#end

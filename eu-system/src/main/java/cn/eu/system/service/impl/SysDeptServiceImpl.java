@@ -77,10 +77,10 @@ public class SysDeptServiceImpl extends EuServiceImpl<SysDeptMapper, SysDept> im
     @Override
     public void checkCanDelete(List<Integer> deptIds) {
         // 检查是否关联用户
-        Assert.isTrue(sysUserService.countByDeptIds(deptIds) == 0, MessageUtils.message("assert.SysDept.existsConnection"));
+        Assert.isTrue(sysUserService.countByDeptIds(deptIds) == 0, MessageUtils.message("assert.associatedData", MessageUtils.message("SysDept._name"), MessageUtils.message("SysUser._name")));
 
         // 检查是否关联数据权限
-        Assert.isTrue(sysDeptMapper.selectRoleDeptCountByDeptIds(deptIds) == 0, MessageUtils.message("assert.SysDept.withRoleExistsConnection"));
+        Assert.isTrue(sysDeptMapper.selectRoleDeptCountByDeptIds(deptIds) == 0, MessageUtils.message("assert.associatedData", MessageUtils.message("SysDept._name"), MessageUtils.message("SysRole._name")));
     }
 
     @DataScope(isSingleQuery = true)

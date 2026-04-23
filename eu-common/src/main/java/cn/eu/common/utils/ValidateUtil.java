@@ -1,5 +1,6 @@
 package cn.eu.common.utils;
 
+import cn.eu.common.exception.ParamsValidException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -19,7 +20,7 @@ public class ValidateUtil {
             List<String> errorMessage = errors.stream().map(ConstraintViolation::getMessage)
                     .map(MessageUtils::parseMessage)
                     .collect(Collectors.toList());
-            throw new RuntimeException(String.join(",", errorMessage));
+            throw new ParamsValidException(String.join(",", errorMessage));
         }
     }
 }

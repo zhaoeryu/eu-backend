@@ -1,5 +1,6 @@
 package cn.eu.quartz;
 
+import cn.eu.common.exception.ServerException;
 import cn.eu.quartz.domain.QuartzJob;
 import cn.eu.quartz.enums.QuartzJobConcurrent;
 import cn.eu.quartz.enums.QuartzJobMisfirePolicy;
@@ -99,7 +100,7 @@ public class QuartzManage {
             addJob(quartzJob);
         } catch (Exception e){
             log.error("更新定时任务失败", e);
-            throw new RuntimeException("更新定时任务失败");
+            throw new ServerException("更新定时任务失败");
         }
 
     }
@@ -112,7 +113,7 @@ public class QuartzManage {
             scheduler.pauseJob(getJobKey(quartzJob));
         } catch (Exception e){
             log.error("定时任务暂停失败", e);
-            throw new RuntimeException("定时任务暂停失败");
+            throw new ServerException("定时任务暂停失败");
         }
     }
 
@@ -130,7 +131,7 @@ public class QuartzManage {
             scheduler.triggerJob(jobKey,dataMap);
         } catch (Exception e){
             log.error("定时任务执行失败", e);
-            throw new RuntimeException("定时任务执行失败");
+            throw new ServerException("定时任务执行失败");
         }
     }
 
@@ -146,7 +147,7 @@ public class QuartzManage {
             scheduler.resumeJob(jobKey);
         } catch (Exception e){
             log.error("恢复定时任务失败", e);
-            throw new RuntimeException("恢复定时任务失败");
+            throw new ServerException("恢复定时任务失败");
         }
     }
 
@@ -160,7 +161,7 @@ public class QuartzManage {
             scheduler.deleteJob(jobKey);
         } catch (Exception e){
             log.error("删除定时任务失败", e);
-            throw new RuntimeException("删除定时任务失败");
+            throw new ServerException("删除定时任务失败");
         }
     }
 

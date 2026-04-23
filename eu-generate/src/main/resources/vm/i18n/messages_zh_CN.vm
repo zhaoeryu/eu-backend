@@ -9,3 +9,7 @@ valid.${ClassName}.${column.javaField}.notNull=#if($column.columnComment)$column
         #end
     #end
 #end
+${ClassName}._name=#if($tableComment)$tableComment#else$ClassName#end
+#foreach ($column in $entityColumns)
+${ClassName}.${column.javaField}=#if($column.columnComment)$column.columnComment#else$column.javaField#end
+#end

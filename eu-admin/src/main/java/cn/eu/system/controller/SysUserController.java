@@ -83,7 +83,7 @@ public class SysUserController extends EuBaseController {
     @SaCheckPermission("system:user:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<String> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
         sysUserService.removeByIds(ids);
         ids.forEach(id -> {
             // 更新缓存
@@ -133,8 +133,8 @@ public class SysUserController extends EuBaseController {
     @SaCheckPermission("system:user:edit")
     @PostMapping("/assignRole")
     public ResultBody assignRole(@RequestBody SysUserDto dto) {
-        Assert.hasText(dto.getId(), MessageUtils.message("assert.notBlank", "id"));
-        Assert.notEmpty(dto.getRoleIds(), MessageUtils.message("assert.roleNotEmpty"));
+        Assert.hasText(dto.getId(), MessageUtils.message("assert.notNull", "id"));
+        Assert.notEmpty(dto.getRoleIds(), MessageUtils.message("assert.notNull", "角色"));
         sysUserService.assignRole(dto.getId(), dto.getRoleIds());
         return ResultBody.ok();
     }
@@ -197,7 +197,7 @@ public class SysUserController extends EuBaseController {
     @PostMapping("/upload-avatar")
     public ResultBody updateAvatar(@RequestParam("avatar") String avatar) {
         String userId = StpUtil.getLoginIdAsString();
-        Assert.hasText(avatar, MessageUtils.message("assert.avatarNotEmpty"));
+        Assert.hasText(avatar, MessageUtils.message("assert.notNull", MessageUtils.message("{SysUser.avatar}")));
         sysUserService.update(new LambdaUpdateWrapper<SysUser>()
             .eq(SysUser::getId, userId)
             .set(SysUser::getAvatar, avatar)
@@ -210,7 +210,7 @@ public class SysUserController extends EuBaseController {
 
     @GetMapping("/info")
     public ResultBody getInfo(@RequestParam("id") String id) {
-        Assert.hasText(id, MessageUtils.message("assert.notBlank", "id"));
+        Assert.hasText(id, MessageUtils.message("assert.notNull", "id"));
 
         SysUser sysUser = sysUserService.getById(id);
         sysUser.setPassword(null);

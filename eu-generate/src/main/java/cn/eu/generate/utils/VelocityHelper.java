@@ -145,7 +145,9 @@ public class VelocityHelper {
         apiPath = StrUtil.toCamelCase(apiPath);
 
         // 过滤掉基类字段
-        List<GenTableColumn> genColumns = genTableColumns.stream().filter(item -> !GenUtil.isFieldBaseEntity(item.getColumnName())).collect(Collectors.toList());
+        List<GenTableColumn> genColumns = genTableColumns
+//                .stream().filter(item -> !GenUtil.isFieldBaseEntity(item.getColumnName())).collect(Collectors.toList())
+                ;
 
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("package", StrUtil.blankToDefault(genTable.getPackageName(), GenConstant.DEFAULT_PACKAGE_NAME));

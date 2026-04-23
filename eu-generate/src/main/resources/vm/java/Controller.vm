@@ -76,7 +76,7 @@ public class ${ClassName}Controller extends EuBaseController {
     @SaCheckPermission("${permissionPrefix}:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<${pkColumnType}> ids) {
-        Assert.notEmpty(ids, #if($i18nEnable)MessageUtils.message("assert.notEmpty", "ids")#{else}"id不能为空"#end);
+        Assert.notEmpty(ids, #if($i18nEnable)MessageUtils.message("assert.notNull", "ids")#{else}"id不能为空"#end);
         ${className}Service.removeByIds(ids);
         return ResultBody.ok();
     }

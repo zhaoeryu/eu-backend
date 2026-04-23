@@ -1,6 +1,7 @@
 package cn.eu.quartz.service.impl;
 
 import cn.eu.common.core.service.impl.EuServiceImpl;
+import cn.eu.common.exception.ServerException;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.MpQueryHelper;
 import cn.eu.quartz.QuartzManage;
@@ -104,7 +105,7 @@ public class QuartzJobServiceImpl extends EuServiceImpl<QuartzJobMapper, QuartzJ
         try {
             quartzManage.addJob(entity);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ServerException();
         }
     }
 }

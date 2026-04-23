@@ -45,7 +45,7 @@ public class LoginCacheRefreshListener implements ApplicationListener<LoginCache
     public void onApplicationEvent(LoginCacheRefreshEvent event) {
         String userId = (String) event.getSource();
         log.debug("刷新登录缓存 {}", userId);
-        Assert.hasLength(userId, MessageUtils.message("assert.notEmpty", "userId"));
+        Assert.hasLength(userId, MessageUtils.message("assert.notNull", "userId"));
 
         // 修改个人信息：/user/profile
         // 修改密码：/user/update-pwd

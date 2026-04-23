@@ -1,5 +1,6 @@
 package cn.eu.oss.strategy;
 
+import cn.eu.common.exception.ServerException;
 import cn.eu.oss.constants.OssConstants;
 import cn.eu.oss.model.UploadResult;
 import cn.hutool.core.io.FileUtil;
@@ -22,6 +23,6 @@ public class AliOssUploadStrategy implements IUploadStrategy {
 
     @Override
     public UploadResult upload(MultipartFile multipartFile) throws IOException {
-        throw new RuntimeException("阿里云OSS暂未实现");
+        throw new ServerException("阿里云OSS暂未实现");
     }
 }

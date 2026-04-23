@@ -44,7 +44,7 @@ public class QuartzJobLogController extends EuBaseController {
     @SaCheckPermission("system:job-log:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<String> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
         quartzJobLogService.removeByIds(ids);
         return ResultBody.ok();
     }

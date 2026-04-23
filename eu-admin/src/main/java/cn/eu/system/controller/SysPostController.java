@@ -81,8 +81,8 @@ public class SysPostController extends EuBaseController {
     @SaCheckPermission("system:post:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<Integer> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
-        Assert.isTrue(sysUserService.countByPostIds(ids) == 0, MessageUtils.message("assert.SysPost.existsConnection"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
+        Assert.isTrue(sysUserService.countByPostIds(ids) == 0, MessageUtils.message("assert.associatedData", MessageUtils.message("SysPost._name"), MessageUtils.message("SysUser._name")));
         sysPostService.removeByIds(ids);
         return ResultBody.ok();
     }

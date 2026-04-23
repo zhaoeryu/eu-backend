@@ -6,6 +6,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.eu.common.constants.Constants;
 import cn.eu.common.enums.LoginType;
 import cn.eu.common.enums.SysUserStatus;
+import cn.eu.common.exception.AccountDeleteException;
+import cn.eu.common.exception.AccountDisableException;
+import cn.eu.common.exception.AccountLockException;
+import cn.eu.common.exception.UsernamePasswordException;
 import cn.eu.common.utils.*;
 import cn.eu.common.properties.EuProperties;
 import cn.eu.common.utils.PasswordEncoder;
@@ -86,16 +90,16 @@ public class LoginService {
 
     private void checkCaptcha(String uuid, String code) {
         final String captchaRedisKey = Constants.CAPTCHA_REDIS_KEY + uuid;
-        Assert.isTrue(redisUtil.hasKey(captchaRedisKey), MessageUtils.message("login.captcha.expire"));
+        Assert.isTrue(redisUtil.hasKey(captchaRedisKey), MessageUtils.message("errorCode.system.login.captcha.expire"));
         String captcha = redisUtil.get(captchaRedisKey);
         // 验证码使用后删除
         redisUtil.delete(captchaRedisKey);
-        Assert.isTrue(code.equals(captcha), MessageUtils.message("login.captcha.error"));
+        Assert.isTrue(code.equals(captcha), MessageUtils.message("errorCode.system.login.captcha.error"));
     }
     
     private void checkLock(String lockLoginRedisKey) {
         Long lockExpireSeconds = redisUtil.getExpire(lockLoginRedisKey, TimeUnit.SECONDS);
-        Assert.isFalse(redisUtil.hasKey(lockLoginRedisKey), MessageUtils.message("login.lockTpl", DateUtil.secondsToTime(lockExpireSeconds.intValue())));
+        Assert.isFalse(redisUtil.hasKey(lockLoginRedisKey), MessageUtils.message("errorCode.system.login.lockTpl", DateUtil.secondsToTime(lockExpireSeconds.intValue())));
     }
     
     private SysUser getAccount(String username) {
@@ -103,7 +107,7 @@ public class LoginService {
                 .eq(SysUser::getUsername, username)
                 .last("limit 1")
         );
-        Assert.notNull(user, MessageUtils.message("login.usernameOrPasswordError"));
+        Assert.notNull(user, MessageUtils.message("errorCode.system.login.usernameOrPasswordError"));
         return user;
     }
 
@@ -130,11 +134,11 @@ public class LoginService {
             int count = Integer.parseInt(countStr);
             if (count >= Constants.MAX_TRY_LOGIN_LIMIT) {
                 redisUtil.setEx(lockLoginRedisKey, "1", Constants.LOCK_TIME, TimeUnit.SECONDS);
-                throw new RuntimeException(MessageUtils.message("login.lockTpl", DateUtil.secondsToTime(Constants.LOCK_TIME)));
+                throw new AccountLockException(MessageUtils.message("errorCode.system.login.lockTpl", DateUtil.secondsToTime(Constants.LOCK_TIME)));
             }
             count++;
             redisUtil.setEx(tryLoginRedisKey, String.valueOf(count), Constants.TRY_LOGIN_CACHE_TIME, TimeUnit.SECONDS);
-            throw new RuntimeException(MessageUtils.message("login.usernameOrPasswordError"));
+            throw new UsernamePasswordException();
         }
         // 登录成功，删除尝试登录次数缓存
         redisUtil.delete(tryLoginRedisKey);
@@ -144,9 +148,9 @@ public class LoginService {
         if (sysUserStatus != null && SysUserStatus.NORMAL != sysUserStatus) {
             switch (sysUserStatus) {
                 case DISABLE:
-                    throw new RuntimeException(MessageUtils.message("login.account.disabled"));
+                    throw new AccountDisableException();
                 case DELETED:
-                    throw new RuntimeException(MessageUtils.message("login.account.deleted"));
+                    throw new AccountDeleteException();
                 default:
                     // nothing    
             }

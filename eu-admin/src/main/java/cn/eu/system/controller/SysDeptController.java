@@ -58,7 +58,7 @@ public class SysDeptController extends EuBaseController {
     @SaCheckPermission("system:dept:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<Integer> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
         sysDeptService.checkCanDelete(ids);
         sysDeptService.removeByIds(ids);
         return ResultBody.ok();

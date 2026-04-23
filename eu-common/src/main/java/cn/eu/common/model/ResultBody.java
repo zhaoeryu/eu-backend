@@ -1,11 +1,15 @@
 package cn.eu.common.model;
 
 
+import cn.eu.common.exception.ErrorCode;
+import cn.eu.common.exception.EuErrorCode;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.Hidden;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -22,17 +26,17 @@ public class ResultBody extends LinkedHashMap<String,Object> implements Serializ
 
     public ResultBody() {
         super();
-        this.code(IError.SUCCESS.getCode()).msg(IError.SUCCESS.getMessage());
+        this.code(EuErrorCode.SUCCESS.getCode()).msg(EuErrorCode.SUCCESS.getMessage());
         this.put(TIMESTAMP_KEY, System.currentTimeMillis());
     }
 
-    public ResultBody(IError error) {
+    public ResultBody(ErrorCode error) {
         super();
         this.code(error.getCode()).msg(error.getMessage());
         this.put(TIMESTAMP_KEY, System.currentTimeMillis());
     }
 
-    public static ResultBody of(IError error) {
+    public static ResultBody of(ErrorCode error) {
         return new ResultBody(error);
     }
 
@@ -41,23 +45,16 @@ public class ResultBody extends LinkedHashMap<String,Object> implements Serializ
     }
 
     public static ResultBody failed() {
-        return failed(IError.ERROR.getMessage());
+        return failed(EuErrorCode.SYSTEM_BUSY.getMessage());
     }
     public static ResultBody failed(String msg) {
-        return new ResultBody().code(IError.ERROR.getCode()).msg(msg);
-    }
-
-    public static ResultBody warn() {
-        return warn(IError.WARN.getMessage());
-    }
-    public static ResultBody warn(String msg) {
-        return new ResultBody().code(IError.WARN.getCode()).msg(msg);
+        return new ResultBody().code(EuErrorCode.SYSTEM_BUSY.getCode()).msg(msg);
     }
 
     @Hidden
     public boolean isSuccess(){
         Object code = this.get(CODE_KEY);
-        return code != null && IError.SUCCESS.getCode() == Integer.parseInt(code.toString());
+        return code != null && Objects.equals(EuErrorCode.SUCCESS.getCode(), code);
     }
 
     public ResultBody code(int code) {

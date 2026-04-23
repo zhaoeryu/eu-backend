@@ -90,7 +90,7 @@ public class EasyExcelHelper {
     }
 
     public static void export(HttpServletResponse response, EasyExcelWriteSheet... sheetItems) throws IOException {
-        Assert.notEmpty(sheetItems, MessageUtils.message("excel.assert.sheetNotEmpty"));
+        Assert.notEmpty(sheetItems, MessageUtils.message("assert.notNull", "Sheet"));
         try {
             ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream())
                     .autoCloseStream(false)
@@ -108,7 +108,7 @@ public class EasyExcelHelper {
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             response.getWriter().write(ResultBody.failed()
-                    .msg(MessageUtils.message("excel.assert.exportError"))
+                    .msg(MessageUtils.message("errorCode.common.serverError"))
                     .toJsonString());
         }
     }

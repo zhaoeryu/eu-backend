@@ -1,6 +1,7 @@
 package cn.eu.system.utils;
 
 import cn.eu.common.enums.ImportMode;
+import cn.eu.common.exception.ParamsValidException;
 import cn.eu.common.utils.MessageUtils;
 import cn.eu.system.model.dto.ImportResult;
 import cn.hutool.core.collection.CollUtil;
@@ -87,7 +88,7 @@ public abstract class ImportModeHandleTemplate<T, K> {
             return;
         }
 
-        throw new IllegalArgumentException(MessageUtils.message("excel.error.importMode"));
+        throw new ParamsValidException();
     }
 
     /**

@@ -22,16 +22,16 @@ public class DateUtil {
         int s = seconds % 60;
         StringBuilder sb = new StringBuilder();
         if (d > 0) {
-            sb.append(d).append(MessageUtils.message("date.pretty.day"));
+            sb.append(d).append(MessageUtils.message("const.day"));
         }
         if (h > 0) {
-            sb.append(h).append(MessageUtils.message("date.pretty.hour"));
+            sb.append(h).append(MessageUtils.message("const.hour"));
         }
         if (m > 0) {
-            sb.append(m).append(MessageUtils.message("date.pretty.minute"));
+            sb.append(m).append(MessageUtils.message("const.minute"));
         }
         if (s > 0) {
-            sb.append(s).append(MessageUtils.message("date.pretty.second"));
+            sb.append(s).append(MessageUtils.message("const.second"));
         }
         return sb.toString();
     }

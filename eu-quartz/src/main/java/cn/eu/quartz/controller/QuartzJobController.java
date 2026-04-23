@@ -59,7 +59,7 @@ public class QuartzJobController extends EuBaseController {
     @SaCheckPermission("system:job:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<String> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
         quartzJobService.deleteJobs(ids);
         return ResultBody.ok();
     }
@@ -68,7 +68,7 @@ public class QuartzJobController extends EuBaseController {
     @SaCheckPermission("system:job:edit")
     @PostMapping("/pause-or-resume")
     public ResultBody pauseOrResume(@RequestBody QuartzJob entity) {
-        Assert.hasText(entity.getId(), MessageUtils.message("assert.notBlank", "id"));
+        Assert.hasText(entity.getId(), MessageUtils.message("assert.notNull", "id"));
         Assert.notNull(entity.getStatus(), MessageUtils.message("assert.notNull", "status"));
         quartzJobService.pauseOrResume(entity);
         return ResultBody.ok();
@@ -78,7 +78,7 @@ public class QuartzJobController extends EuBaseController {
     @SaCheckPermission("system:job:exec")
     @PostMapping("/exec")
     public ResultBody exec(@RequestParam("id") String jobId) {
-        Assert.hasText(jobId, MessageUtils.message("assert.notBlank", "id"));
+        Assert.hasText(jobId, MessageUtils.message("assert.notNull", "id"));
         quartzJobService.exec(jobId);
         return ResultBody.ok();
     }

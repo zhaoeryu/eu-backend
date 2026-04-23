@@ -76,7 +76,7 @@ public class SysNoticeController extends EuBaseController {
     @SaCheckPermission("system:sysNotice:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<String> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
         sysNoticeService.removeByIds(ids);
         return ResultBody.ok();
     }

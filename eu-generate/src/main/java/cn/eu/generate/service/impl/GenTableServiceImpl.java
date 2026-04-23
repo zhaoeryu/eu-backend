@@ -1,6 +1,7 @@
 package cn.eu.generate.service.impl;
 
 import cn.eu.common.core.service.impl.EuServiceImpl;
+import cn.eu.common.exception.ServerException;
 import cn.eu.common.model.PageResult;
 import cn.eu.common.utils.Query;
 import cn.eu.generate.constants.GenConstant;
@@ -307,7 +308,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
     public void generator(String tableName, HttpServletResponse response) throws IOException {
         List<GenerateTemplateDto> generateTemplateDtoList = preview(tableName);
         if (CollUtil.isEmpty(generateTemplateDtoList)) {
-            throw new RuntimeException("没有可生成的文件");
+            throw new ServerException("没有可生成的文件");
         }
 
         GenTable genTable = getGenTable(tableName);
@@ -354,7 +355,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
             // 写入到response
             GenUtil.write(outputStream.toByteArray(), response);
         } else {
-            throw new RuntimeException("生成模式错误");
+            throw new ServerException("生成模式错误");
         }
     }
 
@@ -560,7 +561,7 @@ public class GenTableServiceImpl extends EuServiceImpl<GenTableMapper, GenTable>
                         .add(funcGroup + GenUtil.underlineToCamel(genTable.getTableName()) + ".d.ts");
                 break;
             default:
-                throw new RuntimeException("未受支持的模版:" + generateTemplateDto.getPath());
+                throw new ServerException("未受支持的模版:" + generateTemplateDto.getPath());
         }
         return filePathJoiner.toString();
     }

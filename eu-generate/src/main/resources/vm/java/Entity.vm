@@ -62,6 +62,17 @@ public class ${ClassName} extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
 #end
+#if ($column.javaField == 'createBy' or $column.javaField == 'createByName')
+    @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER)
+#elseif ($column.javaField == 'updateBy' or $column.javaField == 'updateByName')
+    @TableField(fill = FieldFill.UPDATE)
+#elseif ($column.javaField == 'createTime')
+    @TableField(updateStrategy = FieldStrategy.NEVER)
+#elseif ($column.javaField == 'updateTime')
+    @TableField(update = "now()")
+#elseif ($column.javaField == 'delFlag')
+    @TableLogic(value = "0", delval = "NULL")
+#end
     private $column.javaType $column.javaField;
 #end
 

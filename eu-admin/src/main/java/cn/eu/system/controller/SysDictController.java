@@ -61,7 +61,7 @@ public class SysDictController extends EuBaseController {
     @SaCheckPermission("system:dict:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<Integer> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
         sysDictService.removeDictByIds(ids);
         return ResultBody.ok();
     }

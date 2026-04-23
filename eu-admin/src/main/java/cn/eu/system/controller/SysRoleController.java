@@ -66,8 +66,8 @@ public class SysRoleController extends EuBaseController {
     @SaCheckPermission("system:role:del")
     @DeleteMapping("/batch")
     public ResultBody batchDelete(@RequestBody List<Integer> ids) {
-        Assert.notEmpty(ids, MessageUtils.message("assert.notEmpty", "ids"));
-        Assert.isTrue(sysUserService.countByRoleIds(ids) == 0, MessageUtils.message("assert.SysRole.existsConnection"));
+        Assert.notEmpty(ids, MessageUtils.message("assert.notNull", "ids"));
+        Assert.isTrue(sysUserService.countByRoleIds(ids) == 0, MessageUtils.message("assert.associatedData", MessageUtils.message("SysRole._name"), MessageUtils.message("SysUser._name")));
         sysRoleService.removeByIds(ids);
         return ResultBody.ok();
     }

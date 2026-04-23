@@ -1,6 +1,6 @@
 package cn.eu.framework.config;
 
-import cn.eu.common.exception.ServiceException;
+import cn.eu.common.exception.ServerException;
 import cn.eu.common.properties.AsyncThreadProperties;
 import cn.eu.common.properties.EuProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class AsyncTaskExecutePool implements AsyncConfigurer {
         return (throwable, method, objects) -> {
             log.error("exception method:" + method.getName());
             log.error("==== " + throwable.getMessage() + " ====", throwable);
-            throw new ServiceException(throwable.getMessage());
+            throw new ServerException(throwable.getMessage());
         };
     }
 

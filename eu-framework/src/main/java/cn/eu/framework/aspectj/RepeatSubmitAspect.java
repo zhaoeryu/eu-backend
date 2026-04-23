@@ -4,7 +4,9 @@ import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.spring.SpringMVCUtil;
 import cn.eu.common.annotation.RepeatSubmit;
 import cn.eu.common.constants.Constants;
-import cn.eu.common.exception.ServiceException;
+import cn.eu.common.exception.EuException;
+import cn.eu.common.exception.RepeatSubmitException;
+import cn.eu.common.exception.ServerException;
 import cn.eu.common.utils.MessageUtils;
 import cn.eu.common.utils.RedisUtil;
 import cn.hutool.core.util.StrUtil;
@@ -46,13 +48,17 @@ public class RepeatSubmitAspect {
             interval = repeatSubmit.unit().toMillis(repeatSubmit.interval());
         }
         if (interval < 1000) {
-            throw new ServiceException(MessageUtils.parseMessage("{error.repeat.submit.interval_error}", 1));
+            throw new RepeatSubmitException(MessageUtils.parseMessage("{error.repeat_submit.interval_error}", 1));
         }
 
         String cacheKey = buildCacheKey(joinPoint.getArgs());
         Boolean hasKey = redisUtil.hasKey(cacheKey);
         if (hasKey) {
-            throw new ServiceException(MessageUtils.parseMessage(repeatSubmit.message()));
+            if (StrUtil.isNotBlank(repeatSubmit.message())) {
+                throw new RepeatSubmitException(MessageUtils.parseMessage(repeatSubmit.message()));
+            } else {
+                throw new RepeatSubmitException();
+            }
         }
 
         redisUtil.setEx(cacheKey, "", interval, TimeUnit.MILLISECONDS);

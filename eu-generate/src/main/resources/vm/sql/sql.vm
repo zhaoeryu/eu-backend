@@ -11,4 +11,3 @@ INSERT INTO `sys_menu` (`menu_name`, `sort_num`, `permission`, `menu_type`, `par
 INSERT INTO `sys_menu` (`menu_name`, `sort_num`, `permission`, `menu_type`, `parent_id`) VALUES ('修改', 40, '${permissionPrefix}:edit', 3, @parentId);
 INSERT INTO `sys_menu` (`menu_name`, `sort_num`, `permission`, `menu_type`, `parent_id`) VALUES ('删除', 50, '${permissionPrefix}:del', 3, @parentId);
 INSERT INTO `sys_menu` (`menu_name`, `sort_num`, `permission`, `menu_type`, `parent_id`) VALUES ('导出', 60, '${permissionPrefix}:export', 3, @parentId);
-INSERT INTO `sys_menu` (`menu_name`, `sort_num`, `permission`, `menu_type`, `parent_id`) VALUES ('导入', 70, '${permissionPrefix}:import', 3, @parentId);

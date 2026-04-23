@@ -1,6 +1,6 @@
 package cn.eu.message.handler.dispatcher;
 
-import cn.eu.common.exception.NotMatchExchangeException;
+import cn.eu.common.exception.ServerException;
 import cn.eu.message.handler.IMessageExchange;
 import cn.eu.common.model.Message;
 import org.springframework.beans.BeansException;
@@ -26,7 +26,7 @@ public class MessageDispatcher implements ApplicationContextAware {
                 return;
             }
         }
-        throw new NotMatchExchangeException(String.format("[%s]未实现exchange", message.getClass()));
+        throw new ServerException(String.format("[%s]未实现exchange", message.getClass()));
     }
 
     @Override

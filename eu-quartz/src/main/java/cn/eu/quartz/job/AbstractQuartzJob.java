@@ -1,5 +1,6 @@
 package cn.eu.quartz.job;
 
+import cn.eu.common.exception.ParamsValidException;
 import cn.eu.common.utils.SpringContextHolder;
 import cn.eu.message.enums.MailSendType;
 import cn.eu.message.handler.dispatcher.MessageDispatcher;
@@ -119,7 +120,7 @@ public abstract class AbstractQuartzJob extends QuartzJobBean {
             Assert.isTrue(isBean, "SpringBeanName不存在：" + quartzJob.getSpringBeanName());
             instance = SpringContextHolder.getBean(quartzJob.getSpringBeanName());
         } else {
-            throw new RuntimeException("未配置任务执行类");
+            throw new ParamsValidException("未配置任务执行类");
         }
 
         Assert.hasText(quartzJob.getMethodName(), "任务方法名不能为空");

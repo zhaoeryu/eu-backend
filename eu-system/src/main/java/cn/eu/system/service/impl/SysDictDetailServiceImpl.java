@@ -86,7 +86,7 @@ public class SysDictDetailServiceImpl extends EuServiceImpl<SysDictDetailMapper,
     @Override
     public ImportResult importData(MultipartFile file, Integer importMode, Integer dictId) throws IOException {
         SysDict dict = sysDictService.getById(dictId);
-        Assert.notNull(dict, MessageUtils.message("assert.dictNotExists"));
+        Assert.notNull(dict, MessageUtils.message("assert.notExists", MessageUtils.message("SysDict._name")));
 
         ImportModeHandleTemplate<SysDictDetail, String> importModeHandleTemplate = new ImportModeHandleTemplate<SysDictDetail, String>(importMode, item -> item.getDictKey() + "_" + item.getDictLabel()) {
 
