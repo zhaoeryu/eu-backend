@@ -340,6 +340,13 @@ INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2545, '踢TA下线', NULL, 10, 'monitor:online:kickout', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2000, NULL, NULL, NULL, '2024-04-17 13:48:27', NULL, '2024-04-17 13:48:27', NULL, 0, NULL);
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2546, '强制登出', NULL, 20, 'monitor:online:logout', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2000, NULL, NULL, NULL, '2024-04-17 13:48:27', NULL, '2024-04-17 13:48:27', NULL, 0, NULL);
 INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2547, '导出', NULL, 10, 'system:sysOperLog:export', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2001, NULL, NULL, NULL, '2024-04-17 13:48:27', NULL, '2024-04-17 13:48:27', NULL, 0, NULL);
+INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_by_name`, `create_time`, `update_by`, `update_by_name`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2548, '参数配置', 'business', 999, 'system:config:list', '/config', 'Config', 'system/config', 0, b'0', b'1', b'1', b'0', NULL, b'0', NULL, 2, 10, b'0', b'0', NULL, NULL, '2026-07-07 13:22:35', '1', '系统管理员', '2026-07-07 13:29:02', NULL, 0, NULL);
+INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_by_name`, `create_time`, `update_by`, `update_by_name`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2549, '列表', NULL, 10, 'system:config:list', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2548, NULL, NULL, NULL, NULL, '2026-07-07 13:22:35', NULL, NULL, '2026-07-07 13:22:35', NULL, 0, NULL);
+INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_by_name`, `create_time`, `update_by`, `update_by_name`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2550, '详情', NULL, 20, 'system:config:query', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2548, NULL, NULL, NULL, NULL, '2026-07-07 13:22:35', NULL, NULL, '2026-07-07 13:22:35', NULL, 0, NULL);
+INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_by_name`, `create_time`, `update_by`, `update_by_name`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2551, '新增', NULL, 30, 'system:config:add', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2548, NULL, NULL, NULL, NULL, '2026-07-07 13:22:35', NULL, NULL, '2026-07-07 13:22:35', NULL, 0, NULL);
+INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_by_name`, `create_time`, `update_by`, `update_by_name`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2552, '修改', NULL, 40, 'system:config:edit', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2548, NULL, NULL, NULL, NULL, '2026-07-07 13:22:35', NULL, NULL, '2026-07-07 13:22:35', NULL, 0, NULL);
+INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_by_name`, `create_time`, `update_by`, `update_by_name`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2553, '删除', NULL, 50, 'system:config:del', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2548, NULL, NULL, NULL, NULL, '2026-07-07 13:22:35', NULL, NULL, '2026-07-07 13:22:35', NULL, 0, NULL);
+INSERT INTO `sys_menu` (`id`, `menu_name`, `menu_icon`, `sort_num`, `permission`, `path`, `component_name`, `component`, `status`, `affix`, `visible`, `cache`, `embed`, `embed_url`, `dot`, `badge`, `menu_type`, `parent_id`, `show_header`, `show_footer`, `create_by`, `create_by_name`, `create_time`, `update_by`, `update_by_name`, `update_time`, `remark`, `del_flag`, `always_show`) VALUES (2554, '导出', NULL, 60, 'system:config:export', NULL, NULL, NULL, 0, b'0', b'0', b'0', b'0', NULL, b'0', NULL, 3, 2548, NULL, NULL, NULL, NULL, '2026-07-07 13:22:35', NULL, NULL, '2026-07-07 13:22:35', NULL, 0, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -550,5 +557,23 @@ CREATE TABLE `sys_user_role` (
 BEGIN;
 INSERT INTO `sys_user_role` (`role_id`, `user_id`) VALUES (1, '1');
 COMMIT;
+
+DROP TABLE IF EXISTS `sys_config`;
+CREATE TABLE `sys_config` (
+  `config_id` varchar(20) NOT NULL COMMENT '参数主键',
+  `config_name` varchar(100) DEFAULT '' COMMENT '参数名称',
+  `config_key` varchar(100) DEFAULT '' COMMENT '参数键名',
+  `config_value` text COMMENT '参数键值',
+  `config_type` char(1) DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
+  `create_by` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_by_name` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_by` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_by_name` varchar(20) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `del_flag` tinyint(1) DEFAULT '0' COMMENT '删除标志',
+  PRIMARY KEY (`config_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='参数配置表';
 
 SET FOREIGN_KEY_CHECKS = 1;
