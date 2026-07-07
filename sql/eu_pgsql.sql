@@ -640,6 +640,27 @@ VALUES (2546, '强制登出', NULL, 20, 'monitor:online:logout', NULL, NULL, NUL
 INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission, path, component_name, component, status, affix, visible, cache, embed, embed_url, dot, badge, menu_type, parent_id, show_header, show_footer, create_by, create_time, update_by, update_time, remark, del_flag, always_show)
 OVERRIDING SYSTEM VALUE
 VALUES (2547, '导出', NULL, 10, 'system:sysOperLog:export', NULL, NULL, NULL, 0, FALSE, FALSE, FALSE, FALSE, NULL, FALSE, NULL, 3, 2001, NULL, NULL, NULL, '2024-04-17 13:48:27', NULL, '2024-04-17 13:48:27', NULL, 0, NULL);
+INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission, path, component_name, component,status, affix, visible, cache, embed, embed_url, dot, badge,menu_type, parent_id, show_header, show_footer,create_by, create_time, update_by, update_time,remark, del_flag, always_show)
+OVERRIDING SYSTEM VALUE
+VALUES (2548, '参数配置', 'business', 999, 'system:config:list', '/config', 'Config', 'system/config',0, FALSE, TRUE, TRUE, FALSE, NULL, FALSE, NULL,2, 10, FALSE, FALSE,NULL, '2026-07-07 13:22:35', '1', '2026-07-07 13:29:02',NULL, 0, NULL);
+INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission,path, component_name, component,status, affix, visible, cache, embed, embed_url, dot, badge,menu_type, parent_id, show_header, show_footer,create_by, create_time, update_by, update_time,remark, del_flag, always_show)
+OVERRIDING SYSTEM VALUE
+VALUES (2549, '列表', NULL, 10, 'system:config:list',NULL, NULL, NULL,0, FALSE, FALSE, FALSE, FALSE, NULL, FALSE, NULL,3, 2548, NULL, NULL,NULL, '2026-07-07 13:22:35', NULL, '2026-07-07 13:22:35',NULL, 0, NULL);
+INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission,path, component_name, component,status, affix, visible, cache, embed, embed_url, dot, badge,menu_type, parent_id, show_header, show_footer,create_by, create_time, update_by, update_time,remark, del_flag, always_show)
+OVERRIDING SYSTEM VALUE
+VALUES (2550, '详情', NULL, 20, 'system:config:query',NULL, NULL, NULL,0, FALSE, FALSE, FALSE, FALSE, NULL, FALSE, NULL,3, 2548, NULL, NULL,NULL, '2026-07-07 13:22:35', NULL, '2026-07-07 13:22:35',NULL, 0, NULL);
+INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission,path, component_name, component,status, affix, visible, cache, embed, embed_url, dot, badge,menu_type, parent_id, show_header, show_footer,create_by, create_time, update_by, update_time,remark, del_flag, always_show)
+OVERRIDING SYSTEM VALUE
+VALUES (2551, '新增', NULL, 30, 'system:config:add',NULL, NULL, NULL,0, FALSE, FALSE, FALSE, FALSE, NULL, FALSE, NULL,3, 2548, NULL, NULL,NULL, '2026-07-07 13:22:35', NULL, '2026-07-07 13:22:35',NULL, 0, NULL);
+INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission,path, component_name, component,status, affix, visible, cache, embed, embed_url, dot, badge,menu_type, parent_id, show_header, show_footer,create_by, create_time, update_by, update_time,remark, del_flag, always_show)
+OVERRIDING SYSTEM VALUE
+VALUES (2552, '修改', NULL, 40, 'system:config:edit',NULL, NULL, NULL,0, FALSE, FALSE, FALSE, FALSE, NULL, FALSE, NULL,3, 2548, NULL, NULL,NULL, '2026-07-07 13:22:35', NULL, '2026-07-07 13:22:35',NULL, 0, NULL);
+INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission,path, component_name, component,status, affix, visible, cache, embed, embed_url, dot, badge,menu_type, parent_id, show_header, show_footer,create_by, create_time, update_by, update_time,remark, del_flag, always_show)
+OVERRIDING SYSTEM VALUE
+VALUES (2553, '删除', NULL, 50, 'system:config:del',NULL, NULL, NULL,0, FALSE, FALSE, FALSE, FALSE, NULL, FALSE, NULL,3, 2548, NULL, NULL,NULL, '2026-07-07 13:22:35', NULL, '2026-07-07 13:22:35',NULL, 0, NULL);
+INSERT INTO sys_menu (id, menu_name, menu_icon, sort_num, permission,path, component_name, component,status, affix, visible, cache, embed, embed_url, dot, badge,menu_type, parent_id, show_header, show_footer,create_by, create_time, update_by, update_time,remark, del_flag, always_show)
+OVERRIDING SYSTEM VALUE
+VALUES (2554, '导出', NULL, 60, 'system:config:export',NULL, NULL, NULL,0, FALSE, FALSE, FALSE, FALSE, NULL, FALSE, NULL,3, 2548, NULL, NULL,NULL, '2026-07-07 13:22:35', NULL, '2026-07-07 13:22:35',NULL, 0, NULL);
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -952,6 +973,37 @@ COMMENT ON COLUMN sys_user_role.user_id IS '用户ID';
 -- 插入用户角色数据
 INSERT INTO sys_user_role (role_id, user_id) VALUES (1, '1');
 
+DROP TABLE IF EXISTS sys_config;
+CREATE TABLE sys_config (
+    config_id VARCHAR(20) PRIMARY KEY,
+    config_name VARCHAR(100) DEFAULT '',
+    config_key VARCHAR(100) DEFAULT '',
+    config_value TEXT,
+    config_type CHAR(1) DEFAULT 'N',
+    create_by VARCHAR(20),
+    create_by_name VARCHAR(20),
+    create_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_by VARCHAR(20),
+    update_by_name VARCHAR(20),
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    remark VARCHAR(255),
+    del_flag SMALLINT DEFAULT 0
+);
 
+COMMENT ON TABLE sys_config IS '参数配置表';
+
+COMMENT ON COLUMN sys_config.config_id IS '参数主键';
+COMMENT ON COLUMN sys_config.config_name IS '参数名称';
+COMMENT ON COLUMN sys_config.config_key IS '参数键名';
+COMMENT ON COLUMN sys_config.config_value IS '参数键值';
+COMMENT ON COLUMN sys_config.config_type IS '系统内置（Y是 N否）';
+COMMENT ON COLUMN sys_config.create_by IS '创建人';
+COMMENT ON COLUMN sys_config.create_by_name IS '创建人';
+COMMENT ON COLUMN sys_config.create_time IS '创建时间';
+COMMENT ON COLUMN sys_config.update_by IS '修改人';
+COMMENT ON COLUMN sys_config.update_by_name IS '修改人';
+COMMENT ON COLUMN sys_config.update_time IS '修改时间';
+COMMENT ON COLUMN sys_config.remark IS '备注';
+COMMENT ON COLUMN sys_config.del_flag IS '删除标志';
 
 
